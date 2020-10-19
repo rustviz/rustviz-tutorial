@@ -228,15 +228,18 @@ function adjust_visualization_size(flexbox) {
     // Insert toggle visualization button, ADDED BY marcelo-a 
     Array.from(document.querySelectorAll("pre code")).forEach(function (block) {
         // only add button if there is a visualization available
-        var correct_doc = (document.getElementsByClassName('active')[0].attributes.href.value == 'ch04-01-what-is-ownership.html'
-                            || document.getElementsByClassName('active')[0].attributes.href.value == 'ch04-02-references-and-borrowing.html');
-        var code_ok = (!block.classList.contains("no_run") && !block.classList.contains("does_not_compile")
+        let code_ok = (!block.classList.contains("no_run") && !block.classList.contains("does_not_compile")
                         && !block.classList.contains("language-text"));
-        if (correct_doc && code_ok) {
+        if (code_ok) {
+            // assumes block.parentNode.parentNode = pre with child "playpen"
+            // assumes nextElementSibling is valid element
+            let contains_vis = block.parentNode.parentNode.nextElementSibling.classList.contains('vis_block');
+            // only add toggle button if visualization wsa properly labeled
+            if (!contains_vis) return;
 
             // search section/block for other buttons
             var pre_block = block.parentNode;
-            var buttons = pre_block.querySelector(".buttons");
+            let buttons = pre_block.querySelector(".buttons");
             if (!buttons) {
                 buttons = document.createElement('div');
                 buttons.className = 'buttons';
@@ -244,7 +247,7 @@ function adjust_visualization_size(flexbox) {
             }
             
             // create button element
-            var toggleButton = document.createElement('button');
+            let toggleButton = document.createElement('button');
             toggleButton.className = 'fa fa-toggle-off toggle-button';
             toggleButton.title = 'Toggle visualization';
             toggleButton.setAttribute('aria-label', toggleButton.title);
