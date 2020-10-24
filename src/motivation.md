@@ -24,7 +24,13 @@ We will describe different features of the visualization as we go along.
 For example, this book will help you understand code like the following. Hover over the different components of the visualization to see explanations.
 Don't worry yet about what is going on, these concepts will be explained over the next ~60 minutes of reading.
 
-TODO: example (Rust book example or HATRA example -- borrowing example)
+```rust
+{{#rustdoc_include assets/code_examples/hatra2/source.rs}}
+```
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: none;">
+  <object type="image/svg+xml" class="vis code_panel" data="assets/code_examples/hatra2/vis_code.svg"></object>
+  <object type="image/svg+xml" class="vis tl_panel" data="assets/code_examples/hatra2/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('vis')"></object>
+</div>
 
 Put basic instructions for turning on and off the visualization?
 
