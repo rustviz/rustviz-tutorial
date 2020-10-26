@@ -51,7 +51,7 @@ y does own a resource, so its resource is dropped.
 
 Ownership can also be moved into a function. For example:
 
-```
+```rust
 fn main() {
     let s = String::from("hello");
     takes_ownership(s);
