@@ -28,8 +28,8 @@ Don't worry yet about what is going on, these concepts will be explained over th
 {{#rustdoc_include assets/code_examples/hatra2/source.rs}}
 ```
 <div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: none;">
-  <object type="image/svg+xml" class="vis code_panel" data="assets/code_examples/hatra2/vis_code.svg"></object>
-  <object type="image/svg+xml" class="vis tl_panel" data="assets/code_examples/hatra2/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('vis')"></object>
+  <object type="image/svg+xml" class="hatra2 code_panel" data="assets/code_examples/hatra2/vis_code.svg"></object>
+  <object type="image/svg+xml" class="hatra2 tl_panel" data="assets/code_examples/hatra2/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('hatra2')"></object>
 </div>
 
 Put basic instructions for turning on and off the visualization?

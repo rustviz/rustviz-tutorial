@@ -2,10 +2,13 @@
 
 More interesting data structure: heap-allocated string 
 
-fn main() {
-  let x : String = String::from("hello");
-  println!(x);
-}
+```rust
+{{#rustdoc_include assets/code_examples/string_from_print/source.rs}}
+```
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: none;">
+  <object type="image/svg+xml" class="string_from_print code_panel" data="assets/code_examples/string_from_print/vis_code.svg"></object>
+  <object type="image/svg+xml" class="string_from_print tl_panel" data="assets/code_examples/string_from_print/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('string_from_print')"></object>
+</div>
 
 String::from allocates a string in the heap given a string literal (string literals themselves have a more primitive type, &str, that is not important here.)
 
@@ -21,21 +24,24 @@ It is then dropped at the end of the function. You can see this happening by hov
 Ownership of a resource can change in several ways.
 
 ## Binding
-
-fn main() 
-    let x = String::from("hello");
-    let y = x;
-    println!(y)
-}
+```rust
+{{#rustdoc_include assets/code_examples/string_from_move_print/source.rs}}
+```
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: none;">
+  <object type="image/svg+xml" class="string_from_move_print code_panel" data="assets/code_examples/string_from_move_print/vis_code.svg"></object>
+  <object type="image/svg+xml" class="string_from_move_print tl_panel" data="assets/code_examples/string_from_move_print/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('string_from_move_print')"></object>
+</div>
 
 Ownership of the string resource moves from x to y. Because x no longer owns its resource,
 we can no longer access it through x. For example, the following generates an error:
 
+```rust
 fn main() {
     let x = String::from("hello");
     let y = x;
     println!(x); // error: x does not own its resource
 }
+```
 
 At the end of the function, both x and y go out of scope (their lifetimes have ended). 
 x does not own a resource anymore, so nothing special happens.
