@@ -1,7 +1,7 @@
-<svg height="230px" 
+<svg height="190px" 
         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 
-    <desc>examples/string_from_move_print/input/</desc>
+    <desc>examples/string_from/input/</desc>
 
     <defs>
         <style type="text/css">
@@ -169,10 +169,8 @@ object.code_panel {
 
     <g id="code">
         <text class="code" x="20" y="90"> fn main() { </text>
-        <text class="code" x="20" y="110">     let <tspan data-hash="1">x</tspan> = <tspan class="fn" data-hash="0" hash="5">String::from</tspan>("hello"); </text>
-        <text class="code" x="20" y="130">     let <tspan data-hash="2">y</tspan> = <tspan data-hash="1">x</tspan>; </text>
-        <text class="code" x="20" y="150">     println!("{}", <tspan data-hash="2">y</tspan>); </text>
-        <text class="code" x="20" y="170"> } </text>
+        <text class="code" x="20" y="110">     let <tspan data-hash="1">s</tspan> = <tspan class="fn" data-hash="0" hash="2">String::from</tspan>("hello"); </text>
+        <text class="code" x="20" y="130"> } </text>
     </g>
 
    
