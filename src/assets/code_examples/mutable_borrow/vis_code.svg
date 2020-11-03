@@ -1,7 +1,7 @@
-<svg height="330px" 
+<svg height="310px" 
         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 
-    <desc>examples/hatra2/input/</desc>
+    <desc>examples/mutable_borrow/input/</desc>
 
     <defs>
         <style type="text/css">
@@ -168,16 +168,15 @@ object.code_panel {
     </g>
 
     <g id="code">
-        <text class="code" x="20" y="90"> fn main(){ </text>
-        <text class="code" x="20" y="110">     let mut <tspan data-hash="1">s</tspan> = <tspan class="fn" data-hash="0" hash="5">String::from</tspan>("hello"); </text>
-        <text class="code" x="20" y="130">  </text>
-        <text class="code" x="20" y="150">     let <tspan data-hash="2">r1</tspan> = <tspan data-hash="1">&amp;s</tspan>; </text>
-        <text class="code" x="20" y="170">     let <tspan data-hash="3">r2</tspan> = <tspan data-hash="1">&amp;s</tspan>; </text>
-        <text class="code" x="20" y="190">     assert!(<tspan class="fn" data-hash="0" hash="6">compare_strings</tspan>(<tspan data-hash="2">r1</tspan>, <tspan data-hash="3">r2</tspan>)); </text>
-        <text class="code" x="20" y="210">  </text>
-        <text class="code" x="20" y="230">     let <tspan data-hash="4">r3</tspan> = <tspan data-hash="1">&amp;mut s</tspan>; </text>
-        <text class="code" x="20" y="250">     <tspan class="fn" data-hash="0" hash="7">clear_string</tspan>(<tspan data-hash="4">r3</tspan>); </text>
-        <text class="code" x="20" y="270"> } </text>
+        <text class="code" x="20" y="90"> fn main() { </text>
+        <text class="code" x="20" y="110">     let mut <tspan data-hash="1">x</tspan> = <tspan class="fn" data-hash="0" hash="5">String::from</tspan>("hello"); </text>
+        <text class="code" x="20" y="130">     <tspan class="fn" data-hash="0" hash="6">world</tspan>(&amp;mut <tspan data-hash="1">&amp;x</tspan>); </text>
+        <text class="code" x="20" y="150">     <tspan class="fn" data-hash="0" hash="7">println!</tspan>("{}", <tspan data-hash="1">x</tspan>) </text>
+        <text class="code" x="20" y="170"> } </text>
+        <text class="code" x="20" y="190">  </text>
+        <text class="code" x="20" y="210"> fn world(<tspan data-hash="2">s</tspan> : &amp;mut String) { </text>
+        <text class="code" x="20" y="230">     <tspan data-hash="2">s</tspan>.<tspan class="fn" data-hash="0" hash="8">push_str</tspan>(", world") </text>
+        <text class="code" x="20" y="250"> } </text>
     </g>
 
    
