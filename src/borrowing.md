@@ -1,6 +1,53 @@
 # Borrowing
 
+In the previous section, we learned that each resource has a unique owner.
+Ownership can be moved, for example into a function.
+
+In many situations, however, we do not want to permanently move a resource into a function.
+Instead, we want to allow the function to temporarily access the resource while it executes
+but retain ownership over the resource after the function returns.
+
+We could accomplish this by having each function return such resources. For example, 
+`take_and_return_ownership` below takes ownership of a `String`
+resource and returns ownership of that exact same resource.
+The caller, `main`, binds the returned resource to the same variable, `s`, 
+as it originally used (i.e. it shadows `s`).
+(Technically, the type of `take_and_return_ownership` does not guarantee that 
+the returned resource is the same as the provided resource.)
+
+```rust
+fn take_and_return_ownership(some_string : String) -> String {
+  println("{}", some_string);
+  some_string
+}
+
+fn main() {
+  let s = String::from("hello");
+  let s = take_and_return_ownership(s);
+  println!("{}", s);   // OK
+}
+```
+
+As you write more complex code, this pattern of returning all of the provided resources explicitly becomes both syntactically and semantically unwieldy.
+
+Fortunately, Rust offers a powerful solution: passing in arguments via a reference. 
+Taking a reference does *not* change the owner of a resource. 
+Instead, the reference simply borrows access to the resource temporarily.
+
+There are two kinds of borrows in Rust, immutable borrows and mutable borrows. 
+These differ in how much access to the resource they provide. 
+
 ## Immutable Borrows
+
+In the following example, we define a function, `f`, that takes an immutable reference to a `String`, written `&String`, as input. It then dereferences the string, written `*s`, in order to print it.
+(Actually, the `println!` macro will dereference `s` automatically if you just write `s`, but 
+let's ignore that for now.)
+
+When the `main` function calls `f`, it must provide a reference to a `String` as an argument,
+here by taking a reference to the let-bound variable `x` on Line 3, written `&x`.
+Taking a reference does **not** cause a change in ownership, so `x` still owns the string resource 
+in the remainder of `main` and it can, for example, print `x` on Line 4. The resource will be dropped when `x` goes out of scope at the end `main` as we discussed previously. 
+Because `f` takes a reference, it is only *borrowing* access to the resource that the reference points to. It does not need to explicitly return the resource because it does not own it. 
 
 ```rust
 {{#rustdoc_include assets/code_examples/immutable_borrow/source.rs}}
@@ -9,10 +56,6 @@
   <object type="image/svg+xml" class="immutable_borrow code_panel" data="assets/code_examples/immutable_borrow/vis_code.svg"></object>
   <object type="image/svg+xml" class="immutable_borrow tl_panel" data="assets/code_examples/immutable_borrow/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('immutable_borrow')"></object>
 </div>
-
-Idea here: x is the owner of a string, it is borrowed by f but x remains the owner
-and can continue to use the resource after the call to f. the string is dropped at
-the end of main()
 
 You can take multiple immutable borrows at the same time:
 

@@ -136,38 +136,21 @@ Finally, ownership can be returned from a function.
 In the following example, `f` allocates a string, `x`, 
 and returns it to the caller. Ownership is moved from `x`
 to the caller, so there is no owned resource to be dropped
-at the end of `f`. (If it were dropped at the end of `f`, 
-there would be a use-after-free bug in `main` on Line 3!)
+at the end of `f`. 
 Instead, the resource is dropped when the new owner, `s`,
-goes out of scope at the end of `main`.
+goes out of scope at the end of `main`. 
+(If the string were dropped at the end of `f`, 
+there would be a use-after-free bug in `main` on Line 3!)
 
 ```rust
-fn main() {
-  let s = f();
-  println!("{}", s);
-}
-
 fn f() {
   let x = String::from("hello");
   // ...
   x
 } 
-```
 
-
-
-In the following example, `take_and_return_ownership` returns (TODO: first example in next section?)
-
-```rust
 fn main() {
-  let s = String::from("hello");
-  let s' = take_and_return_ownership(s);
-  // println!("{}", s); // still an error
-  println!("{}", s');   // OK
-}
-
-fn take_and_return_ownership(some_string : String) -> String {
-  println("{}", some_string);
-  some_string
+  let s = f();
+  println!("{}", s);
 }
 ```
