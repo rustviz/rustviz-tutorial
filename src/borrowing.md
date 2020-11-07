@@ -17,7 +17,7 @@ the returned resource is the same as the provided resource.)
 
 ```rust
 fn take_and_return_ownership(some_string : String) -> String {
-  println("{}", some_string);
+  println!("{}", some_string);
   some_string
 }
 
@@ -57,8 +57,27 @@ Because `f` takes a reference, it is only *borrowing* access to the resource tha
   <object type="image/svg+xml" class="immutable_borrow tl_panel" data="assets/code_examples/immutable_borrow/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('immutable_borrow')"></object>
 </div>
 
-You can take multiple immutable borrows at the same time:
+Methods of the `String` type, like `len` for computing the length of the string,
+typically take their arguments by reference. You can call a method explicitly with
+a reference, e.g. `String::len(&s)`. As shorthand, you can use dot notation to 
+call a method, e.g. `s.len()`. This implicitly takes a reference to `s`. 
 
+```rust
+fn main() {
+  let s = String::from("hello");
+  let len1 = String::len(&s);
+  let len2 = s.len(); // shorthand for the above
+  println!("len1 = {} = len2 = {}", len1, len2);
+}
+```
+
+You can keep multiple immutable borrows live at the same time, e.g. `y` and `z`
+in the following example are both alive as shown in the visualization. 
+For this reason, immutable borrows are also sometimes called shared borrows: 
+each immutable reference shares access to the resource with the owner 
+and with any other immutable references that might be alive.
+
+TODO: fix example to account for NLL
 ```rust
 {{#rustdoc_include assets/code_examples/multiple_immutable_borrow/source.rs}}
 ```
@@ -67,73 +86,99 @@ You can take multiple immutable borrows at the same time:
   <object type="image/svg+xml" class="multiple_immutable_borrow tl_panel" data="assets/code_examples/multiple_immutable_borrow/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('multiple_immutable_borrow')"></object>
 </div>
 
-### Mutation + Immutable Borrows
-
-You can't mutate something when there is an immutable borrow alive. 
+Ownership of a resource cannot be moved while it is borrowed. For example, the following
+is erroneous:
 
 ```rust
 fn main() {
-    let mut x = String::from("Hello");
-    let y = &x;
-    x.push_str(", world"); // NOT OK
-    f(y) //TODO: Technically, push_str is mutably borrowing x's resource. We could do x = String::from("Hi") as an alternative
-}
-
-fn f(s : &String) {
-    println!("Length: {}", s.len())
+  let s = String::from("hello");
+  let x = &s;
+  let s2 = s; // ERROR: cannot move s while a borrow is live
+  println!("{}", String::len(x));
 }
 ```
 
 ## Mutable Borrows
 
-You can take a mutable borrow if you have a mutable resource. You can only mutate borrowed resources if you have a mutable borrow. 
+Unlike immutable borrows, Rust's mutable borrows allow you to mutate the borrowed resource.
+In the example below, we push the contents of a string `s2` 
+to the end of the heap-allocated string `s1` twice, 
+first by explictly calling the `String::push_str` method, and then using the equivalent shorthand method call syntax. 
+In both cases, the method takes a *mutable* reference to `s1`, written explicitly `&mut s1`.
+
+TODO: make this the new mutable_borrow example
+```rust
+fn main() { 
+  let mut s1 = String::from("Hello");
+  let s2 = String::from(", world");
+  String::push_str(&mut s1, &s2); 
+  s1.push_str(&s2); // shorthand for the above
+  println!("{}", s1); // prints "Hello, world, world"
+}
+```
+
+Code that does a lot of mutation is notoriously difficult to reason about, so in Rust, 
+mutation is much more carefully controlled than in other imperative languages.
+
+First, you can only take a mutable borrow from a mutable variable, i.e. one 
+bound using `let mut` like `s1` in the example above. Immutability is the default
+in Rust because it is easier to reason about.
+
+Second, mutable borrows are unique: you cannot take a borrow,
+mutable or immutable, if any mutable borrow is live. 
+This means that you can be certain that no other  
+code will be mutating a resource when you have borrowed it.
+
+For example, the following code is erroneous because a mutable borrow, `y`, is live.
 
 ```rust
-{{#rustdoc_include assets/code_examples/mutable_borrow/source.rs}}
-```
-<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: none;">
-  <object type="image/svg+xml" class="mutable_borrow code_panel" data="assets/code_examples/mutable_borrow/vis_code.svg"></object>
-  <object type="image/svg+xml" class="mutable_borrow tl_panel" data="assets/code_examples/mutable_borrow/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('mutable_borrow')"></object>
-</div>
+fn main() {
+  let mut x = String::from("hello");
+  let y = &mut x;
+  f(&x); // ERROR: y is still live
+  String::push_str(y, ", world");
+}
 
-If there is a live mutable borrow, then it has unique access to the resource. The owner cannot mutate it: 
+fn f(x : &String) {
+  println!("{}", x);
+}
+```
+
+Similarly, the following code is erroneous for the same reason.
 
 ```rust 
 fn main() {
     let mut x = String::from("Hello");
-    let y = &mut x;
-    x.push_str(", world"); // NOT OK, y is still live
-    world(y) //TODO: Technically, push_str is mutably borrowing x's resource. We could do x = String::from("Hi") as an alternative
-}
-
-fn world(s : &mut String) {
-    s.push_str(", world")
+    let y = &mut x; 
+    let z = &mut x; // ERROR: y is still live
+    String::push_str(y, ", world");
+    String::push_str(z, ", friend");
+    println!("{}", x);
 }
 ```
 
-Nor can there be other borrows live, mutable or immutable:
+### Optional: Threading in Rust
+
+In the example above, the two calls to `push_str` are sequenced. However, if we wanted
+to execute them concurrently, we could do so by spawning a thread as follows. Here,
+`|| { e }` is Rust's notation for an anonymous function taking unit input.
 
 ```rust 
+use std::thread;
+
 fn main() {
     let mut x = String::from("Hello");
-    let y = &mut x;
-    let z = &x; // NOT OK, y is alive
-    world(y); 
-    f(z)
-}
-
-fn f(s : &String) {
-    println!("Length: {}", s.len())
-}
-
-fn world(s : &mut String) {
-    s.push_str(", world")
+    let y = &mut x; 
+    let z = &mut x; // NOT OK: y is still live
+    thread::spawn(|| { String::push_str(y, ", world"); });
+    String::push_str(z, ", friend");
+    println!("{}", x);
 }
 ```
 
-TODO: something about why this restriction makes sense (don't want different borrows to be simultaneously accessing a mutable resource to prevent race conditions, reasoning more simply about mutation -- you know that
-functions aren't mutating things unless you explicitly give them the unique mutable borrow, so you can reason 
-functionally -- maybe include a case from mutable to immutable, but possibly too complicated)
+If the borrow checker did not stop us, this program would have a race condition:
+it could print either `Hello, world, friend` or `Hello, friend, world` depending
+on the interleaving of the main thread and the newly spawned thread.
 
 ## Non-Lexical Lifetimes
 
@@ -163,4 +208,8 @@ fn world(s : &mut String) {
 
 (Do we want to say that mutable references are themselves moved while immutable references are copied?)
 println! implicitly takes a reference
+
+TODO: introduce arrays?
+
+TODO: next steps for learning more about Rust
 

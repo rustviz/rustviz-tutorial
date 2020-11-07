@@ -30,14 +30,14 @@ For example, heap-allocated strings are managed by Rust's ownership system. Cons
 The `String::from` function allocates a string on the heap. The string is initialized by providing a string literal (string literals themselves have a more primitive type, `&str`, that is not important here.)
 Ownership of this string resource is *moved* to the variable `s` (of type `String`) when `String::from` returns on Line 2.
 
-The `println!` macro does not cause a change in ownership (we say more about `println!` later).
+The `println!` macro does not cause a change in ownership (we say more about `println!` later, but omit it from the visualization until then).
 
 At the end of the `main` function, the variable `s` goes out of scope. It has ownership of the string resource, so Rust will *drop*, i.e. deallocate, the resource at this point.
 We do not need an explicit `free` or `delete` like we would in C or C++, nor is there any run-time garbage collection overhead. 
 
 Hover over the lines and arrows in the visualization next to the code example above to see a description of the events that occur on each line of code.
 
-TODO: line numbers in examples, leave visualization on (disable toggle)
+TODO: leave visualization on (disable toggle), don't visualize println event
 
 ## Moves
 
@@ -107,8 +107,6 @@ fn main() {
 When `y` acquires ownership over `x`'s resource on Line 4, 
 the resource it previously acquired (on Line 3) no longer has an owner, so 
 it can be dropped.
-
-TODO: add a flag to the move event so that the hover message says that the previous resource is dropped
 
 ### Function Call
 
