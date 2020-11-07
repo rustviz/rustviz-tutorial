@@ -152,3 +152,5 @@ fn main() {
   println!("{}", s);
 }
 ```
+
+Removing this line causes the page to look weird.

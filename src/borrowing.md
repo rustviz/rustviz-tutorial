@@ -188,23 +188,13 @@ even though there are two mutable borrows in the same scope:
 
 (inspect the hover messages to see what's going on -- maybe say similar things above)
 
-```rust 
-fn main() {
-    let mut x = String::from("Hello");
-    let y = &mut x;
-    world(y);
-    let z = &mut x; // OK, because y's lifetime has ended (last use was on previous line)
-    world(z);
-    x.push_str("!!"); // Also OK, because y and z's lifetimes have ended
-    println!("{}", x)
-}
-
-fn world(s : &mut String) {
-    String::push_str(s, ", world");
-    s.push_str(", world")
-    s.push_str("...")
-}
+```rust
+{{#rustdoc_include assets/code_examples/nll_lexical_scope_different/source.rs}}
 ```
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: none;">
+  <object type="image/svg+xml" class="nll_lexical_scope_different code_panel" data="assets/code_examples/nll_lexical_scope_different/vis_code.svg"></object>
+  <object type="image/svg+xml" class="nll_lexical_scope_different tl_panel" data="assets/code_examples/nll_lexical_scope_different/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('nll_lexical_scope_different')"></object>
+</div>
 
 (Do we want to say that mutable references are themselves moved while immutable references are copied?)
 println! implicitly takes a reference
