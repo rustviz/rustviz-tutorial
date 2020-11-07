@@ -10,5 +10,3 @@
   
 
 - how to use println! [note that it is a macro, not a function, but dont worry about that for this tutorial]
-
-TODO: do we want to have visualizations yet?

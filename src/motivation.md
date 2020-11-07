@@ -32,8 +32,4 @@ Don't worry yet about what is going on, these concepts will be explained over th
   <object type="image/svg+xml" class="hatra2 tl_panel" data="assets/code_examples/hatra2/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('hatra2')"></object>
 </div>
 
-Put basic instructions for turning on and off the visualization?
-
 Click the next button on the right of the page to continue. 
-
-TODO: Notice about data being collected and used for research purposes.

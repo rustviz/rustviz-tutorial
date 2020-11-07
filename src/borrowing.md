@@ -77,7 +77,6 @@ For this reason, immutable borrows are also sometimes called shared borrows:
 each immutable reference shares access to the resource with the owner 
 and with any other immutable references that might be alive.
 
-TODO: fix example to account for NLL
 ```rust
 {{#rustdoc_include assets/code_examples/multiple_immutable_borrow/source.rs}}
 ```
@@ -106,7 +105,6 @@ to the end of the heap-allocated string `s1` twice,
 first by explictly calling the `String::push_str` method, and then using the equivalent shorthand method call syntax. 
 In both cases, the method takes a *mutable* reference to `s1`, written explicitly `&mut s1`.
 
-TODO: make this the new mutable_borrow example
 ```rust
 fn main() { 
   let mut s1 = String::from("Hello");
@@ -195,10 +193,3 @@ even though there are two mutable borrows in the same scope:
   <object type="image/svg+xml" class="nll_lexical_scope_different code_panel" data="assets/code_examples/nll_lexical_scope_different/vis_code.svg"></object>
   <object type="image/svg+xml" class="nll_lexical_scope_different tl_panel" data="assets/code_examples/nll_lexical_scope_different/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('nll_lexical_scope_different')"></object>
 </div>
-
-(Do we want to say that mutable references are themselves moved while immutable references are copied?)
-println! implicitly takes a reference
-
-TODO: introduce arrays?
-
-TODO: next steps for learning more about Rust

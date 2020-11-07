@@ -37,8 +37,6 @@ We do not need an explicit `free` or `delete` like we would in C or C++, nor is 
 
 Hover over the lines and arrows in the visualization next to the code example above to see a description of the events that occur on each line of code.
 
-TODO: leave visualization on (disable toggle), don't visualize println event
-
 ## Moves
 
 In the example above, we saw that ownership of the heap-allocated string moved to the caller when `String::from` returned. 
@@ -152,5 +150,4 @@ fn main() {
   println!("{}", s);
 }
 ```
-
-Removing this line causes the page to look weird.
+.
