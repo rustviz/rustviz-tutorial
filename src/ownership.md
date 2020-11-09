@@ -37,6 +37,8 @@ prints it out.
   <object type="image/svg+xml" class="string_from_print tl_panel" data="assets/code_examples/string_from_print/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('string_from_print')"></object>
 </div>
 
+This code prints `hello`.
+
 The `String::from` function allocates a string on the heap. The string is
 initialized by providing a string literal (string literals themselves have a
 more primitive type, `&str`, that is not important here.) Ownership of this
@@ -76,6 +78,8 @@ ownership of the string resource to be moved from `x` to `y`.
   <object type="image/svg+xml" class="string_from_move_print tl_panel" data="assets/code_examples/string_from_move_print/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('string_from_move_print')"></object>
 </div>
 
+This code prints `hello`.
+
 At the end of the function, both `x` and `y` go out of scope (their lifetimes
 have ended). `x` does not own a resource anymore, so nothing special happens.
 `y` does own a resource, so its resource is dropped. Hover over the
@@ -91,9 +95,11 @@ generates a compiler error:
 fn main() {
     let x = String::from("hello");
     let y = x;
-    println!("{}", x) // error: x does not own a resource
+    println!("{}", x) // ERROR: x does not own a resource
 }
 ```
+The compiler error says `borrow of moved value: x` (we will discuss what
+*borrow* means in later sections.)
 
 If we move to a variable that has a different scope, then you can see by
 hovering over the visualization that the resource is dropped at the end of `y`'s
@@ -106,6 +112,8 @@ scope rather than at the end of `x`'s scope.
   <object type="image/svg+xml" class="move_different_scope code_panel" data="assets/code_examples/move_different_scope/vis_code.svg"></object>
   <object type="image/svg+xml" class="move_different_scope tl_panel" data="assets/code_examples/move_different_scope/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('move_different_scope')"></object>
 </div>
+
+This code prints `hello` on one line and `Hello, world!` on the next.
 
 ### Assignment
 
@@ -138,6 +146,8 @@ of `main`, there is no owned string resource to be dropped.
   <object type="image/svg+xml" class="func_take_ownership tl_panel" data="assets/code_examples/func_take_ownership/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('func_take_ownership')"></object>
 </div>
 
+This code prints `hello`.
+
 From the perspective of `takes_ownership`, it can be assumed that the argument
 variable `some_string` will receive ownership of a `String` resource from the
 caller (each time it is called). The argument variable `some_string` goes out of
@@ -163,3 +173,5 @@ at the end of `f`, there would be a use-after-free bug in `main` on Line 3!)
   <object type="image/svg+xml" class="move_func_return code_panel" data="assets/code_examples/move_func_return/vis_code.svg"></object>
   <object type="image/svg+xml" class="move_func_return tl_panel" data="assets/code_examples/move_func_return/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('move_func_return')"></object>
 </div>
+
+This code prints `hello`.

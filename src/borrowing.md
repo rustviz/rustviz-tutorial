@@ -24,6 +24,8 @@ the `take_and_return_ownership` or trust that it returns the same resource.)
   <object type="image/svg+xml" class="func_take_return_ownership tl_panel" data="assets/code_examples/func_take_return_ownership/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('func_take_return_ownership')"></object>
 </div>
 
+This code prints `hello` twice.
+
 As you write more complex code, this pattern of returning all of the provided
 resources explicitly becomes both syntactically and semantically unwieldy.
 
@@ -60,6 +62,8 @@ it does not own it.
   <object type="image/svg+xml" class="immutable_borrow tl_panel" data="assets/code_examples/immutable_borrow/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('immutable_borrow')"></object>
 </div>
 
+This code prints `hello` twice.
+
 Methods of the `String` type, like `len` for computing the length of the string,
 typically take their arguments by reference. You can call a method explicitly
 with a reference, e.g. `String::len(&s)`. As shorthand, you can use dot notation
@@ -72,6 +76,8 @@ to call a method, e.g. `s.len()`. This implicitly takes a reference to `s`.
   <object type="image/svg+xml" class="immutable_borrow_method_call code_panel" data="assets/code_examples/immutable_borrow_method_call/vis_code.svg"></object>
   <object type="image/svg+xml" class="immutable_borrow_method_call tl_panel" data="assets/code_examples/immutable_borrow_method_call/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('immutable_borrow_method_call')"></object>
 </div>
+
+This code prints `len1 = 5 = len2 = 5`.
 
 You can keep multiple immutable borrows live at the same time, e.g. `y` and `z`
 in the following example are both alive as shown in the visualization. For this
@@ -87,6 +93,8 @@ other immutable references that might be live.
   <object type="image/svg+xml" class="multiple_immutable_borrow tl_panel" data="assets/code_examples/multiple_immutable_borrow/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('multiple_immutable_borrow')"></object>
 </div>
 
+This code prints `hello and hello`.
+
 Ownership of a resource cannot be moved while it is borrowed. For example, the
 following is erroneous:
 
@@ -99,6 +107,7 @@ fn main() {
 }
 ```
 
+The compiler error here is: `cannot move out of s because it is borrowed`.
 ## Mutable Borrows
 
 Unlike immutable borrows, Rust's mutable borrows allow you to mutate the
@@ -115,6 +124,8 @@ written explicitly `&mut s1`.
   <object type="image/svg+xml" class="mutable_borrow_method_call code_panel" data="assets/code_examples/mutable_borrow_method_call/vis_code.svg"></object>
   <object type="image/svg+xml" class="mutable_borrow_method_call tl_panel" data="assets/code_examples/mutable_borrow_method_call/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('mutable_borrow_method_call')"></object>
 </div>
+
+This code prints `Hello, world, world`.
 
 Code that does a lot of mutation is notoriously difficult to reason about, so in
 Rust, mutation is much more carefully controlled than in other imperative
@@ -143,6 +154,7 @@ fn f(x : &String) {
   println!("{}", x);
 }
 ```
+The compiler error here is: `cannot borrow x as immutable because it is also borrowed as mutable`.
 
 Similarly, the following code is erroneous for the same reason.
 
@@ -156,6 +168,7 @@ fn main() {
     println!("{}", x);
 }
 ```
+The compiler error here is: `cannot borrow x as mutable more than once at a time`.
 
 ### Optional: Threading in Rust
 
@@ -195,3 +208,5 @@ borrows in the same scope:
   <object type="image/svg+xml" class="nll_lexical_scope_different code_panel" data="assets/code_examples/nll_lexical_scope_different/vis_code.svg"></object>
   <object type="image/svg+xml" class="nll_lexical_scope_different tl_panel" data="assets/code_examples/nll_lexical_scope_different/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('nll_lexical_scope_different')"></object>
 </div>
+
+This code prints `Hello, world, world!!`.

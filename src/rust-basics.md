@@ -32,6 +32,7 @@ fn main() {
     x = 6; //ERROR
 }
 ```
+The compiler error here is `cannot assign twice to immutable variable x`.
 
 ### Immutable Variables
 Sometimes, we want to allow the binding of a variable to change. In order to do
@@ -83,6 +84,8 @@ fn main() {
     println!("Hello, world!")
 }
 ```
+As you can probably tell, this code prints `Hello, world!` to the terminal (as
+well as a newline character.)
 
 We can also use curly brackets in the input string of `println!` as a
 placeholder for certain values:
@@ -93,7 +96,8 @@ fn main() {
     println!("x = {} and y = {}", x, y);
 }
 ```
+This prints `x = 1 and y = 2`.
 
-Note that `println!` is a *macro*, not a function. This means that it behaves
-slightly differently from normal functions, but you do not need to worry about
-that for this tutorial. 
+Note that `println!` is a *macro*, not a function. It behaves slightly
+differently from normal functions, but you do not need to worry about that for
+this tutorial. 
