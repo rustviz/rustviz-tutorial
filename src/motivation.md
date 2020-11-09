@@ -1,28 +1,27 @@
 # Motivation
 
-Intended audience: programmers with substantial experience with C (or C++)
+C and C++ are not memory safe, meaning that programs can crash or have security
+vulnerabilities due to memory-related bugs. They can also have memory leaks,
+which occur when memory is not freed. 
 
-Motivation: C / C++ are not memory safe, meaning that programs can crash or have security vulnerabilities due to memory-related bugs:
-  - use after free
-  - double free
-They can also have memory leaks, which occur when memory is not freed.
+Many other languages are memory safe, but at the cost of run-time
+performance—they use a garbage collector to automatically free memory when it is
+no longer being used.
 
-Many other languages are memory safe, but at the cost of run-time performance: they use a garbage
-collector to automatically free memory when it is no longer being used.
-
-Rust is memory safe, but it does not use a garbage collector, so it has performance characteristics
-identical or similar to C / C++.
+Rust is memory safe, but it does not use a garbage collector, so it has
+performance characteristics similar to C or C++.
 
 ## What is this tutorial?
 
-This is a short introductory tutorial to Rust for programmers with C / C++ experience. 
+This is a short introductory tutorial to Rust for programmers with C or C++
+experience. Rather than just describing Rust's ownership and borrowing system
+verbally, we use an interactive visualization system being developed by FP Lab 
+to show how ownership changes and borrows propagate through the example code.
 
-Novelty: rather than just describing Rust's ownership and borrowing system verbally, we use an interactive visualization system being developed by FP Lab 
-to show how ownership changes and borrows propagate statically through the example code. 
-We will describe different features of the visualization as we go along.
-
-For example, this book will help you understand code like the following. Hover over the different components of the visualization to see explanations.
-Don't worry yet about what is going on, these concepts will be explained over the next ~60 minutes of reading.
+For example, this book will help you understand code like the following. Hover
+over the different components of the visualization to see explanations. Don't
+worry yet about what is going on—these concepts will be explained in this
+reading.
 
 ```rust
 {{#rustdoc_include assets/code_examples/hatra2/source.rs}}
