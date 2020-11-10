@@ -1,34 +1,50 @@
+# A Visual Introduction to Rust
+
+This is a short introduction to the Rust programming language, intended for
+programmers with some C or C++ experience. 
+
+The tutorial makes use of an interactive visualization system for Rust code
+being developed by FP Lab. The tutorial also includes exercises after each
+section to test your understanding.
+
 # Motivation
 
-C and C++ are not memory safe, meaning that programs can crash or have security
-vulnerabilities due to memory-related bugs. They can also have memory leaks,
-which occur when memory is not freed. 
+C and C++ are popular languages for low-level systems programming because they 
+give programmers direct control over memory allocation and deallocation. However,
+these languages are not *memory safe*. Programs can crash or exhibit security
+vulnerabilities due to memory-related bugs, such as use-after-free bugs. 
+Programs can also have memory leaks, which occur when memory is not freed
+even when it is no longer needed.
 
-Many other languages are memory safe, but at the cost of run-time
-performance—they use a garbage collector to automatically free memory when it is
-no longer being used.
+Most other popular languages are memory safe, but this comes at the cost of run-time
+performance: they rely on a run-time garbage collector to automatically free 
+memory when it is no longer being used. The overhead of garbage collection can 
+be significant for performance critical tasks.
 
-Rust is memory safe, but it does not use a garbage collector, so it has
-performance characteristics similar to C or C++.
+Rust is designed to be the best of both worlds: it is memory safe without the
+need for a garbage collector. Instead, it relies on a compile-time ownership
+and borrowing system to automatically determine when memory can be freed. 
 
-## What is this tutorial?
-
-This is a short introductory tutorial to Rust for programmers with C or C++
-experience. Rather than just describing Rust's ownership and borrowing system
-verbally, we use an interactive visualization system being developed by FP Lab 
-to show how ownership changes and borrows propagate through the example code.
+The trade-off is that Rust's ownership and borrowing system can be difficult to learn.
+The purpose of this tutorial is to help you learn Rust's ownership and borrowing 
+system visually.
 
 For example, this book will help you understand code like the following. Hover
 over the different components of the visualization to see explanations. Don't
-worry yet about what is going on—these concepts will be explained in this
-reading.
+worry yet about what is going on in detail—these concepts will be explained in this
+reading. You will be asked to test your understanding with exercises after 
+each section of the tutorial.
 
-```rust
-{{#rustdoc_include assets/code_examples/hatra2/source.rs}}
-```
-<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: none;">
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
   <object type="image/svg+xml" class="hatra2 code_panel" data="assets/code_examples/hatra2/vis_code.svg"></object>
   <object type="image/svg+xml" class="hatra2 tl_panel" data="assets/code_examples/hatra2/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('hatra2')"></object>
 </div>
 
-Click the next button on the right of the page to continue. 
+## Research Disclosure
+
+Your exercise answers and logs of your interactions with this tool might be used for research purposes. 
+All data used for research purposes will be anonymized: your identity will not be connected to this data. 
+If you wish to opt out, you can contact the instructor (comar@umich.edu) at any time up to seven days after 
+final grades have been issued. Opting out has no impact on your grade. 
+
+Click the next button on the right of the page to continue.

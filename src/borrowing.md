@@ -16,10 +16,7 @@ assigns the returned resource to the same variable, `s`. (The type of
 the same as the provided resource. Instead, the programmer has to reason about
 the `take_and_return_ownership` or trust that it returns the same resource.)
 
-```rust
-{{#rustdoc_include assets/code_examples/func_take_return_ownership/source.rs}}
-```
-<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: none;">
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
   <object type="image/svg+xml" class="func_take_return_ownership code_panel" data="assets/code_examples/func_take_return_ownership/vis_code.svg"></object>
   <object type="image/svg+xml" class="func_take_return_ownership tl_panel" data="assets/code_examples/func_take_return_ownership/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('func_take_return_ownership')"></object>
 </div>
@@ -54,10 +51,7 @@ takes a reference, it is only *borrowing* access to the resource that the
 reference points to. It does not need to explicitly return the resource because
 it does not own it. 
 
-```rust
-{{#rustdoc_include assets/code_examples/immutable_borrow/source.rs}}
-```
-<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: none;">
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
   <object type="image/svg+xml" class="immutable_borrow code_panel" data="assets/code_examples/immutable_borrow/vis_code.svg"></object>
   <object type="image/svg+xml" class="immutable_borrow tl_panel" data="assets/code_examples/immutable_borrow/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('immutable_borrow')"></object>
 </div>
@@ -69,10 +63,7 @@ typically take their arguments by reference. You can call a method explicitly
 with a reference, e.g. `String::len(&s)`. As shorthand, you can use dot notation
 to call a method, e.g. `s.len()`. This implicitly takes a reference to `s`. 
 
-```rust
-{{#rustdoc_include assets/code_examples/immutable_borrow_method_call/source.rs}}
-```
-<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: none;">
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
   <object type="image/svg+xml" class="immutable_borrow_method_call code_panel" data="assets/code_examples/immutable_borrow_method_call/vis_code.svg"></object>
   <object type="image/svg+xml" class="immutable_borrow_method_call tl_panel" data="assets/code_examples/immutable_borrow_method_call/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('immutable_borrow_method_call')"></object>
 </div>
@@ -85,10 +76,7 @@ reason, immutable borrows are also sometimes called shared borrows: each
 immutable reference shares access to the resource with the owner and with any
 other immutable references that might be live.
 
-```rust
-{{#rustdoc_include assets/code_examples/multiple_immutable_borrow/source.rs}}
-```
-<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: none;">
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
   <object type="image/svg+xml" class="multiple_immutable_borrow code_panel" data="assets/code_examples/multiple_immutable_borrow/vis_code.svg"></object>
   <object type="image/svg+xml" class="multiple_immutable_borrow tl_panel" data="assets/code_examples/multiple_immutable_borrow/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('multiple_immutable_borrow')"></object>
 </div>
@@ -117,10 +105,7 @@ the `String::push_str` method, and then using the equivalent shorthand method
 call syntax. In both cases, the method takes a *mutable reference* to `s1`,
 written explicitly `&mut s1`.
 
-```rust
-{{#rustdoc_include assets/code_examples/mutable_borrow_method_call/source.rs}}
-```
-<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: none;">
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
   <object type="image/svg+xml" class="mutable_borrow_method_call code_panel" data="assets/code_examples/mutable_borrow_method_call/vis_code.svg"></object>
   <object type="image/svg+xml" class="mutable_borrow_method_call tl_panel" data="assets/code_examples/mutable_borrow_method_call/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('mutable_borrow_method_call')"></object>
 </div>
@@ -201,10 +186,7 @@ there remain future uses of the borrow. A borrow dies once as soon it is no
 longer needed. So the following code works, even though there are two mutable
 borrows in the same scope:
 
-```rust
-{{#rustdoc_include assets/code_examples/nll_lexical_scope_different/source.rs}}
-```
-<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: none;">
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
   <object type="image/svg+xml" class="nll_lexical_scope_different code_panel" data="assets/code_examples/nll_lexical_scope_different/vis_code.svg"></object>
   <object type="image/svg+xml" class="nll_lexical_scope_different tl_panel" data="assets/code_examples/nll_lexical_scope_different/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('nll_lexical_scope_different')"></object>
 </div>

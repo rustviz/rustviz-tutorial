@@ -1,13 +1,13 @@
 # Rust Basics
 
 ## Main Function
-In every executuable Rust program, the `main` function contains the code that
-will execute first:
+In every Rust program, the `main` function executes first:
 ```rust
 fn main() {
-    //code here will run first
+    // code here will run first
 }
 ```
+
 ## Variables
 In Rust, we use `let` bindings to introduce variables. Variables are *mutable*
 or *immutable*.
@@ -21,22 +21,22 @@ fn main() {
     let x = 5;
 }
 ```
-In this example, we introduce a variable `x` of type `i32`(a 32-bit signed
+In this example, we introduce a variable `x` of type `i32` (a 32-bit signed
 integer type) and bind the value `5` to it. 
 
-Since the binding cannot be changed for an immutable variable, the following
+You cannot assign to an immutable variable. So the following
 example causes a compiler error:
 ```rust
 fn main() {
     let x = 5;
-    x = 6; //ERROR
+    x = 6; // ERROR
 }
 ```
+
 The compiler error here is `cannot assign twice to immutable variable x`.
 
-### Immutable Variables
-Sometimes, we want to allow the binding of a variable to change. In order to do
-this in Rust, we introduce *mutable* variables with `let mut` rather than `let`:
+### Mutable Variables
+If you want to be able to assign to a variable, it must be marked as *mutable* with `let mut` rather than `let`:
 ```rust
 fn main() {
     let mut x = 5;
@@ -45,9 +45,8 @@ fn main() {
 ```
 
 ## Copies
-For simple types like integers, assigning the value of a variable causes
-the value to be copied. In this example, we bind the value `5` to `x` and then
-assign the value of `x` to `y` which makes a copy `x`'s value:
+For simple types like integers, we can freely copy values. For example, 
+we can bind the value `5` to `x` and then bind `y` with a copy of `x`:
 ```rust
 fn main() {
     let x = 5;
@@ -55,27 +54,27 @@ fn main() {
 }
 ```
 
-Note that this is only relevant for simple types like integers or other types
-that have been marked as copyable—we'll discuss how more interesting data
+Note that copying occurs only for simple types like `i32` or other types
+that have been marked as copyable—we will discuss how more interesting data
 structures behave differently in later sections of the tutorial.
 
 ## Functions
 Besides `main`, we can define additional functions. In the following example, 
-we define a function called `plus_one` which takes an `i32` as input returns an
-`i32` with the value that is one more than the input:
+we define a function called `plus_one` which takes an `i32` as input and returns an
+`i32` value that is one more than the input:
 ```rust
 fn main() {
     let six = plus_one(5);
 }
 
-fn five(x: i32) -> i32 {
+fn plus_one(x: i32) -> i32 {
     x + 1
 }
 ```
 
-Notice how there is no explicit return. In Rust, the last expression in the
-function body is the return value. (Rust also has a `return` keyword, but we
-do not use it here.)
+Notice how there is no explicit return. In Rust, if the last expression in the
+function body does not end in a semicolon, it is the return value.
+(Rust also has a `return` keyword, but we do not use it here.)
 
 ## Printing to the Terminal
 In Rust, we can print to the terminal using `println!`:
@@ -84,8 +83,8 @@ fn main() {
     println!("Hello, world!")
 }
 ```
-As you can probably tell, this code prints `Hello, world!` to the terminal (as
-well as a newline character.)
+As you can probably tell, this code prints `Hello, world!` to the terminal, 
+followed by a newline character.
 
 We can also use curly brackets in the input string of `println!` as a
 placeholder for certain values:
@@ -98,6 +97,6 @@ fn main() {
 ```
 This prints `x = 1 and y = 2`.
 
-Note that `println!` is a *macro*, not a function. It behaves slightly
-differently from normal functions, but you do not need to worry about that for
-this tutorial. 
+Note that the `!` at the end of `println!` indicates that it is a *macro*, not a function. 
+It behaves slightly differently from normal functions, 
+but you do not need to worry about that for this tutorial. 

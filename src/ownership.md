@@ -1,19 +1,22 @@
 # Ownership
 
-In the previous section, we considered only simple integer values. However, in
-real-world programs, we work with more complex data structures that allocate
+In the previous section, we considered only simple values, like integers. 
+However, in real-world programs, we work with more complex data structures that allocate
 resources on the heap. When we allocate resources, we need a strategy for
 de-allocating these resources. Most programming languages use one of two
 strategies:
 
 1. Manual Deallocation (C, C++): The programmer is responsible for explicitly
-deallocating memory. This is performant but can result in issues such as
-dangling pointers, double free bugs, and memory leaks. 
+deallocating memory, e.g. using `free` in C or `delete` in C++. 
+This is performant but can result in critical issues such as
+use-after-free bugs, double-free bugs, and memory leaks. 
 
 2. Garbage Collection (OCaml, Java, Python): The programmer does not have to
-explicitly deallocate memory. Instead, a *garbage collector* frees deallocates
-memory. This prevents memory safety issues. However, the garbage collector 
-creates additional run-time performance overhead. 
+explicitly deallocate memory. Instead, a *garbage collector* frees (deallocates)
+memory when it knows no further references to it remain. 
+This prevents memory safety bugs. However, the garbage collector 
+creates additional run-time performance overhead, because it needs to dynamically
+determine whether there are any remaining references.
 
 Rust uses a third strategy—a static (i.e. compile-time) ownership system.
 Because this is a purely compile-time mechanism, it achieves achieves memory
@@ -29,10 +32,7 @@ For example, heap-allocated strings are managed by Rust's ownership system.
 Consider the following example, which constructs a heap-allocated string and
 prints it out.
 
-```rust
-{{#rustdoc_include assets/code_examples/string_from_print/source.rs}}
-```
-<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: none;">
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
   <object type="image/svg+xml" class="string_from_print code_panel" data="assets/code_examples/string_from_print/vis_code.svg"></object>
   <object type="image/svg+xml" class="string_from_print tl_panel" data="assets/code_examples/string_from_print/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('string_from_print')"></object>
 </div>
@@ -70,10 +70,7 @@ In the following example, we define a variable `x` that owns a `String` resource
 Then, we define another variable, `y`, initialized with `x`. This causes
 ownership of the string resource to be moved from `x` to `y`. 
 
-```rust
-{{#rustdoc_include assets/code_examples/string_from_move_print/source.rs}}
-```
-<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: none;">
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
   <object type="image/svg+xml" class="string_from_move_print code_panel" data="assets/code_examples/string_from_move_print/vis_code.svg"></object>
   <object type="image/svg+xml" class="string_from_move_print tl_panel" data="assets/code_examples/string_from_move_print/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('string_from_move_print')"></object>
 </div>
@@ -105,10 +102,7 @@ If we move to a variable that has a different scope, then you can see by
 hovering over the visualization that the resource is dropped at the end of `y`'s
 scope rather than at the end of `x`'s scope.
 
-```rust
-{{#rustdoc_include assets/code_examples/move_different_scope/source.rs}}
-```
-<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: none;">
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
   <object type="image/svg+xml" class="move_different_scope code_panel" data="assets/code_examples/move_different_scope/vis_code.svg"></object>
   <object type="image/svg+xml" class="move_different_scope tl_panel" data="assets/code_examples/move_different_scope/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('move_different_scope')"></object>
 </div>
@@ -120,10 +114,7 @@ This code prints `hello` on one line and `Hello, world!` on the next.
 Similarly, ownership can be moved by assignment to a mutable variable, e.g. `y`
 in the following example.
 
-```rust
-{{#rustdoc_include assets/code_examples/move_assignment/source.rs}}
-```
-<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: none;">
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
   <object type="image/svg+xml" class="move_assignment code_panel" data="assets/code_examples/move_assignment/vis_code.svg"></object>
   <object type="image/svg+xml" class="move_assignment tl_panel" data="assets/code_examples/move_assignment/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('move_assignment')"></object>
 </div>
@@ -138,10 +129,7 @@ ownership of the string resource in `main` is moved from `s` to the
 `takes_ownership` function. Consequently, when `s` goes out of scope at the end
 of `main`, there is no owned string resource to be dropped.
 
-```rust
-{{#rustdoc_include assets/code_examples/func_take_ownership/source.rs}}
-```
-<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: none;">
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
   <object type="image/svg+xml" class="func_take_ownership code_panel" data="assets/code_examples/func_take_ownership/vis_code.svg"></object>
   <object type="image/svg+xml" class="func_take_ownership tl_panel" data="assets/code_examples/func_take_ownership/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('func_take_ownership')"></object>
 </div>
@@ -166,10 +154,7 @@ to be dropped at the end of `f`. Instead, the resource is dropped when the new
 owner, `s`, goes out of scope at the end of `main`. (If the string were dropped
 at the end of `f`, there would be a use-after-free bug in `main` on Line 3!)
 
-```rust
-{{#rustdoc_include assets/code_examples/move_func_return/source.rs}}
-```
-<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: none;">
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
   <object type="image/svg+xml" class="move_func_return code_panel" data="assets/code_examples/move_func_return/vis_code.svg"></object>
   <object type="image/svg+xml" class="move_func_return tl_panel" data="assets/code_examples/move_func_return/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('move_func_return')"></object>
 </div>

@@ -1,7 +1,14 @@
 "use strict";
 
+window.onload = function () {
+    Array.from(document.querySelectorAll("vis_block")).forEach(function (block) {
+        sizeToFit(block.firstElementChild);
+        adjust_visualization_size(block);
+    })
+}
+
 // Fix back button cache problem
-window.onunload = function () { };
+window.onunload = function () {};
 
 // Global variable, shared between modules
 function playpen_text(playpen) {
