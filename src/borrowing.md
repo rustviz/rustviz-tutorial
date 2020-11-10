@@ -49,7 +49,15 @@ it can, for example, print `x` on Line 4. The resource will be dropped when `x`
 goes out of scope at the end `main` as we discussed previously. Because `f`
 takes a reference, it is only *borrowing* access to the resource that the
 reference points to. It does not need to explicitly return the resource because
-it does not own it. 
+it does not own it.
+
+Now that we know what borrowing is, we can talk about what the `println!` macro
+does. The `println!` macro always implicitly takes an immutable reference to
+whatever you pass it. For example, if you passed it a variable `x`, it will be
+as if you passed `&x` to a function there. (This is true even if `x` were itself
+a reference). Now that we know how the `println!` behaves with respect to the
+ownership and borrowing system, we will show calls to `println!` in the rest of
+the examples.
 
 <div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
   <object type="image/svg+xml" class="immutable_borrow code_panel" data="assets/code_examples/immutable_borrow/vis_code.svg"></object>
