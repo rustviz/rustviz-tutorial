@@ -203,7 +203,7 @@ object.code_panel {
         <text x="160" y="90" style="text-anchor:middle" data-hash="2" class="label tooltip-trigger" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro', Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono', monospace, monospace !important;&quot;&gt;y&lt;/span&gt;, immutable">y<tspan stroke="none" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro', Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono', monospace, monospace !important;&quot;&gt;y&lt;/span&gt;, immutable">|</tspan>*y</text>
         <text x="250" y="90" style="text-anchor:middle" data-hash="3" class="label tooltip-trigger" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro', Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono', monospace, monospace !important;&quot;&gt;z&lt;/span&gt;, immutable">z<tspan stroke="none" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro', Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono', monospace, monospace !important;&quot;&gt;z&lt;/span&gt;, immutable">|</tspan>*z</text>
         <text x="70" y="90" style="text-anchor:middle" data-hash="1" class="label tooltip-trigger" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro', Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono', monospace, monospace !important;&quot;&gt;x&lt;/span&gt;, mutable">x</text>
-        <text x="340" y="90" style="text-anchor:middle" data-hash="4" class="label tooltip-trigger" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro', Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono', monospace, monospace !important;&quot;&gt;z&lt;/span&gt;, immutable">z<tspan stroke="none" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro', Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono', monospace, monospace !important;&quot;&gt;z&lt;/span&gt;, immutable">|</tspan>*z</text>
+        <text x="340" y="90" style="text-anchor:middle" data-hash="4" class="label tooltip-trigger" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro', Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono', monospace, monospace !important;&quot;&gt;s&lt;/span&gt;, immutable">s<tspan stroke="none" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro', Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono', monospace, monospace !important;&quot;&gt;s&lt;/span&gt;, immutable">|</tspan>*s</text>
     </g>
 
     <g id="timelines">
@@ -233,16 +233,16 @@ object.code_panel {
         monospace, monospace !important;&quot;&gt;z&lt;/span&gt; is the owner of the resource; can read and write data; cannot point to another piece of data"/>
         <path data-hash="4" class="hollow tooltip-trigger" style="fill:transparent;" d="M 338.2,285 V 305 h 3.5 V 285 h -3.5" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
         Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono',
-        monospace, monospace !important;&quot;&gt;z&lt;/span&gt; is the owner of the resource; can read and write data; cannot point to another piece of data"/>
+        monospace, monospace !important;&quot;&gt;s&lt;/span&gt; is the owner of the resource; can read and write data; cannot point to another piece of data"/>
         <path data-hash="4" class="hollow tooltip-trigger" style="fill:transparent;" d="M 338.2,305 V 325 h 3.5 V 305 h -3.5" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
         Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono',
-        monospace, monospace !important;&quot;&gt;z&lt;/span&gt; is the owner of the resource; can read and write data; cannot point to another piece of data"/>
+        monospace, monospace !important;&quot;&gt;s&lt;/span&gt; is the owner of the resource; can read and write data; cannot point to another piece of data"/>
     </g>
 
     <g id="ref_line">
         <path data-hash="2" class="solid tooltip-trigger" style="fill:transparent; stroke-width: 2px !important;" d="M 160 125 l 15 4 v 12 l -15 4" data-tooltip-text="can mutate *y"/>
         <path data-hash="3" class="solid tooltip-trigger" style="fill:transparent; stroke-width: 2px !important;" d="M 250 165 l 15 4 v 12 l -15 4" data-tooltip-text="can mutate *z"/>
-        <path data-hash="4" class="solid tooltip-trigger" style="fill:transparent; stroke-width: 2px !important;" d="M 340 285 l 15 8 v 24 l -15 8" data-tooltip-text="can mutate *z"/>
+        <path data-hash="4" class="solid tooltip-trigger" style="fill:transparent; stroke-width: 2px !important;" d="M 340 285 l 15 8 v 24 l -15 8" data-tooltip-text="can mutate *s"/>
     </g>
 
     <g id="events">
@@ -296,13 +296,13 @@ object.code_panel {
         monospace, monospace !important;&quot;&gt;z&lt;/span&gt; goes out of scope"/>
         <circle cx="340" cy="285" r="5" data-hash="4" class="tooltip-trigger" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
         Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono',
-        monospace, monospace !important;&quot;&gt;z&lt;/span&gt; is initialized as the function argument"/>
-        <circle cx="340" cy="305" r="5" data-hash="4" class="tooltip-trigger" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
+        monospace, monospace !important;&quot;&gt;s&lt;/span&gt; is initialized as the function argument"/>
+        <circle cx="340" cy="305" r="5" data-hash="4" class="tooltip-trigger" data-tooltip-text="De-reference of &lt;span style=&quot;font-family: 'Source Code Pro',
         Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono',
-        monospace, monospace !important;&quot;&gt;z&lt;/span&gt; test event"/>
+        monospace, monospace !important;&quot;&gt;s&lt;/span&gt;"/>
         <circle cx="340" cy="325" r="5" data-hash="4" class="tooltip-trigger" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
         Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono',
-        monospace, monospace !important;&quot;&gt;z&lt;/span&gt; goes out of scope"/>
+        monospace, monospace !important;&quot;&gt;s&lt;/span&gt; goes out of scope"/>
         <text x="96" y="110" data-hash="5" class="functionLogo tooltip-trigger fn-trigger" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro', Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono', monospace, monospace !important;&quot;&gt;String::from()&lt;/span&gt;">f</text>
         <use xlink:href="#functionDot" data-hash="1" x="70" y="205" class="tooltip-trigger" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro', Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono', monospace, monospace !important;&quot;&gt;push_str()&lt;/span&gt; reads from/writes to &lt;span style=&quot;font-family: 'Source Code Pro', Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono', monospace, monospace !important;&quot;&gt;x&lt;/span&gt;"/>
         <use xlink:href="#functionDot" data-hash="1" x="70" y="225" class="tooltip-trigger" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro', Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono', monospace, monospace !important;&quot;&gt;println!()&lt;/span&gt; reads from &lt;span style=&quot;font-family: 'Source Code Pro', Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono', monospace, monospace !important;&quot;&gt;x&lt;/span&gt;"/>

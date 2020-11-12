@@ -9,12 +9,12 @@ resource while it executes but retain ownership over the resource after the
 function returns.
 
 We could accomplish this by having each function return such resources. For
-example, `take_and_return_ownership` below takes ownership of a `String`
+example, `take_and_return_ownership` below takes ownership of a string
 resource and returns ownership of that exact same resource. The caller, `main`,
 assigns the returned resource to the same variable, `s`. (The type of
-`take_and_return_ownership` does not guarantee that the returned resource is
-the same as the provided resource. Instead, the programmer has to reason about
-the `take_and_return_ownership` or trust that it returns the same resource.)
+`take_and_return_ownership` does not guarantee that the returned resource is the
+same as the provided resource. Instead, the programmer has to reason about the
+`take_and_return_ownership` or trust that it returns the same resource.)
 
 <div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
   <object type="image/svg+xml" class="func_take_return_ownership code_panel" data="assets/modified_examples/func_take_return_ownership/vis_code.svg"></object>
@@ -23,7 +23,7 @@ the `take_and_return_ownership` or trust that it returns the same resource.)
 
 This code prints `hello` twice.
 
-As you write more complex code, this pattern of returning all of the provided
+As code becomes more complex, this pattern of returning all of the provided
 resources explicitly becomes both syntactically and semantically unwieldy.
 
 Fortunately, Rust offers a powerful solution: passing in arguments via a
@@ -44,12 +44,19 @@ let's ignore that for now.)
 When the `main` function calls `f`, it must provide a reference to a `String` as
 an argument. Here, we do so by taking a reference to the let-bound variable `x`
 on Line 3, written `&x`. Taking a reference does **not** cause a change in
-ownership, so `x` still owns the string resource in the remainder of `main` and
-it can, for example, print `x` on Line 4. The resource will be dropped when `x`
-goes out of scope at the end `main` as we discussed previously. Because `f`
+ownership, so `x` still owns the string resource in the remainder of `main`
+and it can, for example, print `x` on Line 4. The resource will be dropped when
+`x` goes out of scope at the end `main` as we discussed previously. Because `f`
 takes a reference, it is only *borrowing* access to the resource that the
 reference points to. It does not need to explicitly return the resource because
 it does not own it.
+
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
+  <object type="image/svg+xml" class="immutable_borrow code_panel" data="assets/code_examples/immutable_borrow/vis_code.svg"></object>
+  <object type="image/svg+xml" class="immutable_borrow tl_panel" data="assets/code_examples/immutable_borrow/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('immutable_borrow')"></object>
+</div>
+
+This code prints `hello` twice.
 
 Now that we know what borrowing is, we can talk about what the `println!` macro
 does. The `println!` macro always implicitly takes an immutable reference to
@@ -59,17 +66,10 @@ a reference). Now that we know how the `println!` behaves with respect to the
 ownership and borrowing system, we will show calls to `println!` in the rest of
 the examples.
 
-<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
-  <object type="image/svg+xml" class="immutable_borrow code_panel" data="assets/code_examples/immutable_borrow/vis_code.svg"></object>
-  <object type="image/svg+xml" class="immutable_borrow tl_panel" data="assets/code_examples/immutable_borrow/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('immutable_borrow')"></object>
-</div>
-
-This code prints `hello` twice.
-
-Methods of the `String` type, like `len` for computing the length of the string,
-typically take their arguments by reference. You can call a method explicitly
-with a reference, e.g. `String::len(&s)`. As shorthand, you can use dot notation
-to call a method, e.g. `s.len()`. This implicitly takes a reference to `s`. 
+Methods of the `String` type, like `len` for computing the length, typically
+take their arguments by reference. You can call a method explicitly with a
+reference, e.g. `String::len(&s)`. As shorthand, you can use dot notation to
+call a method, e.g. `s.len()`. This implicitly takes a reference to `s`. 
 
 <div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
   <object type="image/svg+xml" class="immutable_borrow_method_call code_panel" data="assets/code_examples/immutable_borrow_method_call/vis_code.svg"></object>
@@ -107,8 +107,8 @@ The compiler error here is: `cannot move out of s because it is borrowed`.
 ## Mutable Borrows
 
 Unlike immutable borrows, Rust's mutable borrows allow you to mutate the
-borrowed resource. In the example below, we push the contents of a string `s2` 
-to the end of the heap-allocated string `s1` twice, first by explictly calling
+borrowed resource. In the example below, we push the contents of a `String` `s2` 
+to the end of the heap-allocated `String` `s1` twice, first by explictly calling
 the `String::push_str` method, and then using the equivalent shorthand method
 call syntax. In both cases, the method takes a *mutable reference* to `s1`,
 written explicitly `&mut s1`.
@@ -147,7 +147,8 @@ fn f(x : &String) {
   println!("{}", x);
 }
 ```
-The compiler error here is: `cannot borrow x as immutable because it is also borrowed as mutable`.
+The compiler error here is: `cannot borrow x as immutable because it is also
+borrowed as mutable`.
 
 Similarly, the following code is erroneous for the same reason.
 
@@ -161,7 +162,8 @@ fn main() {
     println!("{}", x);
 }
 ```
-The compiler error here is: `cannot borrow x as mutable more than once at a time`.
+The compiler error here is: `cannot borrow x as mutable more than once at a
+time`.
 
 ### Optional: Threading in Rust
 
@@ -190,9 +192,9 @@ depending on the interleaving of the main thread and the newly spawned thread.
 ## Non-Lexical Lifetimes
 
 Above, we use the phrase "live borrow". A borrow is *live* if it is in scope and
-there remain future uses of the borrow. A borrow dies once as soon it is no
-longer needed. So the following code works, even though there are two mutable
-borrows in the same scope:
+there remain future uses of the borrow. A borrow dies as soon it is no longer
+needed. So the following code works, even though there are two mutable borrows
+in the same scope:
 
 <div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
   <object type="image/svg+xml" class="nll_lexical_scope_different code_panel" data="assets/modified_examples/nll_lexical_scope_different/vis_code.svg"></object>
