@@ -144,8 +144,6 @@ caller (each time it is called). The argument variable `some_string` goes out of
 scope at the end of the function, so the resource that it owns is dropped at
 that point.
 
-Hover over the messages in the visualization to be sure you understand.
-
 ### Return
 
 Finally, ownership can be returned from a function. 

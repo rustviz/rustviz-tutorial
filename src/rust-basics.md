@@ -36,7 +36,7 @@ The compiler error here is `cannot assign twice to immutable variable x`.
 
 ### Mutable Variables
 If you want to be able to assign to a variable, it must be marked as *mutable*
-with `let mut` rather than `let`:
+with `let mut`:
 ```rust
 {{#rustdoc_include assets/code_examples/mutable_variables/source.rs}}
 ```
@@ -50,7 +50,8 @@ bind the value `5` to `x` and then bind `y` with a copy of `x`:
 
 Note that copying occurs only for simple types like `i32` or other types that
 have been marked as copyable—we will discuss how more interesting data
-structures behave differently in later sections of the tutorial.
+structures that are not marked as copyable behave differently in later sections
+of the tutorial.
 
 ## Functions
 Besides `main`, we can define additional functions. In the following example, we

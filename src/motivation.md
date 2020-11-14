@@ -4,8 +4,8 @@ This is a short introduction to the Rust programming language, intended for
 programmers with some C or C++ experience. 
 
 The tutorial makes use of an interactive visualization system for Rust code
-being developed by FP Lab. The tutorial also includes exercises after each
-section to check your understanding.
+being developed by FP Lab. The tutorial also includes exercises to check your
+understanding.
 
 # Motivation
 
