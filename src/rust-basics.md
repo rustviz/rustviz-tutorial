@@ -42,8 +42,8 @@ with `let mut`:
 ```
 
 ## Copies
-For simple types like integers, we can freely copy values. For example, we can
-bind the value `5` to `x` and then bind `y` with a copy of `x`:
+For simple types like integers, we can copy values. For example, we can bind the
+value `5` to `x` and then bind `y` with a copy of `x`:
 ```rust
 {{#rustdoc_include assets/code_examples/copy/source.rs}}
 ```
