@@ -52,8 +52,8 @@ reference points to. It does not need to explicitly return the resource because
 it does not own it.
 
 <div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
-  <object type="image/svg+xml" class="immutable_borrow code_panel" data="assets/code_examples/immutable_borrow/vis_code.svg"></object>
-  <object type="image/svg+xml" class="immutable_borrow tl_panel" data="assets/code_examples/immutable_borrow/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('immutable_borrow')"></object>
+  <object type="image/svg+xml" class="immutable_borrow code_panel" data="assets/modified_examples/immutable_borrow/vis_code.svg"></object>
+  <object type="image/svg+xml" class="immutable_borrow tl_panel" data="assets/modified_examples/immutable_borrow/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('immutable_borrow')"></object>
 </div>
 
 This code prints `hello` twice.
@@ -72,8 +72,8 @@ reference, e.g. `String::len(&s)`. As shorthand, you can use dot notation to
 call a method, e.g. `s.len()`. This implicitly takes a reference to `s`. 
 
 <div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
-  <object type="image/svg+xml" class="immutable_borrow_method_call code_panel" data="assets/code_examples/immutable_borrow_method_call/vis_code.svg"></object>
-  <object type="image/svg+xml" class="immutable_borrow_method_call tl_panel" data="assets/code_examples/immutable_borrow_method_call/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('immutable_borrow_method_call')"></object>
+  <object type="image/svg+xml" class="immutable_borrow_method_call code_panel" data="assets/modified_examples/immutable_borrow_method_call/vis_code.svg"></object>
+  <object type="image/svg+xml" class="immutable_borrow_method_call tl_panel" data="assets/modified_examples/immutable_borrow_method_call/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('immutable_borrow_method_call')"></object>
 </div>
 
 This code prints `len1 = 5 = len2 = 5`.
@@ -114,8 +114,8 @@ call syntax. In both cases, the method takes a *mutable reference* to `s1`,
 written explicitly `&mut s1`.
 
 <div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
-  <object type="image/svg+xml" class="mutable_borrow_method_call code_panel" data="assets/code_examples/mutable_borrow_method_call/vis_code.svg"></object>
-  <object type="image/svg+xml" class="mutable_borrow_method_call tl_panel" data="assets/code_examples/mutable_borrow_method_call/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('mutable_borrow_method_call')"></object>
+  <object type="image/svg+xml" class="mutable_borrow_method_call code_panel" data="assets/modified_examples/mutable_borrow_method_call/vis_code.svg"></object>
+  <object type="image/svg+xml" class="mutable_borrow_method_call tl_panel" data="assets/modified_examples/mutable_borrow_method_call/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('mutable_borrow_method_call')"></object>
 </div>
 
 This code prints `Hello, world, world`.

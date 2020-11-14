@@ -229,10 +229,10 @@ object.code_panel {
         monospace, monospace !important;&quot;&gt;s&lt;/span&gt; goes out of scope. Its resource is dropped."/>
         <circle cx="200" cy="105" r="5" data-hash="2" class="tooltip-trigger" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
         Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono',
-        monospace, monospace !important;&quot;&gt;some_string&lt;/span&gt; is initialized as the function argument"/>
+        monospace, monospace !important;&quot;&gt;some_string&lt;/span&gt; is initialized by move from the caller"/>
         <circle cx="200" cy="165" r="5" data-hash="2" class="tooltip-trigger" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
         Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono',
-        monospace, monospace !important;&quot;&gt;some_string&lt;/span&gt;'s resource is moved"/>
+        monospace, monospace !important;&quot;&gt;some_string&lt;/span&gt;'s resource is moved to the caller"/>
         <text x="96" y="230" data-hash="5" class="functionLogo tooltip-trigger fn-trigger" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro', Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono', monospace, monospace !important;&quot;&gt;String::from()&lt;/span&gt;">f</text>
         <text x="35" y="250" data-hash="6" class="functionLogo tooltip-trigger fn-trigger" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro', Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono', monospace, monospace !important;&quot;&gt;take_and_return_ownership()&lt;/span&gt;">f</text>
         <text x="96" y="250" data-hash="6" class="functionLogo tooltip-trigger fn-trigger" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro', Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono', monospace, monospace !important;&quot;&gt;take_and_return_ownership()&lt;/span&gt;">f</text>
