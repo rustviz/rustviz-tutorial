@@ -4,3 +4,4 @@
 - [Rust Basics](./rust-basics.md)
 - [Ownership](./ownership.md)
 - [Borrowing](./borrowing.md)
+- [Vectors](./vectors.md)
