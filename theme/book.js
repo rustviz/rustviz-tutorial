@@ -1,12 +1,5 @@
 "use strict";
 
-window.onload = function () {
-    Array.from(document.querySelectorAll("vis_block")).forEach(function (block) {
-        sizeToFit(block.firstElementChild);
-        adjust_visualization_size(block);
-    })
-}
-
 // Fix back button cache problem
 window.onunload = function () {};
 
@@ -33,12 +26,17 @@ function adjust_visualization_size(flexbox) {
     let desired_height = parseInt(timeline_doc.height.baseVal.value);
     let code_panel_doc = flexbox.querySelector('object[class*="code_panel"]').contentDocument.querySelector('svg');
     let code_panel_width = parseInt(code_panel_doc.width.baseVal.value);
+
     // update the div block that surround them with the new width
     // Rule: if the two panels combined are narrower than the main text, simply set to the text width
     // Otherwise, do a "center" effect.
+    var butt = document.getElementsByClassName("buttons")[0];
+    let margin = 0;
     if (text_width >= timeline_width + code_panel_width) {
         flexbox.style.marginLeft = "0px";
-        flexbox.style.marginRight = "0px";
+        margin = text_width-timeline_width-code_panel_width;
+        flexbox.style.marginRight = margin + "px";
+        butt.setAttribute("style", "position: absolute; right: " + margin + "px;");
     } else {
         let wiggle_room = parseInt("3px");                      // manually tweak this to prevent subpixel splitting
         let margin_shrink = (timeline_width + code_panel_width + flex_border_size + wiggle_room - text_width) / 2;
@@ -46,6 +44,7 @@ function adjust_visualization_size(flexbox) {
         flexbox.style.marginRight = -margin_shrink + "px";
     }
     flexbox.style.height = desired_height + "px";
+    return margin;
 }
 
 (function codeSnippets() {
@@ -263,6 +262,8 @@ function adjust_visualization_size(flexbox) {
             block.style.display = 'block'; // initialize display to original code
 
             var resize_done = false;
+            var butt = document.getElementsByClassName("buttons")[0];
+            var resized_butt_right = 0;
             pre_block.querySelector('.buttons').addEventListener('click', function (e) {
                 if (e.target.classList.contains('fa-toggle-on')) {
                     // on button click, show visualization and hide code
@@ -271,6 +272,8 @@ function adjust_visualization_size(flexbox) {
 
                     pre_block.querySelector('.language-rust').style.display = 'block';
                     pre_block.parentElement.nextElementSibling.style.display = 'none';
+
+                    butt.style.right = "0px"
                 } else if (e.target.classList.contains('fa-toggle-off')) {
                     e.target.classList.remove('fa-toggle-off');
                     e.target.classList.add('fa-toggle-on');
@@ -282,7 +285,9 @@ function adjust_visualization_size(flexbox) {
                     if (resize_done == false) {
                         sizeToFit(pre_block.parentElement.nextElementSibling.firstElementChild);
                         resize_done = true;
-                        adjust_visualization_size(pre_block.parentElement.nextElementSibling);
+                        resized_butt_right = adjust_visualization_size(pre_block.parentElement.nextElementSibling);
+                    } else {
+                        butt.style.right = resized_butt_right + "px"
                     }
                 }
             });

@@ -229,31 +229,31 @@ object.code_panel {
         monospace, monospace !important;&quot;&gt;s&lt;/span&gt; is the owner of the resource. The binding can be reassigned."/>
         <path data-hash="2" class="hollow tooltip-trigger" style="fill:transparent;" d="M 158.2,175 V 235 h 3.5 V 175 h -3.5" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
         Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono',
-        monospace, monospace !important;&quot;&gt;r1&lt;/span&gt;'s resource is being shared by one or more variables; can only read data"/>
+        monospace, monospace !important;&quot;&gt;r1&lt;/span&gt;'s resource is being shared by one or more variables; can only read data."/>
         <path data-hash="2" class="hollow tooltip-trigger" style="fill:transparent;" d="M 158.2,235 V 235 h 3.5 V 235 h -3.5" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
         Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono',
-        monospace, monospace !important;&quot;&gt;r1&lt;/span&gt;'s resource is being shared by one or more variables; can only read data"/>
+        monospace, monospace !important;&quot;&gt;r1&lt;/span&gt;'s resource is being shared by one or more variables; can only read data."/>
         <path data-hash="2" class="hollow tooltip-trigger" style="fill:transparent;" d="M 158.2,235 V 235 h 3.5 V 235 h -3.5" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
         Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono',
-        monospace, monospace !important;&quot;&gt;r1&lt;/span&gt;'s resource is being shared by one or more variables; can only read data"/>
+        monospace, monospace !important;&quot;&gt;r1&lt;/span&gt;'s resource is being shared by one or more variables; can only read data."/>
         <path data-hash="3" class="hollow tooltip-trigger" style="fill:transparent;" d="M 248.2,205 V 235 h 3.5 V 205 h -3.5" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
         Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono',
-        monospace, monospace !important;&quot;&gt;r2&lt;/span&gt;'s resource is being shared by one or more variables; can only read data"/>
+        monospace, monospace !important;&quot;&gt;r2&lt;/span&gt;'s resource is being shared by one or more variables; can only read data."/>
         <path data-hash="3" class="hollow tooltip-trigger" style="fill:transparent;" d="M 248.2,235 V 235 h 3.5 V 235 h -3.5" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
         Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono',
-        monospace, monospace !important;&quot;&gt;r2&lt;/span&gt;'s resource is being shared by one or more variables; can only read data"/>
+        monospace, monospace !important;&quot;&gt;r2&lt;/span&gt;'s resource is being shared by one or more variables; can only read data."/>
         <path data-hash="3" class="hollow tooltip-trigger" style="fill:transparent;" d="M 248.2,235 V 235 h 3.5 V 235 h -3.5" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
         Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono',
-        monospace, monospace !important;&quot;&gt;r2&lt;/span&gt;'s resource is being shared by one or more variables; can only read data"/>
+        monospace, monospace !important;&quot;&gt;r2&lt;/span&gt;'s resource is being shared by one or more variables; can only read data."/>
         <path data-hash="4" class="hollow tooltip-trigger" style="fill:transparent;" d="M 338.2,325 V 355 h 3.5 V 325 h -3.5" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
         Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono',
-        monospace, monospace !important;&quot;&gt;r3&lt;/span&gt; is the owner of the resource; can read and write data; cannot point to another piece of data"/>
+        monospace, monospace !important;&quot;&gt;r3&lt;/span&gt; is the owner of the resource; can read and write data; cannot point to another piece of data."/>
         <path data-hash="4" class="hollow tooltip-trigger" style="fill:transparent;" d="M 338.2,355 V 355 h 3.5 V 355 h -3.5" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
         Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono',
-        monospace, monospace !important;&quot;&gt;r3&lt;/span&gt;'s resource is being shared by one or more variables; can only read data"/>
+        monospace, monospace !important;&quot;&gt;r3&lt;/span&gt;'s resource is being shared by one or more variables; can only read data."/>
         <path data-hash="4" class="hollow tooltip-trigger" style="fill:transparent;" d="M 338.2,355 V 355 h 3.5 V 355 h -3.5" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
         Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono',
-        monospace, monospace !important;&quot;&gt;r3&lt;/span&gt; is the owner of the resource; can read and write data; cannot point to another piece of data"/>
+        monospace, monospace !important;&quot;&gt;r3&lt;/span&gt; is the owner of the resource; can read and write data; cannot point to another piece of data."/>
     </g>
 
     <g id="ref_line">
