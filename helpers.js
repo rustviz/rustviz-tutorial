@@ -1,3 +1,20 @@
+const SVG = {
+    'text': {
+        'label': 'label',
+        'functionLogo': 'label'
+    },
+    'path': {
+        'hollow': 'timeline_mut',
+        'staticref': 'static_ref_line',
+        'mutref': 'mut_ref_line'
+    },
+    'polyline': 'arrow',
+    'circle': 'event',
+    'line': 'timeline_mut',
+    'use': 'function_event',
+    'rect': 'structBox'
+};
+
 /* --------------------- SIMPLE DRIVER --------------------- */
 function helpers(classname) {
     // create tooltip element before #page-wrapper
@@ -69,7 +86,7 @@ function sizeToFit(object) {
         }, {once: true});
     }
     else {
-        if (object.contentDocument.readyState == "complete") {
+        if (object.contentDocument.readyState === "complete") {
             let svg_doc = object.contentDocument;
             let code_width = svg_doc.getElementById('code').getBBox().width;
             let new_width = Math.max(code_width + 30, 400);
@@ -88,6 +105,9 @@ function displayTooltip(tooltip, classname) {
     // get elements that will trigger function
     let triggers = tl_svg.getElementsByClassName('tooltip-trigger');
 
+    // track time
+    var time_start = null;
+
     for (let i = 0; i < triggers.length; i++) {
         // prevent adding duplicate listeners
         if (triggers[i].classList.contains('listener')) break;
@@ -95,10 +115,13 @@ function displayTooltip(tooltip, classname) {
 
         triggers[i].addEventListener('mousemove', showTooltip);
         triggers[i].addEventListener('mouseleave', hideTooltip);
-        triggers[i].addEventListener('mouseenter', insertCaret);
+        triggers[i].addEventListener('mouseenter', insertUnderline);
     }
     
     function showTooltip(e) {
+        // only set time once, prevent from changing every time mouse moves
+        if (!time_start) time_start = Date.now();
+
         let mouse = mousePos(e, tl_obj);
         tooltip.style.transform = "translate(" + mouse.x + "px, " + mouse.y + "px)";
         tooltip.style.display = "block";
@@ -111,19 +134,34 @@ function displayTooltip(tooltip, classname) {
     }
 
     function hideTooltip(e) {
-        tooltip.style.display = "none";
+        tooltip.style.display = 'none';
         tooltip.innerHTML = '';
 
-        removeCaret(e, classname);
+        let tgt = e.currentTarget;
+        let e_label = (tgt.tagName === 'text') ? SVG['text'][tgt.classList[0]]
+            : ((tgt.tagName === 'path') ? SVG['path'][tgt.classList[0]]
+            : SVG[tgt.tagName]);
+
+        // only track hovering after mouse leaves element
+        gtag('event', 'tooltip_hover', {
+            'event_label': e_label,
+        });
+
+        gtag('event', e_label, {
+            'hover_time': (Date.now() - time_start) // time in ms
+        });
+        time_start = null; // reset
+
+        removeUnderline(e, classname);
     }
 
     /* ---- SHOW RELEVANT LINES ---- */
-    function insertCaret(e) {
+    function insertUnderline(e) {
         let doc = document.getElementsByClassName(classname + ' code_panel')[0].contentDocument; //code_panel
         let begin = 0, end = 0;
-        if (e.currentTarget.tagName == 'path') {
+        if (e.currentTarget.tagName === 'path') {
             let arr = e.currentTarget.getAttribute('d').split(' ');
-            if (e.currentTarget.parentNode.id == 'ref_line') {
+            if (e.currentTarget.parentNode.id === 'ref_line') {
                 begin = parseInt(arr[2]);
                 end = parseInt(begin) + 2*parseInt(arr[5]) + parseInt(arr[7]) + 5; // + 5 to include last line
             }
@@ -132,23 +170,23 @@ function displayTooltip(tooltip, classname) {
                 end = parseInt(arr[3]);
             }
         }
-        else if (e.currentTarget.tagName == 'line') {
+        else if (e.currentTarget.tagName === 'line') {
             begin = e.currentTarget.getAttribute('y1');
             end = e.currentTarget.getAttribute('y2');
         }
         else {
             let pos;
-            if (e.currentTarget.tagName == 'circle') {
+            if (e.currentTarget.tagName === 'circle') {
                 begin = end = parseInt(e.currentTarget.getAttribute('cy')) + 5;
             }
-            else if (e.currentTarget.tagName == 'use') {
+            else if (e.currentTarget.tagName === 'use') {
                 begin = end = parseInt(e.currentTarget.getAttribute('y')) + 5;
             }
-            else if (e.currentTarget.tagName == 'polyline') {
+            else if (e.currentTarget.tagName === 'polyline') {
                 let arr = e.currentTarget.getAttribute('points').split(' ');
                 begin = end = parseInt(arr[1]) + 5;
             }
-            else { // e.currentTarget.tagName == 'text'
+            else { // e.currentTarget.tagName === 'text'
                 begin = end = parseInt(e.currentTarget.getAttribute('y'));
             }
         }
@@ -184,7 +222,7 @@ function mousePos(evt, obj) {
     };
 }
 
-function removeCaret(e, classname) {
+function removeUnderline(e, classname) {
     let doc = document.getElementsByClassName(classname + ' code_panel')[0].contentDocument; //code_panel
     let arr = doc.getElementsByClassName('emph');
     for (let i = arr.length-1; i >= 0; --i) {
@@ -275,8 +313,8 @@ function toggleStruct(turn_on) {
 }
 
 /*window.onload = function () {
-    var correct_doc = (document.getElementsByClassName('active')[0].attributes.href.value == 'ch04-01-what-is-ownership.html'
-            || document.getElementsByClassName('active')[0].attributes.href.value == 'ch04-02-references-and-borrowing.html');
+    var correct_doc = (document.getElementsByClassName('active')[0].attributes.href.value === 'ch04-01-what-is-ownership.html'
+            || document.getElementsByClassName('active')[0].attributes.href.value === 'ch04-02-references-and-borrowing.html');
 
     if (correct_doc) {
         let top_btns = document.getElementsByClassName('left-buttons');

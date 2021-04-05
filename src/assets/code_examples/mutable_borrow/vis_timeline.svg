@@ -1,8 +1,8 @@
 <svg width="260px" height="430px" 
         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-        id="tl_examples_dsl/mutable_borrow/input/">
+        id="tl_examples/mutable_borrow/input/">
 
-    <desc>examples_dsl/mutable_borrow/input/</desc>
+    <desc>examples/mutable_borrow/input/</desc>
 
     <defs>
         <style type="text/css">
@@ -213,18 +213,22 @@ object.code_panel {
         <line data-hash="1" class="solid tooltip-trigger" x1="70" x2="70" y1="145" y2="175" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
         Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono',
         monospace, monospace !important;&quot;&gt;x&lt;/span&gt; is the owner of the resource. The binding can be reassigned."/>
-        <line data-hash="1" class="solid tooltip-trigger" x1="70" x2="70" y1="175" y2="175" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
+        <path data-hash="1" class="hollow tooltip-trigger" style="fill:transparent;" d="M 68.2,175 V 175 h 3.5 V 175 h -3.5" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
         Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono',
-        monospace, monospace !important;&quot;&gt;x&lt;/span&gt;'s resource is being shared by one or more variables"/>
+        monospace, monospace !important;&quot;&gt;x&lt;/span&gt;'s resource is being shared by one or more variables. The binding cannot be reassigned."/>
         <line data-hash="1" class="solid tooltip-trigger" x1="70" x2="70" y1="175" y2="205" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
         Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono',
         monospace, monospace !important;&quot;&gt;x&lt;/span&gt; is the owner of the resource. The binding can be reassigned."/>
         <path data-hash="2" class="hollow tooltip-trigger" style="fill:transparent;" d="M 158.2,265 V 295 h 3.5 V 265 h -3.5" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
         Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono',
-        monospace, monospace !important;&quot;&gt;s&lt;/span&gt; is the owner of the resource; can read and write data; cannot point to another piece of data"/>
+        monospace, monospace !important;&quot;&gt;s&lt;/span&gt; is the owner of the resource; can read and write data; cannot point to another piece of data."/>
+        <path data-hash="2" class="hollow tooltip-trigger" style="fill:transparent;" d="M 158.2,295 V 325 h 3.5 V 295 h -3.5" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
+        Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono',
+        monospace, monospace !important;&quot;&gt;s&lt;/span&gt; is the owner of the resource; can read and write data; cannot point to another piece of data."/>
     </g>
 
     <g id="ref_line">
+        <path data-hash="2" class="mutref solid tooltip-trigger" style="fill:transparent; stroke-width: 2px !important;" d="M 160 265 l 15 12 v 36 l -15 12" data-tooltip-text="can mutate *s"/>
     </g>
 
     <g id="events">

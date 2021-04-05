@@ -3,14 +3,16 @@
 # This is a convenience script to copy the code examples and corresponding SVG
 # visualizations from the rustviz repository. See README.md for more details.
 RV='../rustviz'
-printf "copying helper.js and book.js..."
-cp "$RV/rustviz_mdbook/mdbook_plugin/helpers.js" "./helpers.js"
-cp "$RV/rustviz_mdbook/mdbook_plugin/book.js" "./theme/book.js"
-echo "done"
+# printf "copying helper.js and book.js..."
+# cp "$RV/rustviz_mdbook/mdbook_plugin/helpers.js" "./helpers.js"
+# cp "$RV/rustviz_mdbook/mdbook_plugin/book.js" "./theme/book.js"
+# echo "done"
 
 printf "copying files into code_examples..."
-for DIR in $RV/examples/*/; do
+EX=$RV/src/examples
+for DIR in $EX/*/; do
     BASENAME=`basename $DIR`
+    # echo $BASENAME
     if [[ -f  "$DIR/source.rs" && -f "$DIR/vis_code.svg" && -f "$DIR/vis_timeline.svg" ]]
     then
         mkdir -p "./src/assets/code_examples/$BASENAME" && \
@@ -21,18 +23,19 @@ for DIR in $RV/examples/*/; do
         echo "$BASENAME does not have the required files, skipping."
     fi
 done
-echo "done"
+printf "${green}done${END}\n"
 
 # # Copy new files to modified_examples
-# DSL='$RV/dsl/examples_dsl'
+# printf "Copying files into modified_examples..."
 # for DIR in ./src/assets/modified_examples/*; do
 #     BASENAME=`basename $DIR`
-#     if [[ -f  "$DSL/$BASENAME/source.rs" && -f "$DSL/$BASENAME/vis_code.svg" && -f "$DSL/$BASENAME/vis_timeline.svg" ]]
+#     if [[ -f  "$EX/$BASENAME/source.rs" && -f "$EX/$BASENAME/vis_code.svg" && -f "$EX/$BASENAME/vis_timeline.svg" ]]
 #     then
-#         cp "$DSL/$BASENAME/source.rs" "$DIR/source.rs" && \
-#         cp "$DSL/$BASENAME/vis_code.svg" "$DIR/vis_code.svg" && \
-#         cp "$DSL/$BASENAME/vis_timeline.svg" "$DIR/vis_timeline.svg"
+#         cp "$EX/$BASENAME/source.rs" "$DIR/source.rs" && \
+#         cp "$EX/$BASENAME/vis_code.svg" "$DIR/vis_code.svg" && \
+#         cp "$EX/$BASENAME/vis_timeline.svg" "$DIR/vis_timeline.svg"
 #     else
 #         echo "$BASENAME does not have the required files, skipping."
 #     fi
 # done
+# printf "${green}done${END}\n"
