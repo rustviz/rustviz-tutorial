@@ -4,7 +4,7 @@ const SVG = {
         'functionLogo': 'label'
     },
     'path': {
-        'hollow': 'timeline_mut',
+        'hollow': 'timeline_immut',
         'staticref': 'static_ref_line',
         'mutref': 'mut_ref_line'
     },

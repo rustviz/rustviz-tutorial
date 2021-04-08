@@ -16,7 +16,7 @@ window.onunload = function () {};
     s.innerHTML = "window.dataLayer = window.dataLayer || [];\
         function gtag(){dataLayer.push(arguments);}\
         gtag('js', new Date());\
-        gtag('config', 'G-W8JP8LHES3');";
+        gtag('config', 'G-LD09278YY8');";
     document.head.append(s);
 
     // page viewed
