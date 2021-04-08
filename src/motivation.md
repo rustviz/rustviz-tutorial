@@ -4,8 +4,8 @@ This is a short introduction to the Rust programming language, intended for
 programmers with some C or C++ experience. 
 
 The tutorial makes use of an interactive visualization system for Rust code
-being developed by FP Lab. The tutorial also includes exercises to check your
-understanding.
+being developed by FP Lab. You should read this tutorial before completing 
+the remaining questions, Q2 and Q3. 
 
 # Motivation
 
@@ -32,8 +32,7 @@ borrowing system visually.
 For example, this tutorial will help you understand code like the following.
 Hover over the different components of the visualization to see explanations.
 Don't worry yet about what is going on in detail—these concepts will be
-explained in this tutorial. You will be asked to check your understanding with
-exercises after each section of the tutorial.
+explained in this tutorial.
 
 <div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
   <object type="image/svg+xml" class="hatra2 code_panel" data="assets/modified_examples/hatra2/vis_code.svg"></object>
