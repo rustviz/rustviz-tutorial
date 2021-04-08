@@ -28,11 +28,9 @@ compiler error:
 ```rust
 fn main() {
     let x = 5;
-    x = 6; // ERROR
+    x = 6; // ERROR: cannot assign twice to immutable variable x
 }
 ```
-
-The compiler error here is `cannot assign twice to immutable variable x`.
 
 ### Mutable Variables
 If you want to be able to assign to a variable, it must be marked as *mutable*
@@ -42,15 +40,17 @@ with `let mut`:
 ```
 
 ## Copies
-For simple types like integers, we can copy values. For example, we can bind the
-value `5` to `x` and then bind `y` with a copy of `x`:
+For simple types like integers, binding and assignment creates a copy. 
+For example, we can bind the value `5` to `x` and then bind `y` with a copy of `x`:
 ```rust
 {{#rustdoc_include assets/code_examples/copy/source.rs}}
 ```
 
-Note that copying occurs only for simple types like `i32` or other types that
-have been marked as copyable—we will discuss how more interesting data
-structures that are not marked as copyable behave differently in later sections
+Copying occurs only for simple types like `i32` and other types that
+have been marked as copyable (they implement the `Copy` trait -- we will not 
+discuss traits here).
+We will discuss how more interesting data
+structures that are not copyable behave differently in later sections
 of the tutorial.
 
 ## Functions
@@ -76,7 +76,7 @@ This code prints `Hello, world!` to the terminal, followed by a newline
 character.
 
 We can also use curly brackets in the input string of `println!` as a
-placeholder for certain values:
+placeholder for subsequent arguments:
 ```rust
 {{#rustdoc_include assets/code_examples/printing/source.rs}}
 ```
@@ -85,4 +85,4 @@ This prints `x = 1 and y = 2`.
 
 Note that the `!` at the end of `println!` indicates that it is a *macro*, not a
 function. It behaves slightly differently from normal functions, but you do not
-need to worry about that for this tutorial. 
+need to worry about the details here. 

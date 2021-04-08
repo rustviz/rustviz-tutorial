@@ -1,4 +1,5 @@
 # Vectors in Rust
+The previous sections cover everything you need to know about ownership and borrowing in Rust! This section introduces another interesting data structure: vectors.
 
 Like with other languages, the Rust standard library contains many useful
 *collection* types. One of the most useful and common ones are *vectors*, which
