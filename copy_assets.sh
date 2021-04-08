@@ -4,8 +4,8 @@
 # visualizations from the rustviz repository. See README.md for more details.
 RV='../rustviz'
 # printf "copying helper.js and book.js..."
-# cp "$RV/rustviz_mdbook/mdbook_plugin/helpers.js" "./helpers.js"
-# cp "$RV/rustviz_mdbook/mdbook_plugin/book.js" "./theme/book.js"
+cp "$RV/rustviz_mdbook/mdbook_plugin/helpers.js" "./helpers.js"
+cp "$RV/rustviz_mdbook/mdbook_plugin/book.js" "./theme/book.js"
 # echo "done"
 
 printf "copying files into code_examples..."
@@ -25,17 +25,19 @@ for DIR in $EX/*/; do
 done
 printf "${green}done${END}\n"
 
-# # Copy new files to modified_examples
-# printf "Copying files into modified_examples..."
-# for DIR in ./src/assets/modified_examples/*; do
-#     BASENAME=`basename $DIR`
-#     if [[ -f  "$EX/$BASENAME/source.rs" && -f "$EX/$BASENAME/vis_code.svg" && -f "$EX/$BASENAME/vis_timeline.svg" ]]
-#     then
-#         cp "$EX/$BASENAME/source.rs" "$DIR/source.rs" && \
-#         cp "$EX/$BASENAME/vis_code.svg" "$DIR/vis_code.svg" && \
-#         cp "$EX/$BASENAME/vis_timeline.svg" "$DIR/vis_timeline.svg"
-#     else
-#         echo "$BASENAME does not have the required files, skipping."
-#     fi
-# done
-# printf "${green}done${END}\n"
+# Copy new files to modified_examples
+printf "Copying files into modified_examples..."
+for DIR in ./src/assets/modified_examples/*; do
+    BASENAME=`basename $DIR`
+    if [[ -f  "$EX/$BASENAME/source.rs" && -f "$EX/$BASENAME/vis_code.svg" && -f "$EX/$BASENAME/vis_timeline.svg" ]]
+    then
+        cp "$EX/$BASENAME/source.rs" "$DIR/source.rs" && \
+        cp "$EX/$BASENAME/vis_code.svg" "$DIR/vis_code.svg" && \
+        cp "$EX/$BASENAME/vis_timeline.svg" "$DIR/vis_timeline.svg"
+    else
+        echo "$BASENAME does not have the required files, skipping."
+    fi
+done
+printf "${green}done${END}\n"
+
+mdbook build
