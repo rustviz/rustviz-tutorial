@@ -312,6 +312,12 @@ function toggleStruct(turn_on) {
     }
 }
 
+window.onload = function() {
+    let svg_divs = document.getElementsByClassName('vis_block');
+    for (flexbox of svg_divs) {
+        adjust_visualization_size(flexbox);
+    }
+}
 /*window.onload = function () {
     var correct_doc = (document.getElementsByClassName('active')[0].attributes.href.value === 'ch04-01-what-is-ownership.html'
             || document.getElementsByClassName('active')[0].attributes.href.value === 'ch04-02-references-and-borrowing.html');
