@@ -49,7 +49,7 @@ an argument. Here, we do so by taking a reference to the let-bound variable `x`
 on Line 3, written `&x`. Taking a reference does **not** cause a change in
 ownership, so `x` still owns the string resource in the remainder of `main`
 and it can, for example, print `x` on Line 4. The resource will be dropped when
-`x` goes out of scope at the end `main` as we discussed previously. Because `f`
+`x` goes out of scope at the end of `main` as we discussed previously. Because `f`
 takes a reference, it is only *borrowing* access to the resource that the
 reference points to. It does not need to explicitly return the resource because
 it does not own it. Rust knows that the borrow does not outlive the owner 
