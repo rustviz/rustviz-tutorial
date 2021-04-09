@@ -16,7 +16,7 @@ window.onunload = function () {};
     s.innerHTML = "window.dataLayer = window.dataLayer || [];\
         function gtag(){dataLayer.push(arguments);}\
         gtag('js', new Date());\
-        gtag('config', 'G-LD09278YY8');";
+        gtag('config', 'G-W8JP8LHES3');";
     document.head.append(s);
 
     // page viewed
@@ -48,22 +48,18 @@ function adjust_visualization_size(flexbox) {
     let timeline_width = parseInt(timeline_doc.width.baseVal.value);
     let desired_height = parseInt(timeline_doc.height.baseVal.value);
     let code_panel_doc = flexbox.querySelector('object[class*="code_panel"]').contentDocument.querySelector('svg');
-    // let code_panel_width = parseInt(code_panel_doc.width.baseVal.value);
-    // let code_width = svg_doc.getElementById('code').getBBox().width;
-    let code_width = code_panel_doc.getBBox().width
-    let code_panel_width = Math.max(code_width + 30, 400);
-    // code_panel_doc.getBBox().width = code_panel_width;
+    let code_panel_width = parseInt(code_panel_doc.width.baseVal.value);
 
     // update the div block that surround them with the new width
     // Rule: if the two panels combined are narrower than the main text, simply set to the text width
     // Otherwise, do a "center" effect.
-    // var butt = document.getElementsByClassName("buttons")[0];
+    var butt = document.getElementsByClassName("buttons")[0];
     let margin = 0;
     if (text_width >= timeline_width + code_panel_width) {
         flexbox.style.marginLeft = "0px";
         margin = text_width-timeline_width-code_panel_width;
         flexbox.style.marginRight = margin + "px";
-        // butt.setAttribute("style", "position: absolute; right: " + margin + "px;");
+        butt.setAttribute("style", "position: absolute; right: " + margin + "px;");
     } else {
         let wiggle_room = parseInt("3px");                      // manually tweak this to prevent subpixel splitting
         let margin_shrink = (timeline_width + code_panel_width + flex_border_size + wiggle_room - text_width) / 2;

@@ -28,7 +28,12 @@ We create an instance by stating the name of the struct and then add curly brack
 
 Here's an example of defining a struct, generate an instance of it and let it interact with functions.
 
-```rust
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
+  <object type="image/svg+xml" class="move_different_scope code_panel" data="assets/code_examples/struct_rect/vis_code.svg"></object>
+  <object type="image/svg+xml" class="move_different_scope tl_panel" data="assets/code_examples/struct_rect/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('struct_rect')"></object>
+</div>
+
+<!-- ```rust
 struct Rect {
     w: u32,
     h: u32,
@@ -53,13 +58,18 @@ fn main() {
 fn area(rect: &Rect) -> u32 {
     rect.w * rect.h
 }
-```
+``` -->
 
 #### Calling a method in a struct
 
 Struct can also include methods whose definition is given in the ```impl``` of it.  When calling a method or a variable from a struct, we use ```object.something()```or ``` (&object).something()```, which are the same. No matter it is a ```&, &mut, *```or nothing, always use ```.``` and not need to use ```->``` because Rust will automatically adds in ```&, &mut, *``` so ```object``` matches the signature of the method. 
 
-```rust
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
+  <object type="image/svg+xml" class="move_different_scope code_panel" data="assets/code_examples/struct_rect2/vis_code.svg"></object>
+  <object type="image/svg+xml" class="move_different_scope tl_panel" data="assets/code_examples/struct_rect2/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('struct_rect2')"></object>
+</div>
+
+<!-- ```rust
 struct Rectangle {
     width: u32,
     height: u32,
@@ -71,21 +81,23 @@ impl Rectangle {
     }
 }
 
-fn main() {
-    let rect1 = Rectangle {
-        width: 30,
-        height: 50,
-    };
-}
-
-fn printArea(rect: &Rect) -> u32 {
+fn print_area(rect: &Rectangle) {
     println!(
         "The area of the rectangle is {} square pixels.",
        	rect.area() // dot even though it's actually a reference
     );
 }
 
-```
+fn main() {
+    let r = Rectangle {
+        width: 30,
+        height: 50,
+    };
+
+   	print_area(&r);
+}
+
+``` -->
 
 
 
@@ -95,7 +107,12 @@ When the instance of the struct owns all its data members, i.e. no reference or 
 
 Here's an example of the cases where all data members are owned the the struct.
 
-```rust
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
+  <object type="image/svg+xml" class="move_different_scope code_panel" data="assets/code_examples/struct_string/vis_code.svg"></object>
+  <object type="image/svg+xml" class="move_different_scope tl_panel" data="assets/code_examples/struct_string/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('struct_string')"></object>
+</div>
+
+<!-- ```rust
 struct Foo {
     x: i32,
     y: String,
@@ -107,13 +124,18 @@ fn main() {
     println!("{}", f.x);
     println!("{}", f.y);
 }
-```
+``` -->
 
 When the any of the data members is not owned by the struct, it needs lexical lifetime specified. 
 
 Here is an example of using lifetime annotations in struct definitions to allow reference in a struct.
 
-```rust
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
+  <object type="image/svg+xml" class="move_different_scope code_panel" data="assets/code_examples/struct_lifetime/vis_code.svg"></object>
+  <object type="image/svg+xml" class="move_different_scope tl_panel" data="assets/code_examples/struct_lifetime/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('struct_lifetime')"></object>
+</div>
+
+<!-- ```rust
 struct Excerpt<'a> {
     p: &'a str,
 }
@@ -125,5 +147,5 @@ fn main() {
         p: first,
     };
 }
-```
+``` -->
 
