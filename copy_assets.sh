@@ -12,7 +12,7 @@ printf "copying files into code_examples..."
 EX=$RV/src/examples
 for DIR in $EX/*/; do
     BASENAME=`basename $DIR`
-    # echo $BASENAME
+    echo $BASENAME
     if [[ -f  "$DIR/source.rs" && -f "$DIR/vis_code.svg" && -f "$DIR/vis_timeline.svg" ]]
     then
         mkdir -p "./src/assets/code_examples/$BASENAME" && \
@@ -29,6 +29,7 @@ printf "${green}done${END}\n"
 printf "Copying files into modified_examples..."
 for DIR in ./src/assets/modified_examples/*; do
     BASENAME=`basename $DIR`
+    echo $BASENAME
     if [[ -f  "$EX/$BASENAME/source.rs" && -f "$EX/$BASENAME/vis_code.svg" && -f "$EX/$BASENAME/vis_timeline.svg" ]]
     then
         cp "$EX/$BASENAME/source.rs" "$DIR/source.rs" && \
