@@ -1,4 +1,4 @@
-### Structs in Rust
+### Optional: Structs in Rust
 
 #### Creating a struct
 

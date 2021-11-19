@@ -5,5 +5,5 @@
 - [Ownership](./ownership.md)
 - [Borrowing](./borrowing.md)
 - [Vectors](./vectors.md)
-- [Structures](./structs.md)
+- [Optional: Structures](./structs.md)
 - [Additional Resources](./additional_resources.md)
