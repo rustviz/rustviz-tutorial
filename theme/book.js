@@ -2,19 +2,28 @@
 
 // Fix back button cache problem
 window.onunload = function () {};
-window.onload = function() {
+
+window.addEventListener("load", 
+  function() {
+    addAnalytics();
+    codeSnippets();
+    themes();
+    sidebar();
+    chapterNavigation();
+    clipboard();
+    scrollToTop();
     let elements = document.getElementsByClassName("flex-container vis_block");
     for (const element of elements) {
-        console.log(element);
+        // console.log(element);
         adjust_visualization_size(element);
     }
     // for (element of elements) {
     //     console.log(element);
     //     // adjust_visualization_size(element);
     // }
-}
+});
 
-(function addAnalytics() {
+function addAnalytics() {
     let s = document.createComment(" Global site tag (gtag.js) - Google Analytics for RustViz ");
     document.head.append(s);
 
@@ -35,7 +44,7 @@ window.onload = function() {
         page_path: location.pathname,
         page_title: document.title
     });
-})();
+};
 
 // Global variable, shared between modules
 function playpen_text(playpen) {
@@ -85,7 +94,7 @@ function adjust_visualization_size(flexbox) {
     return margin;
 }
 
-(function codeSnippets() {
+function codeSnippets() {
     function fetch_with_timeout(url, options, timeout = 6000) {
         return Promise.race([
             fetch(url, options),
@@ -401,9 +410,9 @@ function adjust_visualization_size(flexbox) {
             });
         }
     });
-})();
+};
 
-(function themes() {
+function themes() {
     var html = document.querySelector('html');
     var themeToggleButton = document.getElementById('theme-toggle');
     var themePopup = document.getElementById('theme-list');
@@ -536,9 +545,9 @@ function adjust_visualization_size(flexbox) {
                 break;
         }
     });
-})();
+};
 
-(function sidebar() {
+function sidebar() {
     var html = document.querySelector("html");
     var sidebar = document.getElementById("sidebar");
     var sidebarScrollBox = document.querySelector(".sidebar-scrollbox");
@@ -642,9 +651,9 @@ function adjust_visualization_size(flexbox) {
     if (activeSection) {
         sidebarScrollBox.scrollTop = activeSection.offsetTop;
     }
-})();
+};
 
-(function chapterNavigation() {
+function chapterNavigation() {
     document.addEventListener('keydown', function (e) {
         if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) { return; }
         if (window.search && window.search.hasFocus()) { return; }
@@ -666,9 +675,9 @@ function adjust_visualization_size(flexbox) {
                 break;
         }
     });
-})();
+};
 
-(function clipboard() {
+function clipboard() {
     var clipButtons = document.querySelectorAll('.clip-button');
 
     function hideTooltip(elem) {
@@ -703,17 +712,17 @@ function adjust_visualization_size(flexbox) {
     clipboardSnippets.on('error', function (e) {
         showTooltip(e.trigger, "Clipboard error!");
     });
-})();
+};
 
-(function scrollToTop () {
+function scrollToTop () {
     var menuTitle = document.querySelector('.menu-title');
 
     menuTitle.addEventListener('click', function () {
         document.scrollingElement.scrollTo({ top: 0, behavior: 'smooth' });
     });
-})();
+};
 
-(function controllMenu() {
+function controllMenu() {
     var menu = document.getElementById('menu-bar');
 
     (function controllPosition() {
@@ -769,4 +778,4 @@ function adjust_visualization_size(flexbox) {
             }
         }, { passive: true });
     })();
-})();
+};

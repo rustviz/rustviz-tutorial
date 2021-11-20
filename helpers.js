@@ -152,13 +152,13 @@ const SVG = {
     }
   
     function hideTooltip(e) {
-      console.log("hideTooltip");
-      console.log(e);
+      // console.log("hideTooltip");
+      // console.log(e);
       // console.log(e.data-tooltip-text);
-      console.log(e.currentTarget.ownerSVGElement.id);
+      // console.log(e.currentTarget.ownerSVGElement.id);
   
       let tgt = e.currentTarget;
-      console.log(tgt.data-tooltip-text);
+      // console.log(tgt.data-tooltip-text);
   
       let e_label =
         tgt.tagName === "text"
@@ -167,7 +167,7 @@ const SVG = {
           ? SVG["path"][tgt.classList[0]]
           : SVG[tgt.tagName];
   
-      console.log(e_label);
+      // console.log(e_label);
   
       var xhr = new XMLHttpRequest();
       xhr.open("POST", "/action/hover", true); // could add authentification info
@@ -178,7 +178,7 @@ const SVG = {
           hover_item: e_label
         })
       );
-      console.log(xhr);
+      // console.log(xhr);
   
       tooltip.style.display = "none";
       tooltip.innerHTML = "";
@@ -198,7 +198,7 @@ const SVG = {
   
     /* ---- SHOW RELEVANT LINES ---- */
     function insertUnderline(e) {
-      console.log("insertUnderline");
+      // console.log("insertUnderline");
       let doc = document.getElementsByClassName(classname + " code_panel")[0]
         .contentDocument; //code_panel
       let begin = 0,
@@ -366,17 +366,17 @@ const SVG = {
   });
   
   /* --------------- DETECT PAGE LOAD --------------- */
-  window.onload = function () {
+  window.addEventListener("load", function () {
     chapter_list = document.getElementsByClassName("expanded");
     start = new Date();
-    console.log(start);
+    // console.log(start);
     for (chapter of chapter_list) {
       // console.log(chapter.textContent);
       chapter.firstChild.addEventListener("click", function() {
           OnOneClick(window.location.pathname, start)
       });
     }
-  };
+  });
   
   var OnOneClick = function (chapter, start) {
     // Your click handler
