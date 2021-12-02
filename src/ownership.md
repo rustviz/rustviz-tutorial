@@ -160,7 +160,7 @@ caller. Ownership is moved from `x` to the caller, so there is no owned resource
 to be dropped at the end of `f`. Instead, the resource is dropped when the new
 owner, `s`, goes out of scope at the end of `main`. (If the `String` were
 dropped at the end of `f`, there would be a use-after-free bug in `main` on Line
-3!)
+9!)
 
 <div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
   <object type="image/svg+xml" class="move_func_return code_panel" data="assets/modified_examples/move_func_return/vis_code.svg"></object>
