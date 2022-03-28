@@ -35,8 +35,8 @@ Don't worry yet about what is going on in detail—these concepts will be
 explained in this tutorial.
 
 <div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
-  <object type="image/svg+xml" class="hatra2 code_panel" data="assets/modified_examples/hatra2/vis_code.svg"></object>
-  <object type="image/svg+xml" class="hatra2 tl_panel" data="assets/modified_examples/hatra2/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('hatra2')"></object>
+  <object type="image/svg+xml" class="hatra2 code_panel" data="assets/code_examples/hatra2/vis_code.svg"></object>
+  <object type="image/svg+xml" class="hatra2 tl_panel" data="assets/code_examples/hatra2/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('hatra2')"></object>
 </div>
 
 ## Research Disclosure

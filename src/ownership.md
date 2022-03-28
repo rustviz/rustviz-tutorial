@@ -123,8 +123,8 @@ As with binding, ownership can be moved by assignment to a mutable variable,
 e.g. `y` in the following example.
 
 <div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
-  <object type="image/svg+xml" class="move_assignment code_panel" data="assets/modified_examples/move_assignment/vis_code.svg"></object>
-  <object type="image/svg+xml" class="move_assignment tl_panel" data="assets/modified_examples/move_assignment/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('move_assignment')"></object>
+  <object type="image/svg+xml" class="move_assignment code_panel" data="assets/code_examples/move_assignment/vis_code.svg"></object>
+  <object type="image/svg+xml" class="move_assignment tl_panel" data="assets/code_examples/move_assignment/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('move_assignment')"></object>
 </div>
 
 When `y` acquires ownership over `x`'s resource on Line 4, the resource it
@@ -139,8 +139,8 @@ to the `takes_ownership` function. Consequently, when `s` goes out of scope at
 the end of `main`, there is no owned string resource to be dropped.
 
 <div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
-  <object type="image/svg+xml" class="func_take_ownership code_panel" data="assets/modified_examples/func_take_ownership/vis_code.svg"></object>
-  <object type="image/svg+xml" class="func_take_ownership tl_panel" data="assets/modified_examples/func_take_ownership/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('func_take_ownership')"></object>
+  <object type="image/svg+xml" class="func_take_ownership code_panel" data="assets/code_examples/func_take_ownership/vis_code.svg"></object>
+  <object type="image/svg+xml" class="func_take_ownership tl_panel" data="assets/code_examples/func_take_ownership/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('func_take_ownership')"></object>
 </div>
 
 This code prints `hello`.
@@ -163,8 +163,8 @@ dropped at the end of `f`, there would be a use-after-free bug in `main` on Line
 9!)
 
 <div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
-  <object type="image/svg+xml" class="move_func_return code_panel" data="assets/modified_examples/move_func_return/vis_code.svg"></object>
-  <object type="image/svg+xml" class="move_func_return tl_panel" data="assets/modified_examples/move_func_return/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('move_func_return')"></object>
+  <object type="image/svg+xml" class="move_func_return code_panel" data="assets/code_examples/move_func_return/vis_code.svg"></object>
+  <object type="image/svg+xml" class="move_func_return tl_panel" data="assets/code_examples/move_func_return/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('move_func_return')"></object>
 </div>
 
 This code prints `hello`.

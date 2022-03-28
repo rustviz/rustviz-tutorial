@@ -14,8 +14,8 @@ resource and returns ownership of that exact same resource. The caller, `main`,
 assigns the returned resource to the same variable, `s`. 
 
 <div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
-  <object type="image/svg+xml" class="func_take_return_ownership code_panel" data="assets/modified_examples/func_take_return_ownership/vis_code.svg"></object>
-  <object type="image/svg+xml" class="func_take_return_ownership tl_panel" data="assets/modified_examples/func_take_return_ownership/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('func_take_return_ownership')"></object>
+  <object type="image/svg+xml" class="func_take_return_ownership code_panel" data="assets/code_examples/func_take_return_ownership/vis_code.svg"></object>
+  <object type="image/svg+xml" class="func_take_return_ownership tl_panel" data="assets/code_examples/func_take_return_ownership/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('func_take_return_ownership')"></object>
 </div>
 
 This code prints `hello` twice.
@@ -56,8 +56,8 @@ it does not own it. Rust knows that the borrow does not outlive the owner
 because the borrow is no longer accessible after `f` returns.
 
 <div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
-  <object type="image/svg+xml" class="immutable_borrow code_panel" data="assets/modified_examples/immutable_borrow/vis_code.svg"></object>
-  <object type="image/svg+xml" class="immutable_borrow tl_panel" data="assets/modified_examples/immutable_borrow/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('immutable_borrow')"></object>
+  <object type="image/svg+xml" class="immutable_borrow code_panel" data="assets/code_examples/immutable_borrow/vis_code.svg"></object>
+  <object type="image/svg+xml" class="immutable_borrow tl_panel" data="assets/code_examples/immutable_borrow/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('immutable_borrow')"></object>
 </div>
 
 This code prints `hello` twice.
@@ -74,8 +74,8 @@ reference, e.g. `String::len(&s)`. As shorthand, you can use dot notation to
 call a method, e.g. `s.len()`. This implicitly takes a reference to `s`. 
 
 <div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
-  <object type="image/svg+xml" class="immutable_borrow_method_call code_panel" data="assets/modified_examples/immutable_borrow_method_call/vis_code.svg"></object>
-  <object type="image/svg+xml" class="immutable_borrow_method_call tl_panel" data="assets/modified_examples/immutable_borrow_method_call/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('immutable_borrow_method_call')"></object>
+  <object type="image/svg+xml" class="immutable_borrow_method_call code_panel" data="assets/code_examples/immutable_borrow_method_call/vis_code.svg"></object>
+  <object type="image/svg+xml" class="immutable_borrow_method_call tl_panel" data="assets/code_examples/immutable_borrow_method_call/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('immutable_borrow_method_call')"></object>
 </div>
 
 This code prints `len1 = 5 = len2 = 5`.
@@ -87,8 +87,8 @@ immutable reference shares access to the resource with the owner and with any
 other immutable references that might be live.
 
 <div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
-  <object type="image/svg+xml" class="multiple_immutable_borrow code_panel" data="assets/modified_examples/multiple_immutable_borrow/vis_code.svg"></object>
-  <object type="image/svg+xml" class="multiple_immutable_borrow tl_panel" data="assets/modified_examples/multiple_immutable_borrow/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('multiple_immutable_borrow')"></object>
+  <object type="image/svg+xml" class="multiple_immutable_borrow code_panel" data="assets/code_examples/multiple_immutable_borrow/vis_code.svg"></object>
+  <object type="image/svg+xml" class="multiple_immutable_borrow tl_panel" data="assets/code_examples/multiple_immutable_borrow/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('multiple_immutable_borrow')"></object>
 </div>
 
 This code prints `hello and hello`.
@@ -117,8 +117,8 @@ call syntax. In both cases, the method takes a *mutable reference* to `s1`,
 written explicitly `&mut s1`.
 
 <div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
-  <object type="image/svg+xml" class="mutable_borrow_method_call code_panel" data="assets/modified_examples/mutable_borrow_method_call/vis_code.svg"></object>
-  <object type="image/svg+xml" class="mutable_borrow_method_call tl_panel" data="assets/modified_examples/mutable_borrow_method_call/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('mutable_borrow_method_call')"></object>
+  <object type="image/svg+xml" class="mutable_borrow_method_call code_panel" data="assets/code_examples/mutable_borrow_method_call/vis_code.svg"></object>
+  <object type="image/svg+xml" class="mutable_borrow_method_call tl_panel" data="assets/code_examples/mutable_borrow_method_call/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('mutable_borrow_method_call')"></object>
 </div>
 
 This code prints `Hello, world, world`.
@@ -203,8 +203,8 @@ needed. So the following code works, even though there are two mutable borrows
 in the same scope:
 
 <div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
-  <object type="image/svg+xml" class="nll_lexical_scope_different code_panel" data="assets/modified_examples/nll_lexical_scope_different/vis_code.svg"></object>
-  <object type="image/svg+xml" class="nll_lexical_scope_different tl_panel" data="assets/modified_examples/nll_lexical_scope_different/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('nll_lexical_scope_different')"></object>
+  <object type="image/svg+xml" class="nll_lexical_scope_different code_panel" data="assets/code_examples/nll_lexical_scope_different/vis_code.svg"></object>
+  <object type="image/svg+xml" class="nll_lexical_scope_different tl_panel" data="assets/code_examples/nll_lexical_scope_different/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('nll_lexical_scope_different')"></object>
 </div>
 
 This code prints `Hello, world, world!!`.
