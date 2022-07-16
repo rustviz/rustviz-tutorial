@@ -120,6 +120,9 @@ const SVG = {
     let tl_svg = tl_obj.contentDocument.firstChild;
     // get elements that will trigger function
     let triggers = tl_svg.getElementsByClassName("tooltip-trigger");
+
+    let start_line = 0;
+    let end_line = 0;
   
     // track time
     var time_start = null;
@@ -150,6 +153,41 @@ const SVG = {
       if (tooltip.getBoundingClientRect().right >= document.body.clientWidth)
         breakText(text, tooltip);
     }
+
+    // function parseText(text) {
+    //   let split_text = text.split(" ");
+    //   let words = [];
+
+    //   for (const elt of split_text) {
+    //     if (elt.startsWith("<")) {
+    //       parse1 = elt.substr(elt.indexOf(">") + 1);
+    //       parse2 = parse1.substr(0, parse1.indexOf("<"));
+    //       words.push(parse2);
+    //     }
+    //     else {
+    //       words.push(elt);
+    //     }
+    //   }
+
+    //   result = "";
+    //   for (let elt of words) {
+    //     result += elt;
+    //     result += " ";
+    //   }
+
+    //   return result;
+    // }
+
+    function parseText(text) {
+      result = text;
+      while (result.indexOf("<") !== -1) {
+        left = result.substr(0, result.indexOf("<"));
+        right = result.substr(result.indexOf(">") + 1);
+        result = left + " " + right;
+      }
+
+      return result;
+    }
   
     function hideTooltip(e) {
       // console.log("hideTooltip");
@@ -159,6 +197,9 @@ const SVG = {
   
       let tgt = e.currentTarget;
       // console.log(tgt.data-tooltip-text);
+
+      let text = e.currentTarget.getAttributeNS(null, "data-tooltip-text");
+      text = parseText(text);
   
       let e_label =
         tgt.tagName === "text"
@@ -168,6 +209,10 @@ const SVG = {
           : SVG[tgt.tagName];
   
       // console.log(e_label);
+
+      let now = Date.now();
+
+      let hover_time = now - time_start; // time in ms
   
       var xhr = new XMLHttpRequest();
       xhr.open("POST", "/action/hover", true); // could add authentification info
@@ -175,13 +220,22 @@ const SVG = {
       xhr.send(
         JSON.stringify({
           svg_name: e.currentTarget.ownerSVGElement.id,
-          hover_item: e_label
+          hover_item: e_label, 
+          hover_time: hover_time, 
+          start: time_start, 
+          end: now, 
+          hover_message: text, 
+          start_line: parseInt(start_line), 
+          end_line: parseInt(end_line), 
         })
       );
       // console.log(xhr);
   
       tooltip.style.display = "none";
       tooltip.innerHTML = "";
+
+      start_line = 0;
+      end_line = 0;
   
       // only track hovering after mouse leaves element
       gtag("event", "tooltip_hover", {
@@ -233,9 +287,26 @@ const SVG = {
       // add underlining to every relevant line
       let lines = doc.getElementById("code").children;
       let len = lines.length; // prevent len from changing
+
+      if (parseInt(begin) % 30 !== 0) {
+        start_line = (parseInt(begin) + 5 - 60) / 30;
+      }
+      else {
+        start_line = (parseInt(begin) - 60) / 30;
+      }
+
+      if (parseInt(end) % 30 !== 0) {
+        end_line = (parseInt(end) + 5 - 60) / 30;
+      }
+      else {
+        end_line = (parseInt(end) - 60) / 30;
+      }
+
+      
       for (let i = 0; i < len; ++i) {
         let ly = parseInt(lines[i].getAttribute("y"));
         if (ly >= begin && ly <= end) {
+
           // only underline relevant code
           let emph = doc.createElementNS("http://www.w3.org/2000/svg", "text");
           emph.setAttribute("class", "code emph");
@@ -297,8 +368,11 @@ const SVG = {
   
     // adjust size and split text based on page boundary
     tooltip.innerHTML = "";
+    // console.log('enter?');
     let left = tooltip.getBoundingClientRect().left;
     for (const word of words) {
+      // console.log('yes?');
+      // console.log(word);
       tooltip.innerHTML += word + " ";
       if (left + tooltip.clientWidth > document.body.clientWidth - 20) {
         // reset tooltip text and break into new lines
@@ -372,15 +446,31 @@ const SVG = {
     // console.log(start);
     for (chapter of chapter_list) {
       // console.log(chapter.textContent);
-      chapter.firstChild.addEventListener("click", function() {
-          OnOneClick(window.location.pathname, start)
-      });
+      chapter.firstChild.addEventListener("click", function(e) {
+          e.preventDefault();
+          OnOneClick(window.location.pathname, start);
+          window.location = this.href;
+          // if(e.target && e.target.nodeName == "A") {
+          //   OnOneClick(window.location.pathname, start);
+          // }
+      }, false);
     }
   });
+
+  function callback(e) {
+    var e = window.e || e;
+       
+    alert('The link is: ' + e.target.href);
+  }
+
+  function resume(s) {
+    return true;
+  }
   
   var OnOneClick = function (chapter, start) {
     // Your click handler
     time_onpage = new Date() - start;
+    end_time = new Date();
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/action/switch", true); // could add authentification info
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -388,6 +478,8 @@ const SVG = {
       JSON.stringify({
         directory: chapter,
         time_elpse: time_onpage,
+        start_time: start.getTime(), 
+        end_time: end_time.getTime(), 
       })
     );
     console.log(xhr)
@@ -428,3 +520,4 @@ const SVG = {
           });
       }
   };*/
+
