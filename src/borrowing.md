@@ -96,14 +96,12 @@ This code prints `hello and hello`.
 Ownership of a resource cannot be moved while it is borrowed. For example, the
 following is erroneous:
 
-```rust
-fn main() {
-  let s = String::from("hello");
-  let x = &s;
-  let s2 = s; // ERROR: cannot move s while a borrow is live
-  println!("{}", String::len(x));
-}
-```
+
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
+  <object type="image/svg+xml" class="error_3 code_panel" data="assets/code_examples/error_3/vis_code.svg"></object>
+  <object type="image/svg+xml" class="error_3 tl_panel" data="assets/code_examples/error_3/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('error_3')"></object>
+</div>
+
 
 The compiler error here is: `cannot move out of s because it is borrowed`.
 
@@ -139,33 +137,21 @@ For this reason, mutable borrows are also sometimes called *unique borrows*.
 For example, the following code is erroneous because a mutable borrow, `y`, is
 live.
 
-```rust
-fn main() {
-  let mut x = String::from("hello");
-  let y = &mut x;
-  f(&x); // ERROR: y is still live
-  String::push_str(y, ", world");
-}
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
+  <object type="image/svg+xml" class="error_4 code_panel" data="assets/code_examples/error_4/vis_code.svg"></object>
+  <object type="image/svg+xml" class="error_4 tl_panel" data="assets/code_examples/error_4/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('error_4')"></object>
+</div>
 
-fn f(x : &String) {
-  println!("{}", x);
-}
-```
 The compiler error here is: `cannot borrow x as immutable because it is also
 borrowed as mutable`.
 
 The following code is erroneous for the same reason.
 
-```rust 
-fn main() {
-    let mut x = String::from("Hello");
-    let y = &mut x; 
-    let z = &mut x; // ERROR: y is still live
-    String::push_str(y, ", world");
-    String::push_str(z, ", friend");
-    println!("{}", x);
-}
-```
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
+  <object type="image/svg+xml" class="error_5 code_panel" data="assets/code_examples/error_5/vis_code.svg"></object>
+  <object type="image/svg+xml" class="error_5 tl_panel" data="assets/code_examples/error_5/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('error_5')"></object>
+</div>
+
 The compiler error here is: `cannot borrow x as mutable more than once at a
 time`.
 

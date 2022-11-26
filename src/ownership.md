@@ -95,13 +95,13 @@ through `x` is no longer possible. Think of it like handing a resource to
 another person: you no longer have access to it once it has moved. For
 example, the following generates a compiler error:
 
-```rust
-fn main() {
-    let x = String::from("hello");
-    let y = x;
-    println!("{}", x) // ERROR: x does not own a resource
-}
-```
+
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
+  <object type="image/svg+xml" class="error_2 code_panel" data="assets/code_examples/error_2/vis_code.svg"></object>
+  <object type="image/svg+xml" class="error_2 tl_panel" data="assets/code_examples/error_2/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('error_2')"></object>
+</div>
+
+
 The compiler error actually says `borrow of moved value: x` (we will discuss what
 *borrow* means in the next section.)
 
