@@ -6,4 +6,5 @@
 - [Borrowing](./borrowing.md)
 - [Vectors](./vectors.md)
 - [Optional: Structures](./structs.md)
+- [Lifetime Calculation](./lifetime.md)
 - [Additional Resources](./additional_resources.md)
