@@ -10,9 +10,119 @@ Lifetime parameters are a specialty of the Rust language. They're mainly used by
 
 The borrow checker will keep a table of lifetimes for all variables, either by looking at the scope (line number) or via the aid of lifetime parameters. If a reference is accessed outside its scope (the lifetime looked up by the borrow checker), then an error will be issued ([see how the borrow checker reports reference errors](https://alaric617r.github.io/Rust-Blog/Intro%20to%20Polonius.html)).
 
+## Lifetime Parameter - Why do Rustaceans need it?
+Say one day a C++ programmer ask you why Rust need such troublesome way to annotate lifetimes' of variables in function declaration, how you gonna to explain to them? The design of lifetime parameter is inextricably related to program safety. Let's look at the bare function declaration of a C++ program:
+```C++
+int* return_ptr(int* a, int* b);
+```
+The possible return value can be pointer `a`, pointer `b`, or anything, because a pointer is only a memory address. This is **not** safe in view of Rust borrow checker. Because it `return_ptr` can certainly return a pointer to a local `int` which will be destroyed when the stack frame of `return_ptr` is destroyed (either by normal return or throwing an exception). So the return pointer can point to invalidated memory address, posing memory safety issue which Rust aims to resolve. Also, C++ programmers will probably refute that common g++ will provide compiler checks so such dangerous code won't even get compiled. They may say, `return_ptr` can return a pointer that points to some address in the program heap:
+```C++
+// inside return_ptr body
+int* heap_data = new int(10);
+// ...
+return heap_data;
+```
+In this way, there will be no invalid pointer problem so `return_ptr` function is totally risk-free. However, there is still chance of memory leak if the caller of this function failed to keep track of the returned pointer or forgot to call `delete` to free up the heap memory. So `return_ptr` just transfers the risk of unsafety memory problem to the caller. However, the Rust borrow checker must ensure the entire Rust executable is safe in memory operations, not just inside a piece of function code or a crate for the program. Hence, in Rust it's not allowed to return reference of *local variables* (borrow checker makes sure that in compile time). However, one can return heap object thanks to Rust's move semantic (check out this [post](https://stackoverflow.com/questions/65050304/returning-heap-allocated-value-from-function) ):
+```rust
+fn ret_heap_object() -> Box<i32>{
+    return Box::new(0);
+}
+```
+But what if you really want your function to return a reference? Well, then the returned reference must originates from the references you passed to the function. Also, the borrow checker will elicit a "voucher" from you - the lifetime parameter for each reference. Let's consider the same function in Rust:
+```rust
+fn ret_ref<'a>(x: &'a i32, y: &'a i32) -> &'a i32
+```
+Now you're telling the borrow checker that you'll pass two references, `x` and `y`, both of lifetime `'a` (aka reference will be valid at least in scope of `'a`), and return a reference also of lifetime `'a`. This means that the returned reference is possible to come from either `x` or `y`. However, if we tweak it a little bit:
+```rust
+fn ret_ref_v2<'a,'b>(x: &'a i32, y: &'b i32) -> &'a i32
+```
+this means the returned reference can only come from `x` since it's has the same lifetime parameter `'a` as `x`; however, `'b` is independent of `'a`, so we cannot relate the returned reference to `y`.
+>Note that under some special circumstances one can omit the processes of adding lifetime parameters. For example, if a function doesn't return any reference, such as `fn foo(lhs: & u32, rhs: &u32, pivot: &String)`, no lifetime parameters are needed. More on this please refer to [lifetime elision rule](https://rust-lang.github.io/rfcs/0141-lifetime-elision.html).
+
+
+But how does it mean that `x`, `y` and the returned reference should have the same lifetime `'a` in `fn ret_ref<'a>` ? This means that `'a` will have to be large enough so that `x`, `y` and the returned reference will be **live** in scope of `'a`. You can think of `'a` is just a range of line numbers where all these references are live. So how large exactly `'a` should be?
+For example, imagine a caller invokes this function:
+```rust
+1   let v1 = 1;
+2   let v2 = 2;
+3   let r1 = &v1;
+4   let r2 = &v2;
+5   let res = ret_ref(r1,r2);
+6   return; // caller returns on line 6
+```
+By looking at line number, lifetime of `r1` starts from line 3 and ends at line 6 (since the caller returns and local variables are destroyed). Similarly, `r2` lives from line 4 to line 6. Note that we need to take the returned reference into the equation, since it's also labeled as `'a`. In this case, the returned reference is moved to `ret` which lives from line 5 to line 6. Let's make a table to make things clearer (we use `#` to denote it's a line number):
+
+| Variable     | Lifetime |
+|:------------:|:--------:|
+| `r1`         | [#3, #6] |
+| `r2`         | [#4, #6] |
+| `ret`        | [#5, #6] |
+
+When we relate this table to line 5 where `ret_ref` is called, the borrow checker will calculate how large `'a` should be so that `r1`, `r2` and `ret` will be valid in its scope. Namely,
+
+
+\\[ 'a \ge \text{lifetime of r1}\\]
+\\[ 'a \ge \text{lifetime of r2}\\]
+\\[ 'a \ge \text{lifetime of res}\\]
+
+In this case, `'a = [#3, #6]` (the borrow checker will choose the minimum scope of `'a` as possible to lower constraints, more on this later). You can verify that:
++ `r1` is valid in this scope, b/c same as its lifetime
++ `r2` is also valid in this scope once it comes to life on line 4, and ends on line 6 which doesn't exceed `'a`. The same argument applies to `res`.
+
+You may wonder how this calculation can help borrow checker compile our program. Well, since every reference's lifetime should be determined during compile time, the inference of lifetime parameters in function signatures give hints on illegal use of references. Let's see an erroneous example below and hopefully you appreciate the gist behind lifetime parameters:
+```rust
+// an incorrect piece of code
+fn max<'i>(a: &'i u32, b: &'i u32) -> &'i u32{
+    if a >= b{
+        a
+    }
+    else{
+        b
+    }
+}
+
+1   fn main(){
+2       let r: &i32;
+3       {
+4           let a = 10;
+5           let b = 6;
+6           let x = &a;
+7           let y = &b;
+8           r = max(x,y);
+9       }
+10       println!("r is {}",r);
+11       // compiler error message:
+12       // error: `a` does not live long enough
+13       // error: `b` does not live long enough
+14       println!("r is no loner live on this line!");
+15  }
+```
+The error message from the borrow checker makes sense since when we're trying to print out either `a` or `b` on line 10, which are already destroyed on line 9 since the inner scope comes to an end. The borrow checker is able to this via lifetime parameters and a lifetime table of all variables, just like we've created above:
+
+| Variable     | Lifetime |
+|:------------:|:--------:|
+| `x`         | [#6, #8] |
+| `y`         | [#7, #9] |
+| `r`         | [#2, #10] |
+
+> A reference is no longer live after its last use. Hence the lifetime of reference `r` ends on line 8 since after that there is no use of `r` anymore.
+
+Passing the table to function `max`, you can easily verify that the smallest scope of `'i` is [#2, #10], same as lifetime of `r`, using the constraints:
+
+\\[ 'i \ge \text{lifetime of x}\\]
+\\[ 'i \ge \text{lifetime of y}\\]
+\\['i \ge \text{lifetime of r}\\]
+
+
+Therefore, `x` and `y` shall obey the rules such that they should be valid until line 10 (included), as `'i` dictated. However, the owner of `x` and `y` are dropped on line 9, just before line 10, leaving `x`, `y` dead on line 9 as well. Hence, the borrow checker complains that `a` and `b` doesn't live long enough as the use of `x` and `y` cannot propagate safely to line 10.
+
+Why should `'i` be as small as possible after it satisfies all the constraints (those inequalities)? If we make scope of `'i` larger, say `'i = [#4, #14]`, then what will happen? The borrow checker will complains that not only `a` and `b`, but `r` also doesn't live long enough! Because `r` in this case should be live till line 14, however it has been dropped on line 10 where it's last used. In summary, if we make `'i` too large the borrow checker will reject correct code, which will be another burden for Rust programmer (even though no false positive case). Therefore, the best solution is to take the lower bound of the lifetime parameter after all inequalities have been calculated out.
+
+
+Hopefully till this point everything makes sense. The following sections give more examples of how borrow checker calculates lifetime parameters using visual tools to help you understand. We will focus on correct usage of lifetime parameters so as to not confuse readers any further.
 ## Lifetime Parameter in Normal Functions
 
-Let's look a simple function that takes two references to `i32` and returns the reference to the bigger one:
+Let's look a simple function that takes two references to `i32` and returns the reference to the bigger one. You've seen that on previous section, but this time all usages are correct:
 
 ```rust
 fn max<'a>(x: &'a i32, y: &'a i32) -> &'a i32{
@@ -41,7 +151,7 @@ fn main(){
 }
 ```
 
-To reason how borrow checker calculates `'a` of `max`, we need to first identify lifetimes of involved variables, `r`, `x` and `y`. It's clear that `x` and `y` are limited to the inner scope, so lifetime of `x` is from line 6 to line 9, denoted as [#6,#9], and y is alive for [#7,#9]. Since `r` is declared on line 4 to be a reference to `i32`, it comes into scope on line 4 and got dropped after where it's last used, which is the immediate line after `println!`. So `r` lives for [#4,#11].
+To reason how borrow checker calculates `'a` of `max`, we need to first identify lifetimes of involved variables, `r`, `x` and `y`. `x` and `y` are limited to the inner scope, so lifetime of `x` is from line 6 to line 9, denoted as [#6,#9], and y is alive for [#7,#9] (for line numbers, checkout the SVG below). Since `r` is declared on line 4 to be a reference to `i32`, it comes into scope on line 4 and got dropped after where it's last used, which is the immediate line after `println!`. So `r` lives for [#4, #10].
 Having all lifetimes calculated properly, let's draw out the lifetime visualization for `fn max<'a>` in the caller's point of view:
 
 <div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
@@ -50,7 +160,8 @@ Having all lifetimes calculated properly, let's draw out the lifetime visualizat
 </div>
 
 
-`'a` should be able to encompass the lifetime of all three references and be as small as possible, so as to reduce the amount of constraint bound to the programmer. In this case, `'a = [#4, #11]`, the same as the lifetime of `r`. Otherwise, the borrow checker will turn down even the correct usage of some references, since the lifetime assigned to that reference ends earlier than it should. Say the borrow checker assigns `'a = [#4, #9]`, then it will turn down `println!("r is {}",r);` on line 10, since `r` should have been dropped on line 9 thus any use of `r` will be considered dangerous. But it's obvious that the borrow checker is being over-protective, since accessing the path of `r` is totally safe, as `r` is pointing to one of `a` and `b` and both of these variables still have life on line 10.
+`'a` should be able to encompass the lifetime of all three references and be as small as possible, so as to reduce the amount of constraint bound to the programmer. In this case, `'a = [#4, #10]`, the same as the lifetime of `r`. Try hover on the SVG to see more!
+
 
 ## Lifetime Parameter in Structs
 

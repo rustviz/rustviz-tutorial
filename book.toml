@@ -5,6 +5,8 @@ multilingual = false
 src = "src"
 title = "Tutorial"
 
+
 [output.html]
 additional-css = ["visualization.css"]
 additional-js = ["helpers.js"]
+mathjax-support = true
