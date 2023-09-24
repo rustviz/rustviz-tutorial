@@ -8,7 +8,8 @@ Lifetime parameters are a specialty of the Rust language. They're mainly used by
 
 + References inside a struct and the struct variable upon creation.
 
-The borrow checker will keep a table of lifetimes for all variables, either by looking at the scope (line number) or via the aid of lifetime parameters. If a reference is accessed outside its scope (the lifetime looked up by the borrow checker), then an error will be issued ([see how the borrow checker reports reference errors](https://alaric617r.github.io/Rust-Blog/Intro%20to%20Polonius.html)).
+
+The borrow checker will keep a table of lifetimes for all variables, either by looking at the scope (line number) or via the aid of lifetime parameters. If a reference is accessed outside its scope (the lifetime looked up by the borrow checker), then an error will be issued ( [see how the borrow checker reports reference errors](https://alaric617r.github.io/Rust-Blog/Intro%20to%20Polonius.html) ).
 
 ## Lifetime Parameter - Why do Rustaceans need it?
 Say one day a C++ programmer ask you why Rust need such troublesome way to annotate lifetimes' of variables in function declaration, how you gonna to explain to them? The design of lifetime parameter is inextricably related to program safety. Let's look at the bare function declaration of a C++ program:
@@ -215,7 +216,10 @@ Note that since `rust_book` is in an inner scope, it will be destructed when the
 </div>
 
 
-Since `&name` is a temporary variable created just to be passed on line 10, its lifetime will be limited only to line 10. As `'a` should encompass the lifetime of references both in `rust_book.name`, as well as `&name`, `'a` = [#10, #12]. This calculation is passed to `struct Book<'a>`, so the lifetime parameter of `rust_book.name` will be [#10,#12].
+Since `&name` is a temporary variable created just to be passed on line 10, its lifetime will be limited only to line 10.
+
+Therefore, `'a` inside the `impl` block will cover lifetime of `rust_book` and `&name` (`serial_num` has nothing to do as it's not annotated by `'a`). So, `'a` = [#10, #12].
+
 
 Note that this program runs well because every usage of a reference is within its legal lifetime scope. For example, changing `name` on line 13 won't cause a `value still borrowed` error since `rust_book.name`, which is a reference to `name`, has been out of scope after line 12.
 
@@ -459,7 +463,7 @@ Moreover, noticed that the first argument passed to `process_requests()` is of t
 
 Note that all 3 references get dropped on line 22, which is the end of `main`. It's because they're still in the `request_queue` and never get destroyed. Even though it's possible one of them get popped out from the queue inside `process_request()` so we can mark the lifetime of that reference ends on line 17, the borrow checker cannot do that during compile time because it totally depends on input in runtime. Hence, we have to adopt the conservative resort.
 
-Having all constraints ready, we can layout our calculation for `'a` and `'i`:
+Having all constraints ready, we can layout our calculation for `'a` and `'i` (hover on SVG to find more detailed explanations!):
 
 <div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
   <object type="image/svg+xml" class="lifetime_db code_panel" data="assets/code_examples/lifetime_db/vis_code.svg"></object>
@@ -467,4 +471,5 @@ Having all constraints ready, we can layout our calculation for `'a` and `'i`:
 </div>
 
 
-###
+## Conclusion
+In this tutorial, we showed you how to understand how lifetime parameter works and how to properly calculate the scope of each lifetime parameter, for the purpose of grasping the rationale behind the Rust borrow checker. Through Rustviz visualization tool, we can illustrate how borrow checker generates constraints for lifetime parameter in a more vivid way. If you found this kind of visualization useful, welcome to download Rustviz and create your own visualization on Rust lifetime parameter!
