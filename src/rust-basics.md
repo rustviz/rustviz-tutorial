@@ -86,3 +86,5 @@ This prints `x = 1 and y = 2`.
 Note that the `!` at the end of `println!` indicates that it is a *macro*, not a
 function. It behaves slightly differently from normal functions, but you do not
 need to worry about the details here. 
+
+{{#quiz example-quiz.toml}}

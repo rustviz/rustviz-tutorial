@@ -208,3 +208,6 @@ in the same scope:
 </div>
 
 This code prints `Hello, world, world!!`.
+
+<!-- {{#quiz quiz3.toml}}
+{{#quiz quiz4.toml}} -->

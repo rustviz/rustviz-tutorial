@@ -1,0 +1,51 @@
+[[questions]]
+id = "d172fc53-0220-4ff4-83c9-9c0a6834dd8e"
+type = "MultipleChoice"
+prompt.prompt = """
+When is the String resource "hola" dropped?
+
+```
+fn main{
+    let mut x = String::from("hola");
+    println!("A: {}",x);
+    {
+        let y = x;
+        println!("B: {}",y);
+    }
+    println!("C");
+    x = String::from ("ahoy");
+    println!("D: {}",x);
+}
+```
+"""
+answer.answer = "After D"
+prompt.distractors = [ "Between A and B", "Between B and C", "Between C and D" ]
+context = """
+See borrowing chapter for answer.
+"""
+
+[[questions]]
+id = "d172fc53-0220-4ff4-83c9-9c0a6834dd8e"
+type = "ShortAnswer"
+prompt.prompt = """
+State your reason for your answer to the previous question.
+
+```
+```
+fn main{
+    let mut x = String::from("hola");
+    println!("A: {}",x);
+    {
+        let y = x;
+        println!("B: {}",y);
+    }
+    println!("C");
+    x = String::from ("ahoy");
+    println!("D: {}",x);
+}
+```
+"""
+answer.answer = "user answer"
+context = """
+See borrowing chapter for answer.
+"""

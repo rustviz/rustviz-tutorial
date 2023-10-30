@@ -151,3 +151,4 @@ fn main() {
 
 Here, we add `1` to each of the values in the vector. Note that the `for` loop
 is mutably borrowing `v`, as shown by the `&mut v`.
+{{#quiz example-quiz.toml}}

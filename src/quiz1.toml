@@ -1,0 +1,56 @@
+[[questions]]
+id = "d172fc53-0220-4ff4-83c9-9c0a6834dd8e"
+type = "MultipleChoice"
+prompt.prompt = """
+When is the String resource allocated in main dropped?
+
+```
+fn g(s: String){
+    println!("A: {}",s);
+}
+
+fn f(x: String){
+    g(x);
+    println!("B");
+}
+
+fn main(){
+    let x = String::from ("Hello!");
+    f(x);
+    println!("C");
+}
+```
+"""
+answer.answer = "After C"
+prompt.distractors = [ "Between A and B", "Between B and C", "Never, there is a memory leak" ]
+context = """
+See borrowing chapter for answer.
+"""
+
+[[questions]]
+id = "d172fc53-0220-4ff4-83c9-9c0a6834dd8e"
+type = "ShortAnswer"
+prompt.prompt = """
+State your reason for your answer to the previous question.
+
+```
+fn g(s: String){
+    println!("A: {}",s);
+}
+
+fn f(x: String){
+    g(x);
+    println!("B");
+}
+
+fn main(){
+    let x = String::from ("Hello!");
+    f(x);
+    println!("C");
+}
+```
+"""
+answer.answer = "user answer"
+context = """
+See borrowing chapter for answer.
+"""

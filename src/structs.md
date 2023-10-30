@@ -58,3 +58,4 @@ Here is an example of using lifetime annotations `<'a>` in struct definitions to
   <object type="image/svg+xml" class="struct_lifetime code_panel" data="assets/code_examples/struct_lifetime/vis_code.svg"></object>
   <object type="image/svg+xml" class="struct_lifetime tl_panel" data="assets/code_examples/struct_lifetime/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('struct_lifetime')"></object>
 </div>
+{{#quiz example-quiz.toml}}

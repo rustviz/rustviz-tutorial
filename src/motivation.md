@@ -48,3 +48,5 @@ can contact the instructor (comar@umich.edu) at any time up to seven days after
 final grades have been issued. Opting out has no impact on your grade. 
 
 Click the next button on the right of the page to continue.
+
+<!-- {{#quiz quiz1.toml}} -->

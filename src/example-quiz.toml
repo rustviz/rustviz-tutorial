@@ -1,0 +1,9 @@
+[[questions]]
+id = "d172fc53-0220-4ff4-83c9-9c0a6834dd8e"
+type = "MultipleChoice"
+prompt.prompt = "When is the String resource allocated in main dropped/ Explain why by describing the events related to movement and borrowing that occur in the coode above."
+answer.answer = "After C"
+prompt.distractors = [ "Between A and B", "Between B and C", "Never, there is a memory leak" ]
+context = """
+See borrowing chapter for explanation.
+"""

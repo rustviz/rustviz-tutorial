@@ -1,0 +1,57 @@
+[[questions]]
+id = "d172fc53-0220-4ff4-83c9-9c0a6834dd8f"
+type = "MultipleChoice"
+prompt.prompt = """
+When is the String resource "hi" dropped? Explain why by describing the events related to movement and borrowing that occur in the coode above.
+
+```
+fn f(s: String) -> String{
+    println!("A: {}",s);
+    s
+}
+
+fn g() -> String{
+    let x = String::from("hi");
+    let y = f(x);
+    println!("B: {}",y);
+}
+
+fn main(){
+    let s = g();
+    println!("C: {}",s);
+}
+```
+"""
+answer.answer = "After C"
+prompt.distractors = [ "Before A", "Between A and B", "Between B and C" ]
+context = """
+See borrowing chapter for answer."""
+
+[[questions]]
+id = "d172fc53-0220-4ff4-83c9-9c0a6834dd8e"
+type = "ShortAnswer"
+prompt.prompt = """
+State your reason for your answer to the previous question.
+
+```
+fn f(s: String) -> String{
+    println!("A: {}",s);
+    s
+}
+
+fn g() -> String{
+    let x = String::from("hi");
+    let y = f(x);
+    println!("B: {}",y);
+}
+
+fn main(){
+    let s = g();
+    println!("C: {}",s);
+}
+```
+"""
+answer.answer = "user answer"
+context = """
+See borrowing chapter for answer.
+"""

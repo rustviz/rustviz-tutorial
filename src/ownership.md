@@ -168,3 +168,4 @@ dropped at the end of `f`, there would be a use-after-free bug in `main` on Line
 </div>
 
 This code prints `hello`.
+{{#quiz quiz2.toml}}

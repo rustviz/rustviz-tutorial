@@ -8,3 +8,5 @@ title = "Tutorial"
 [output.html]
 additional-css = ["visualization.css"]
 additional-js = ["helpers.js"]
+
+[preprocessor.quiz]

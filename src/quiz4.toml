@@ -1,0 +1,54 @@
+[[questions]]
+id = "d172fc53-0220-4ff4-83c9-9c0a6834dd8e"
+type = "MultipleChoice"
+prompt.prompt = """
+When is the String resource allocated in main dropped?
+
+```
+fn f(s: &String){
+    {
+        let x = s;
+        println!("Aye, {}!",x);
+    }
+    println!("B");
+}
+
+fn main(){
+    let x = String::from("world");
+    f(&x);
+    println!("C");
+}
+```
+"""
+answer.answer = "After C"
+prompt.distractors = [ "Between Aye, world! and B", "Between B and C" ]
+context = """
+See borrowing chapter for answer.
+"""
+
+[[questions]]
+id = "d172fc53-0220-4ff4-83c9-9c0a6834dd8e"
+type = "ShortAnswer"
+prompt.prompt = """
+State your reason for your answer to the previous question.
+
+```
+fn f(s: &String){
+    {
+        let x = s;
+        println!("Aye, {}!",x);
+    }
+    println!("B");
+}
+
+fn main(){
+    let x = String::from("world");
+    f(&x);
+    println!("C");
+}
+```
+"""
+answer.answer = "user answer"
+context = """
+See borrowing chapter for answer.
+"""
