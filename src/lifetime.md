@@ -1,128 +1,53 @@
-# Visualization of Rust Lifetime Parameter
+# Reference Lifetimes
 
-## Lifetime Parameter - An Overview
+In the section on [Borrowing](./borrowing.md), we learned that taking a reference does *not* change the owner of a resource. 
+Instead, the reference simply *borrows* access to the resource temporarily.
+Rust's *borrow checker* requires that references to resources do not outlive 
+their owner, to avoid the possibility of there being references to resources 
+that the ownership system has decided can be dropped.
 
-Lifetime parameters are a specialty of the Rust language. They're mainly used by the borrow checker to make sure usage of references is safe, meaning they simply follow one rule: a reference cannot outlive the original variable it's pointing to. Lifetime parameters typically annotate the lifetime relation between:
+## Named Lifetimes
 
-+ References passed to a function call, and possibly the return value as well.
+How does Rust reason about the lifetime of a reference, to ensure that the reference
+does not outlive the owner? Implicitly, each reference type has an associated **lifetime**. 
+This lifetime can be given an explicit name in the type. 
+For example, `&'a int` is the type of a reference to an integer with named lifetime `'a` (pronounced ''tick a'' or ''alpha'').
+Rust allows you to elide lifetime names in most, but not all, situations, as we will discuss below.
 
-+ References inside a struct and the struct variable upon creation.
+The borrow checker generates constraints on named lifetimes. 
+These constraints can be concrete, e.g. a range of lines within a function during which the borrow must be
+live. They can also be inequalities between named lifetimes, which specify 
+containment relationships, e.g. that lifetime `'a` must be contained within lifetime `'b`.
+The borrow checker then checks that there are no inconsistent constraints, reporting an error if there are.
 
+For example, in the following code we explicitly write the name of the lifetime for `x`, calling it `'a`:
 
-The borrow checker will keep a table of lifetimes for all variables, either by looking at the scope (line number) or via the aid of lifetime parameters. If a reference is accessed outside its scope (the lifetime looked up by the borrow checker), then an error will be issued ( [see how the borrow checker reports reference errors](https://alaric617r.github.io/Rust-Blog/Intro%20to%20Polonius.html) ).
-
-## Lifetime Parameter - Why do Rustaceans need it?
-Say one day a C++ programmer ask you why Rust need such troublesome way to annotate lifetimes' of variables in function declaration, how you gonna to explain to them? The design of lifetime parameter is inextricably related to program safety. Let's look at the bare function declaration of a C++ program:
-```C++
-int* return_ptr(int* a, int* b);
-```
-The possible return value can be pointer `a`, pointer `b`, or anything, because a pointer is only a memory address. This is **not** safe in view of Rust borrow checker. Because it `return_ptr` can certainly return a pointer to a local `int` which will be destroyed when the stack frame of `return_ptr` is destroyed (either by normal return or throwing an exception). So the return pointer can point to invalidated memory address, posing memory safety issue which Rust aims to resolve. Also, C++ programmers will probably refute that common g++ will provide compiler checks so such dangerous code won't even get compiled. They may say, `return_ptr` can return a pointer that points to some address in the program heap:
-```C++
-// inside return_ptr body
-int* heap_data = new int(10);
-// ...
-return heap_data;
-```
-In this way, there will be no invalid pointer problem so `return_ptr` function is totally risk-free. However, there is still chance of memory leak if the caller of this function failed to keep track of the returned pointer or forgot to call `delete` to free up the heap memory. So `return_ptr` just transfers the risk of unsafety memory problem to the caller. However, the Rust borrow checker must ensure the entire Rust executable is safe in memory operations, not just inside a piece of function code or a crate for the program. Hence, in Rust it's not allowed to return reference of *local variables* (borrow checker makes sure that in compile time). However, one can return heap object thanks to Rust's move semantic (check out this [post](https://stackoverflow.com/questions/65050304/returning-heap-allocated-value-from-function) ):
 ```rust
-fn ret_heap_object() -> Box<i32>{
-    return Box::new(0);
+fn f() {
+  let s = String::from("hello");
+  let x : &'a String = &s;
+  let y = 5;
+  println!("{}", &x);
+  println!("{}, s);
 }
 ```
-But what if you really want your function to return a reference? Well, then the returned reference must originates from the references you passed to the function. Also, the borrow checker will elicit a "voucher" from you - the lifetime parameter for each reference. Let's consider the same function in Rust:
-```rust
-fn ret_ref<'a>(x: &'a i32, y: &'a i32) -> &'a i32
+
+The borrow checker first generates the constraint that this borrow must not outlive the owner, `s`, which 
+is in scope from Lines 2 to 7 (without a change in ownership):
 ```
-Now you're telling the borrow checker that you'll pass two references, `x` and `y`, both of lifetime `'a` (aka reference will be valid at least in scope of `'a`), and return a reference also of lifetime `'a`. This means that the returned reference is possible to come from either `x` or `y`. However, if we tweak it a little bit:
-```rust
-fn ret_ref_v2<'a,'b>(x: &'a i32, y: &'b i32) -> &'a i32
+'a < [2, 7]
 ```
-this means the returned reference can only come from `x` since it's has the same lifetime parameter `'a` as `x`; however, `'b` is independent of `'a`, so we cannot relate the returned reference to `y`.
->Note that under some special circumstances one can omit the processes of adding lifetime parameters. For example, if a function doesn't return any reference, such as `fn foo(lhs: & u32, rhs: &u32, pivot: &String)`, no lifetime parameters are needed. More on this please refer to [lifetime elision rule](https://rust-lang.github.io/rfcs/0141-lifetime-elision.html).
 
+In addition, due to the non-lexical lifetime analysis, we know that the lifetime of that reference must be
+at least the time between reference creation and its last usage on Line 5:
 
-But how does it mean that `x`, `y` and the returned reference should have the same lifetime `'a` in `fn ret_ref<'a>` ? This means that `'a` will have to be large enough so that `x`, `y` and the returned reference will be **live** in scope of `'a`. You can think of `'a` is just a range of line numbers where all these references are live. So how large exactly `'a` should be?
-For example, imagine a caller invokes this function:
-```rust
-1   let v1 = 1;
-2   let v2 = 2;
-3   let r1 = &v1;
-4   let r2 = &v2;
-5   let res = ret_ref(r1,r2);
-6   return; // caller returns on line 6
 ```
-By looking at line number, lifetime of `r1` starts from line 3 and ends at line 6 (since the caller returns and local variables are destroyed). Similarly, `r2` lives from line 4 to line 6. Note that we need to take the returned reference into the equation, since it's also labeled as `'a`. In this case, the returned reference is moved to `ret` which lives from line 5 to line 6. Let's make a table to make things clearer (we use `#` to denote it's a line number):
-
-| Variable     | Lifetime |
-|:------------:|:--------:|
-| `r1`         | [#3, #6] |
-| `r2`         | [#4, #6] |
-| `ret`        | [#5, #6] |
-
-When we relate this table to line 5 where `ret_ref` is called, the borrow checker will calculate how large `'a` should be so that `r1`, `r2` and `ret` will be valid in its scope. Namely,
-
-
-\\[ 'a \ge \text{lifetime of r1}\\]
-\\[ 'a \ge \text{lifetime of r2}\\]
-\\[ 'a \ge \text{lifetime of res}\\]
-
-In this case, `'a = [#3, #6]` (the borrow checker will choose the minimum scope of `'a` as possible to lower constraints, more on this later). You can verify that:
-+ `r1` is valid in this scope, b/c same as its lifetime
-+ `r2` is also valid in this scope once it comes to life on line 4, and ends on line 6 which doesn't exceed `'a`. The same argument applies to `res`.
-
-You may wonder how this calculation can help borrow checker compile our program. Well, since every reference's lifetime should be determined during compile time, the inference of lifetime parameters in function signatures give hints on illegal use of references. Let's see an erroneous example below and hopefully you appreciate the gist behind lifetime parameters:
-```rust
-// an incorrect piece of code
-fn max<'i>(a: &'i u32, b: &'i u32) -> &'i u32{
-    if a >= b{
-        a
-    }
-    else{
-        b
-    }
-}
-
-1   fn main(){
-2       let r: &i32;
-3       {
-4           let a = 10;
-5           let b = 6;
-6           let x = &a;
-7           let y = &b;
-8           r = max(x,y);
-9       }
-10       println!("r is {}",r);
-11       // compiler error message:
-12       // error: `a` does not live long enough
-13       // error: `b` does not live long enough
-14       println!("r is no loner live on this line!");
-15  }
+'a >= [3, 5]
 ```
-The error message from the borrow checker makes sense since when we're trying to print out either `a` or `b` on line 10, which are already destroyed on line 9 since the inner scope comes to an end. The borrow checker is able to this via lifetime parameters and a lifetime table of all variables, just like we've created above:
 
-| Variable     | Lifetime |
-|:------------:|:--------:|
-| `x`         | [#6, #8] |
-| `y`         | [#7, #9] |
-| `r`         | [#2, #10] |
+These two constraints are not inconsistent with one another, so there is no borrow checker error to be reported here.
 
-> A reference is no longer live after its last use. Hence the lifetime of reference `r` ends on line 8 since after that there is no use of `r` anymore.
-
-Passing the table to function `max`, you can easily verify that the smallest scope of `'i` is [#2, #10], same as lifetime of `r`, using the constraints:
-
-\\[ 'i \ge \text{lifetime of x}\\]
-\\[ 'i \ge \text{lifetime of y}\\]
-\\['i \ge \text{lifetime of r}\\]
-
-
-Therefore, `x` and `y` shall obey the rules such that they should be valid until line 10 (included), as `'i` dictated. However, the owner of `x` and `y` are dropped on line 9, just before line 10, leaving `x`, `y` dead on line 9 as well. Hence, the borrow checker complains that `a` and `b` doesn't live long enough as the use of `x` and `y` cannot propagate safely to line 10.
-
-Why should `'i` be as small as possible after it satisfies all the constraints (those inequalities)? If we make scope of `'i` larger, say `'i = [#4, #14]`, then what will happen? The borrow checker will complains that not only `a` and `b`, but `r` also doesn't live long enough! Because `r` in this case should be live till line 14, however it has been dropped on line 10 where it's last used. In summary, if we make `'i` too large the borrow checker will reject correct code, which will be another burden for Rust programmer (even though no false positive case). Therefore, the best solution is to take the lower bound of the lifetime parameter after all inequalities have been calculated out.
-
-
-Hopefully till this point everything makes sense. The following sections give more examples of how borrow checker calculates lifetime parameters using visual tools to help you understand. We will focus on correct usage of lifetime parameters so as to not confuse readers any further.
-## Lifetime Parameter in Normal Functions
-
+## Function Lifetime Parameters
 Let's look a simple function that takes two references to `i32` and returns the reference to the bigger one. You've seen that on previous section, but this time all usages are correct:
 
 ```rust
@@ -163,8 +88,7 @@ Having all lifetimes calculated properly, let's draw out the lifetime visualizat
 
 `'a` should be able to encompass the lifetime of all three references and be as small as possible, so as to reduce the amount of constraint bound to the programmer. In this case, `'a = [#4, #10]`, the same as the lifetime of `r`. Try hover on the SVG to see more!
 
-
-## Lifetime Parameter in Structs
+## Type Lifetime Parameters
 
 A `struct` must have explicit lifetime parameter annotations if it contains a reference. The reason is simple: the reference can't outlive the lender variable, so the `struct` also cannot. Lifetime parameters are the way to correlate the lifetime of the reference and `struct`.
 
