@@ -35,20 +35,32 @@ fn f() {
 The borrow checker first generates the constraint that this borrow must not outlive the owner, `s`, which 
 is in scope from Lines 2 to 7 (without a change in ownership):
 ```
-'a < [2, 7]
+'a < [#2, #7]
 ```
 
 In addition, due to the non-lexical lifetime analysis, we know that the lifetime of that reference must be
 at least the time between reference creation and its last usage on Line 5:
 
 ```
-'a >= [3, 5]
+'a >= [#3, #5]
 ```
 
 These two constraints are not inconsistent with one another, so there is no borrow checker error to be reported here.
 
+Named lifetime can also become a generic for rust functions. For example:
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
+  <object type="image/svg+xml" class="lifetime_simple_code_panel" data="assets/code_examples/lifetime_simple/vis_code.svg"></object>
+  <object type="image/svg+xml" class="lifetime_simple_tl_panel" data="assets/code_examples/lifetime_simple/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('lifetime_simple')"></object>
+</div>
+
+`'i` is a generic type which is the lifetime scope for all parameters in the function signature. In this example, we only have `x`, which is in scope between Line 10 and 11. Lifetime of `x` ends after Line 11 after that it's never used as a reference. So `'i` will encompass the lifetime of `x`
+```
+'i >= [#10,#11]
+```
+Since there are no other parameters in function `add_one`, the constraint given by `'i` is quite dummy. But we will see more useful examples later.
+
 ## Function Lifetime Parameters
-Let's look a simple function that takes two references to `i32` and returns the reference to the bigger one. You've seen that on previous section, but this time all usages are correct:
+Let's look a simple function that takes two references to `i32` and returns the reference to the bigger one. Function `max` is explicitly annotated with lifetime `'a`.
 
 ```rust
 fn max<'a>(x: &'a i32, y: &'a i32) -> &'a i32{
@@ -77,7 +89,7 @@ fn main(){
 }
 ```
 
-To reason how borrow checker calculates `'a` of `max`, we need to first identify lifetimes of involved variables, `r`, `x` and `y`. `x` and `y` are limited to the inner scope, so lifetime of `x` is from line 6 to line 9, denoted as [#6,#9], and y is alive for [#7,#9] (for line numbers, checkout the SVG below). Since `r` is declared on line 4 to be a reference to `i32`, it comes into scope on line 4 and got dropped after where it's last used, which is the immediate line after `println!`. So `r` lives for [#4, #10].
+To reason how borrow checker calculates `'a` of `max`, we need to first identify lifetimes of involved variables, `r`, `x` and `y`. `x` and `y` are limited to the inner scope, so lifetime of `x` is from line 6 to line 9, denoted as [#6,#9], and y's lifetime is [#7,#9] (for line numbers, checkout the SVG below). Since `r` is declared on line 4, which is a reference to `i32`, it comes into scope on line 4 and got dropped after where it's last used, which is the immediate line after `println!`. So lifetime of `r` is [#4, #10].
 Having all lifetimes calculated properly, let's draw out the lifetime visualization for `fn max<'a>` in the caller's point of view:
 
 <div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
@@ -86,11 +98,11 @@ Having all lifetimes calculated properly, let's draw out the lifetime visualizat
 </div>
 
 
-`'a` should be able to encompass the lifetime of all three references and be as small as possible, so as to reduce the amount of constraint bound to the programmer. In this case, `'a = [#4, #10]`, the same as the lifetime of `r`. Try hover on the SVG to see more!
+`'a` should be able to encompass the lifetime of all three references and be as small as possible, so as to reduce the amount of constraint bound to the programmer. In this case, `'a = [#4, #10]`, the same as the lifetime of `r`. Try hover on the SVG to see more details!
 
 ## Type Lifetime Parameters
 
-A `struct` must have explicit lifetime parameter annotations if it contains a reference. The reason is simple: the reference can't outlive the lender variable, so the `struct` also cannot. Lifetime parameters are the way to correlate the lifetime of the reference and `struct`.
+A `struct` must have explicit lifetime parameter annotations if it contains a reference. The reason is simple: the reference can't outlive the lender variable, so the `struct` also cannot. Lifetime parameters correlate the lifetime of the reference and `struct`.
 
 Let's see how the lifetime parameter is computed when used to annotate a struct:
 
@@ -109,7 +121,7 @@ impl<'a> Book<'a>{
 
 Here we define a `Book` struct that contains an immutable reference to a `String`. `'a` means that if the lifetime of `Book` is `'a`, then the lifetime of `name : &'a String` will be at least `'a`.
 
-The `impl` block contains one function that create `Book` type in a factory mode. Let's look at an example of calling this function:
+The `impl` block contains one function that create `Book` type in a factory mode.
 
 ```rust
 fn main(){
@@ -124,7 +136,7 @@ fn main(){
 }
 ```
 
-First and foremost, let's calculate the lifetime of each variable (this will always be the first step, so bear in mind). It suffices to just look at line numbers and scoping curly brackets:
+First and foremost, we need to calculate the lifetime of each variable. It suffices to just look at line numbers and scoping curly brackets:
 
 | Variable     | Lifetime |
 |:------------:|:--------:|
@@ -140,7 +152,7 @@ Note that since `rust_book` is in an inner scope, it will be destructed when the
 </div>
 
 
-Since `&name` is a temporary variable created just to be passed on line 10, its lifetime will be limited only to line 10.
+Since `&name` is a temporary variable created just to be passed on line 10, its lifetime will be limited on line 10 (starts on line 10 and ends on line 10).
 
 Therefore, `'a` inside the `impl` block will cover lifetime of `rust_book` and `&name` (`serial_num` has nothing to do as it's not annotated by `'a`). So, `'a` = [#10, #12].
 
@@ -149,7 +161,7 @@ Note that this program runs well because every usage of a reference is within it
 
 ##### About reference passed on the fly
 
-You may question why `&name` is only live on line 10. We could imagine  the borrow checker will create a reference to `name` and pass that reference to the function, and everything is happening on a single line:
+You may question why `&name` is only live on line 10. We could imagine the borrow checker will create a reference to `name` and pass that reference to the function, and everything is happening on a single line:
 
 ```rust
  let tmp = &name; let rust_book = Book::new(tmp, serial_num); // both happens on line 10
@@ -160,7 +172,7 @@ As [NLL lifetime](https://stackoverflow.com/questions/50251487/what-are-non-lexi
 
 ## Lifetime Parameter - A More Complex Example
 
-Previous examples have equipped you with the basic methodology for reasoning out generic lifetime parameters, just as the borrow check does. In this section, we will use lifetime parameters to construct a real-life problem-solver: a scheduler program that processes requests in a database. Let's dive in.
+Previous examples have equipped you with the basic methodology for reasoning out generic lifetimes. In this section, we will use lifetime parameters to construct a real-life problem-solver: a scheduler program that processes requests in a database. Let's dive in.
 
 ### Modeling Requests Using Structs
 
@@ -329,7 +341,7 @@ We won't hasten to explain how lifetime parameter works here; instead, we will e
    
    + If `max_process_unit` is not enough to complete the whole request, we will return the request reference and hope some other handler will process it, or just put it back to the queue, which is out of our concern.
 
-3. If `queue` is empty, it means all requests have been served and we return blissfully. 
+3. If `queue` is empty, it means all requests have been served and we return blissfully.
 
 ### Finally Inside the Database
 
@@ -360,7 +372,7 @@ Eventually, we're able to put together all the pieces and design our DB. For sim
 22 }
 ```
 
-Let's first calculate the lifetime of each *variable*, since `Request` contains lifetime parameter itself. By previous section, it's easy to verify lifetime via function signature of `Request::new()` function. Therefore, we obtain the following table of variable lifetime:
+Let's first calculate the lifetime of each *variable*, since `Request` contains lifetime parameter itself. By previous section, it's easy to verify lifetime via function signature of `Request::new()` function. Therefore, we obtain the following table of variable lifetimes:
 
 
 | variable                                    | lifetime (scope) |
@@ -376,7 +388,7 @@ Let's first calculate the lifetime of each *variable*, since `Request` contains 
 | `request_halfway : Option<mut Request>`     | [#17, #18]       |
 | `ptr_to_resource: &mut u32`                 | [#16, #18]       |
 
-You may ask why lifetime of `request_halfway` only lasts to line 18 rather than the end of `main`. That's because on line 18, the `if let` expression may have moved resource from `request_halfway` to the new variable created in `if let` inner scope `req`. Even though we're not guaranteed to enter this conditional branch, the borrow checker has to be prudential so as to avoid any possible invalid pointer access. Therefore lifetime of `request_halfway` has to end earlier.
+You may ask why lifetime of `request_halfway` only lasts to line 18 rather than the end of `main`. That's because on line 18, the `if let` expression may have moved resource out from `request_halfway` to the new variable created in `if let` inner scope `req`. Even though we're not guaranteed to enter this conditional branch, the borrow checker has to be prudential so as to avoid any possible invalid pointer access. Therefore lifetime of `request_halfway` has to end earlier.
 Moreover, noticed that the first argument passed to `process_requests()` is of type `&'i mut VecDeque<&'i mut Request<'i>>`. This means not only the lifetime of reference to `VecDeque`, but also lifetimes of objects contained by `VecDeque` should be considered into calculation of `'i`. Hence, we need to calculate lifetimes of references added to `request_queue` as well, which is easy to just look at when the references got pushed into the queue:
 
 | variable                                    | lifetime (scope) |
