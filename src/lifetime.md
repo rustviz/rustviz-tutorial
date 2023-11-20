@@ -47,56 +47,71 @@ at least the time between reference creation and its last usage on Line 5:
 
 These two constraints are not inconsistent with one another, so there is no borrow checker error to be reported here.
 
-Named lifetime can also become a generic for rust functions. For example:
-<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
-  <object type="image/svg+xml" class="lifetime_simple_code_panel" data="assets/code_examples/lifetime_simple/vis_code.svg"></object>
-  <object type="image/svg+xml" class="lifetime_simple_tl_panel" data="assets/code_examples/lifetime_simple/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('lifetime_simple')"></object>
-</div>
+On the other hand, consider the situation where we attempt to return a reference to a locally owned resource from a function
 
-`'i` is a generic type which is the lifetime scope for all parameters in the function signature. In this example, we only have `x`, which is in scope between Line 10 and 11. Lifetime of `x` ends after Line 11 after that it's never used as a reference. So `'i` will encompass the lifetime of `x`
+```rust
+fn f() {
+  let x = String::from("hello");
+  let y : &'a String = &x;
+  y
+}
 ```
-'i >= [#10,#11]
+
+Here, we generate the constraint that the borrow must not outlive the owner, `x`, which is in scope from Lines 2 to 5 (without a change in ownership):
 ```
-Since there are no other parameters in function `add_one`, the constraint given by `'i` is quite dummy. But we will see more useful examples later.
+'a < [#2, #5]
+```
+However, since the reference is being returned from the function, we know its lifetime must extend past the end of the function, which we can write as:
+```
+'a > #5
+```
+These two constraints are inconsistent with one another, so the borrow checker reports an error.
 
 ## Function Lifetime Parameters
+In addition to lifetime parameters on references, functions can also have generic lifetime parameters. 
 Let's look a simple function that takes two references to `i32` and returns the reference to the bigger one. Function `max` is explicitly annotated with lifetime `'a`.
 
 ```rust
 fn max<'a>(x: &'a i32, y: &'a i32) -> &'a i32{
-    if x >= y{
+    if x >= y {
         x
     }
-    else{
+    else {
         y
     }
 }
 ```
 
-And a caller for `max`:
+Here is an example call site for the `max` function (with lfietimes explicitly annotated):
 
 ```rust
 fn main(){
     let a = 10;
     let b = 6;
-    let r: &i32;
+    let r: &'r i32;
     {
-        let x: &i32 = &a;
-        let y: &i32 = &b;
+        let x: &'x i32 = &a;
+        let y: &'y i32 = &b;
         r = max(x,y);
     }
     println!("r is {}",r);
 }
 ```
 
-To reason how borrow checker calculates `'a` of `max`, we need to first identify lifetimes of involved variables, `r`, `x` and `y`. `x` and `y` are limited to the inner scope, so lifetime of `x` is from line 6 to line 9, denoted as [#6,#9], and y's lifetime is [#7,#9] (for line numbers, checkout the SVG below). Since `r` is declared on line 4, which is a reference to `i32`, it comes into scope on line 4 and got dropped after where it's last used, which is the immediate line after `println!`. So lifetime of `r` is [#4, #10].
-Having all lifetimes calculated properly, let's draw out the lifetime visualization for `fn max<'a>` in the caller's point of view:
+Notice that the caller did not need to explicitly instantiate the lifetime parameter `'a` when calling `max`. Instead, this parameter is inferred based on the arguments and the binding of the returned reference. These constraints for each of these are visualized below:
 
 <div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
   <object type="image/svg+xml" class="lifetime_func_max code_panel" data="assets/code_examples/lifetime_func_max/vis_code.svg"></object>
   <object type="image/svg+xml" class="lifetime_func_max tl_panel" data="assets/code_examples/lifetime_func_max/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('lifetime_func_max')"></object>
 </div>
 
+TODO: update the diagram to use explicit lifetime names, rather than variable names
+
+TODO: discuss subtyping of references via lifetime inclusion
+
+TODO: revise the following:
+To reason how borrow checker calculates `'a` of `max`, we need to first identify lifetimes of involved variables, `r`, `x` and `y`. `x` and `y` are limited to the inner scope, so lifetime of `x` is from line 6 to line 9, denoted as [#6,#9], and y's lifetime is [#7,#9] (for line numbers, checkout the SVG below). Since `r` is declared on line 4, which is a reference to `i32`, it comes into scope on line 4 and got dropped after where it's last used, which is the immediate line after `println!`. So lifetime of `r` is [#4, #10].
+Having all lifetimes calculated properly, let's draw out the lifetime visualization for `fn max<'a>` in the caller's point of view:
 
 `'a` should be able to encompass the lifetime of all three references and be as small as possible, so as to reduce the amount of constraint bound to the programmer. In this case, `'a = [#4, #10]`, the same as the lifetime of `r`. Try hover on the SVG to see more details!
 
