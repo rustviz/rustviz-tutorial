@@ -2,7 +2,7 @@
 
 # This is a convenience script to copy the code examples and corresponding SVG
 # visualizations from the rustviz repository. See README.md for more details.
-RV='../rustviz-lifetimeVis'
+RV='../rustviz'
 # printf "copying helper.js and book.js..."
 cp "$RV/rustviz_mdbook/mdbook_plugin/helpers.js" "./helpers.js"
 cp "$RV/rustviz_mdbook/mdbook_plugin/book.js" "./theme/book.js"

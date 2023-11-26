@@ -109,8 +109,10 @@ TODO: update the diagram to use explicit lifetime names, rather than variable na
 
 TODO: discuss subtyping of references via lifetime inclusion
 
+We can perceive lifetime inclusion similar as subtyping. For instance, parameter `x` is annotated with lifetime parameter `'a` in function `max`'s signature, then lifetime of `x` passed into `max` will be a subtype of `'a`. Therefore `'a`'s scope should include lifetime of `x` since it's a supertype.
+
 TODO: revise the following:
-To reason how borrow checker calculates `'a` of `max`, we need to first identify lifetimes of involved variables, `r`, `x` and `y`. `x` and `y` are limited to the inner scope, so lifetime of `x` is from line 6 to line 9, denoted as [#6,#9], and y's lifetime is [#7,#9] (for line numbers, checkout the SVG below). Since `r` is declared on line 4, which is a reference to `i32`, it comes into scope on line 4 and got dropped after where it's last used, which is the immediate line after `println!`. So lifetime of `r` is [#4, #10].
+To reason how borrow checker calculates `'a` of `max`, we need to first identify lifetimes of involved variables, `r`, `x` and `y`. `x` and `y` are limited to the inner scope, so lifetime of `x` is from line 6 to line 9, denoted as [#6,#9], and y's lifetime is [#7,#9]. Since `r` is declared on line 4, which is a reference to `i32`, it comes into scope on line 4 and got dropped after where it's last used, which is the immediate line after `println!`. So lifetime of `r` is [#4, #10].
 Having all lifetimes calculated properly, let's draw out the lifetime visualization for `fn max<'a>` in the caller's point of view:
 
 `'a` should be able to encompass the lifetime of all three references and be as small as possible, so as to reduce the amount of constraint bound to the programmer. In this case, `'a = [#4, #10]`, the same as the lifetime of `r`. Try hover on the SVG to see more details!
