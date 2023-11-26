@@ -40,11 +40,38 @@ text.code {
     font-family: "Source Code Pro", Consolas, "Ubuntu Mono", Menlo, "DejaVu Sans Mono", monospace, monospace !important;
     font-size: 0.875em;
 }
+text.funcSigCode {
+    fill: #13b516;
+    font-weight: bold;
+    white-space: pre;
+    font-family: monospace;
+    font-size: 1.2em;
+}
+
+text.structInstance {
+    fill: rgba(10,29,242,0.906);
+    white-space: pre;
+    font-family: "Source Code Pro", Consolas, "Ubuntu Mono", Menlo, "DejaVu Sans Mono", monospace, monospace !important;
+    font-weight: bold;
+    font-size: 0.875em;
+}
+text.lifetime{
+    fill: #eca163;
+    white-space: pre;
+    font-family: monospace;
+    font-size: 1em;
+}
 
 text.label {
     font-family: "Source Code Pro", Consolas, "Ubuntu Mono", Menlo, "DejaVu Sans Mono", monospace, monospace !important;
     font-size: 0.875em;
 }
+text.label_lifetime{
+    font-family: "Source Code Pro", Monaco, "Ubuntu Mono", Menlo, "DejaVu Sans Mono", monospace, monospace !important;
+    font-size: 0.875em;
+
+}
+
 
 /* timeline/event interaction styling */
 .solid {
@@ -94,6 +121,20 @@ text.label {
     flex-shrink: 0;
 }
 
+.lineNumDashLine{
+    stroke: #6c6a6a; 
+    stroke-width: 2; 
+    stroke-dasharray: 5 3; 
+    stroke-opacity: 0.5;
+}
+
+
+
+text.lineNum{
+    fill: rgba(90,92,90,0.795);
+    font-family: monospace;
+    font-size: 0.875em;
+}
 object.tl_panel {
     flex-grow: 1;
 }
@@ -159,6 +200,68 @@ object.code_panel {
     fill: #b99f35;
     stroke: #b99f35;
 }
+
+[lifetime-body="a"]{
+    fill: #dc143c;
+    stroke: #dc143c;
+}
+[lifetime-dash="a"]{
+    fill: rgba(220,20,60,0.451);
+    stroke: rgba(220,20,60,0.469);
+}
+
+[lifetime-body-hash="0"]{
+    fill: #47b2df;
+    stroke: #47b2df;
+}
+
+[lifetime-dash-hash="0"]{
+    fill: rgba(71,177,223,0.600);
+    stroke: rgba(71,177,223,0.600);
+}
+
+[lifetime-reg-hash="0"]{
+    stroke: rgba(71,177,223,0.600);
+}
+
+[lifetime-body-hash="1"]{
+    fill: #03b72a;
+    stroke: #03b72a;
+}
+[lifetime-dash-hash="1"]{
+    fill: rgba(3,183,42,0.600);
+    stroke:rgba(3,183,42,0.600);
+}
+
+[lifetime-reg-hash="1"]{
+    stroke:rgba(3,183,42,0.600);
+}
+
+[lifetime-body-hash="2"]{
+    fill: #e98615;
+    stroke: #e98615;
+}
+[lifetime-dash-hash="2"]{
+    fill: rgba(233,134,21,0.600);
+    stroke: rgba(233,134,21,0.600);
+}
+
+[lifetime-reg-hash="2"]{
+    stroke: rgba(233,134,21,0.600);
+}
+
+[lifetime-body-hash="3"]{
+    fill: #f10dde;
+    stroke: #f10dde;
+}
+[lifetime-dash-hash="3"]{
+    fill: rgba(241,13,222,0.600);
+    stroke: rgba(241,13,222,0.600);
+}
+
+[lifetime-reg-hash="3"]{
+    stroke: rgba(241,13,222,0.600);
+}
         
         text {
             user-select: none;
@@ -207,19 +310,19 @@ object.code_panel {
     </g>
 
     <g id="timelines">
-        <line data-hash="1" class="solid tooltip-trigger" x1="70" x2="70" y1="115" y2="175" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
+        <line data-hash="1" class="solid tooltip-trigger" x1="70.0" x2="70" y1="115" y2="175" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
         Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono',
         monospace, monospace !important;&quot;&gt;s1&lt;/span&gt; is the owner of the resource. The binding can be reassigned."/>
-        <line data-hash="1" class="solid tooltip-trigger" x1="70" x2="70" y1="175" y2="205" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
+        <line data-hash="1" class="solid tooltip-trigger" x1="70.0" x2="70" y1="175" y2="205" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
         Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono',
         monospace, monospace !important;&quot;&gt;s1&lt;/span&gt; is the owner of the resource. The binding can be reassigned."/>
-        <line data-hash="1" class="solid tooltip-trigger" x1="70" x2="70" y1="205" y2="235" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
+        <line data-hash="1" class="solid tooltip-trigger" x1="70.0" x2="70" y1="205" y2="235" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
         Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono',
         monospace, monospace !important;&quot;&gt;s1&lt;/span&gt; is the owner of the resource. The binding can be reassigned."/>
         <path data-hash="1" class="hollow tooltip-trigger" style="fill:transparent;" d="M 68.2,235 V 235 h 3.5 V 235 h -3.5" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
         Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono',
         monospace, monospace !important;&quot;&gt;s1&lt;/span&gt;'s resource is being shared by one or more variables. The binding cannot be reassigned."/>
-        <line data-hash="1" class="solid tooltip-trigger" x1="70" x2="70" y1="235" y2="265" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
+        <line data-hash="1" class="solid tooltip-trigger" x1="70.0" x2="70" y1="235" y2="265" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
         Consolas, 'Ubuntu Mono', Menlo, 'DejaVu Sans Mono',
         monospace, monospace !important;&quot;&gt;s1&lt;/span&gt; is the owner of the resource. The binding can be reassigned."/>
         <path data-hash="2" class="hollow tooltip-trigger" style="fill:transparent;" d="M 138.2,145 V 175 h 3.5 V 145 h -3.5" data-tooltip-text="&lt;span style=&quot;font-family: 'Source Code Pro',
