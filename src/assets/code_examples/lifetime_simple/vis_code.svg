@@ -1,4 +1,4 @@
-<svg height="505px" width="320px" 
+<svg height="525px" width="320px" 
         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 
     <desc>examples/lifetime_simple/input/</desc>
@@ -39,9 +39,25 @@ text.code {
     font-family: "Source Code Pro", Consolas, "Ubuntu Mono", Menlo, "DejaVu Sans Mono", monospace, monospace !important;
     font-size: 0.875em;
 }
-text.funcSigCode {
+
+text.funcSigCodeParam {
+    fill: #000300;
+    font-weight: bold;
+    white-space: pre;
+    font-family: monospace;
+    font-size: 1.2em;
+}
+
+text.funcSigCodeType {
     fill: #13b516;
     font-weight: bold;
+    white-space: pre;
+    font-family: monospace;
+    font-size: 1.2em;
+}
+
+text.funcSigCodeSep {
+    fill: #79bff1e9;
     white-space: pre;
     font-family: monospace;
     font-size: 1.2em;

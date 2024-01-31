@@ -1,8 +1,8 @@
-<svg width="421px" height="640px" 
+<svg width="838px" height="640px" 
         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-        id="tl_examples/lifetime_cpy/input/">
+        id="tl_examples/lifetime_test/input/">
 
-    <desc>examples/lifetime_cpy/input/</desc>
+    <desc>examples/lifetime_test/input/</desc>
 
     <defs>
         <style type="text/css">
@@ -40,9 +40,25 @@ text.code {
     font-family: "Source Code Pro", Consolas, "Ubuntu Mono", Menlo, "DejaVu Sans Mono", monospace, monospace !important;
     font-size: 0.875em;
 }
-text.funcSigCode {
+
+text.funcSigCodeParam {
+    fill: #000300;
+    font-weight: bold;
+    white-space: pre;
+    font-family: monospace;
+    font-size: 1.2em;
+}
+
+text.funcSigCodeType {
     fill: #13b516;
     font-weight: bold;
+    white-space: pre;
+    font-family: monospace;
+    font-size: 1.2em;
+}
+
+text.funcSigCodeSep {
+    fill: #79bff1e9;
     white-space: pre;
     font-family: monospace;
     font-size: 1.2em;
@@ -312,10 +328,23 @@ object.code_panel {
     </defs>
 
        <text class="structInstance tooltip-trigger" x="10" y="20" data-tooltip-text="&lt;span style&#x3D;&quot;font-style: italic;font-weight: bold&quot;&gt;&amp;&#x27;i Circle.self&lt;/span&gt;&lt;br /&gt;Invocation of &lt;span style&#x3D;&quot;font-style: italic;font-weight: bold&quot;&gt;cmp&lt;/span&gt; is dependent on struct instance &lt;span style&#x3D;&quot;font-style: italic;font-weight: bold&quot;&gt;c&lt;/span&gt;,&lt;br /&gt; which contributes to calculation of lifetime parameter as well.">  Circle </text>
-       <text class="funcSigCode" x="78" y="20"> ::cmp&lt;&#x27;i&gt;( </text>
-       <text class="funcSigCode" x="178" y="20"> &amp;&#x27;i i32) </text>
-       <text class="funcSigCode" x="178" y="40"> &amp;r2: &amp;&#x27;r2 i32 </text>
-       <text class="lifetime tooltip-trigger" x="178" y="63" data-tooltip-text="lifetime of &amp;r2 should be less than &#x27;i"> &#x27;r2 &lt;&#x3D; &#x27;i </text>
+       <text class="funcSigCodeParam" x="78" y="20"> ::cmp&lt;&#x27;i,&#x27;a&gt;( </text>
+       <text class="funcSigCodeParam" x="208" y="20"> &amp;&#x27;i i32, </text>
+       <text class="funcSigCodeType" x="208" y="40"> &amp;r2: &amp;&#x27;r2 i32 </text>
+       <text class="lifetime tooltip-trigger" x="208" y="63" data-tooltip-text="lifetime of &amp;r2 should be contained by &#x27;i"> &#x27;r2 &lt;&#x3D; &#x27;i </text>
+       <text class="funcSigCodeParam" x="343" y="20"> &amp;&#x27;a i32) </text>
+       <text class="funcSigCodeType" x="343" y="40"> &amp;r1: &amp;&#x27;r1 i32 </text>
+       <text class="lifetime tooltip-trigger" x="343" y="63" data-tooltip-text="lifetime of &amp;r1 should be contained by &#x27;a"> &#x27;r1 &lt;&#x3D; &#x27;a </text>
+       <text class="funcSigCodeParam" x="478" y="20"> -&gt; </text>
+       <text class="funcSigCodeParam" x="528" y="20"> ( </text>
+       <text class="funcSigCodeParam" x="538" y="20"> &amp;&#x27;i i32, </text>
+       <text class="funcSigCodeType" x="538" y="40"> opt: &amp;&#x27;opt i32 </text>
+       <text class="lifetime tooltip-trigger" x="538" y="63" data-tooltip-text="lifetime of opt should be contained by &#x27;i"> &#x27;opt &lt;&#x3D; &#x27;i </text>
+       <text class="funcSigCodeParam" x="683" y="20"> &amp;&#x27;a i32) </text>
+       <text class="funcSigCodeType" x="683" y="40"> ptr: &amp;&#x27;ptr i32 </text>
+       <text class="lifetime tooltip-trigger" x="683" y="63" data-tooltip-text="lifetime of ptr should be contained by &#x27;a"> &#x27;ptr &lt;&#x3D; &#x27;a </text>
+       <text class="funcSigCodeParam" x="828" y="20"> ) </text>
+       <text class="funcSigCodeSep" x="10" y="49"> ----------------------------------------------------------------------------------- </text>
 
     <rect class="tooltip-trigger" lifetime-reg-hash="0" stroke-width="3" stroke-dasharray="5,2" x="25" y="100"  width="341" height="485" fill="none" data-tooltip-text="lifetime calculation block for &#x27;i"/>
 
@@ -338,10 +367,10 @@ object.code_panel {
     
 
             <g id="lifetime-column-opt: &#x27;i">
-                <text x="248" y="90" style="text-anchor:middle" data-hash="3" class="label tooltip-trigger" data-tooltip-text="opt: &amp;&#x27;i i32">opt: &#x27;i</text>
-                <circle cx="248" cy="410" r="5" data-hash="3" class="tooltip-trigger" data-tooltip-text="opt comes into scope." />
-                <line data-hash="3" class="solid tooltip-trigger" x1="248" x2="248" y1="410" y2="440" data-tooltip-text="Lifetime of opt continues."/>
-                <circle cx="248" cy="440" r="5" data-hash="3" class="tooltip-trigger" data-tooltip-text="opt comes out of scope. Resource get dropped and self get destroyed." />
+                <text x="248" y="90" style="text-anchor:middle" data-hash="4" class="label tooltip-trigger" data-tooltip-text="opt: &amp;&#x27;i i32">opt: &#x27;i</text>
+                <circle cx="248" cy="410" r="5" data-hash="4" class="tooltip-trigger" data-tooltip-text="opt comes into scope." />
+                <line data-hash="4" class="solid tooltip-trigger" x1="248" x2="248" y1="410" y2="440" data-tooltip-text="Lifetime of opt continues."/>
+                <circle cx="248" cy="440" r="5" data-hash="4" class="tooltip-trigger" data-tooltip-text="opt comes out of scope. Resource get dropped and self get destroyed." />
             </g>
     
 
@@ -361,10 +390,10 @@ object.code_panel {
                 <polygon class="tooltip-trigger" data-hash="1" points="326,475 321,470 331,470" data-tooltip-text="&lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;&#x27;i&lt;/span&gt; should be at least as large as lifetime of &lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;c&lt;/span&gt;." />
             </g>
     
-            <g id="double-head-arrow-3">
-                <polygon class="tooltip-trigger" data-hash="3" points="326,405 321,410 331,410" data-tooltip-text="&lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;&#x27;i&lt;/span&gt; should be at least as large as lifetime of &lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;opt&lt;/span&gt;." />
-                <line data-hash="3" class="solid tooltip-trigger" x1="326" x2="326" y1="410" y2="440" data-tooltip-text="&lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;&#x27;i&lt;/span&gt; should be at least as large as lifetime of &lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;opt&lt;/span&gt;."/>
-                <polygon class="tooltip-trigger" data-hash="3" points="326,445 321,440 331,440" data-tooltip-text="&lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;&#x27;i&lt;/span&gt; should be at least as large as lifetime of &lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;opt&lt;/span&gt;." />
+            <g id="double-head-arrow-4">
+                <polygon class="tooltip-trigger" data-hash="4" points="326,405 321,410 331,410" data-tooltip-text="&lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;&#x27;i&lt;/span&gt; should be at least as large as lifetime of &lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;opt&lt;/span&gt;." />
+                <line data-hash="4" class="solid tooltip-trigger" x1="326" x2="326" y1="410" y2="440" data-tooltip-text="&lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;&#x27;i&lt;/span&gt; should be at least as large as lifetime of &lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;opt&lt;/span&gt;."/>
+                <polygon class="tooltip-trigger" data-hash="4" points="326,445 321,440 331,440" data-tooltip-text="&lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;&#x27;i&lt;/span&gt; should be at least as large as lifetime of &lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;opt&lt;/span&gt;." />
             </g>
     
             <g id="double-head-arrow-2">
@@ -373,23 +402,72 @@ object.code_panel {
                 <polygon class="tooltip-trigger" data-hash="2" points="326,415 321,410 331,410" data-tooltip-text="&lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;&#x27;i&lt;/span&gt; should be at least as large as lifetime of &lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;&amp;r2&lt;/span&gt;." />
             </g>
     
+    <rect class="tooltip-trigger" lifetime-reg-hash="1" stroke-width="3" stroke-dasharray="5,2" x="416" y="100"  width="271" height="485" fill="none" data-tooltip-text="lifetime calculation block for &#x27;a"/>
+
+    
+
+            <g id="lifetime-column-&amp;r1: &#x27;a">
+                <text x="491" y="90" style="text-anchor:middle" data-hash="3" class="label tooltip-trigger" data-tooltip-text="&amp;r1: &amp;&#x27;a i32">&amp;r1: &#x27;a</text>
+                <circle cx="491" cy="380" r="5" data-hash="3" class="tooltip-trigger" data-tooltip-text="&amp;r1 comes into scope." />
+                <line data-hash="3" class="solid tooltip-trigger" x1="491" x2="491" y1="380" y2="410" data-tooltip-text="Lifetime of &amp;r1 continues."/>
+                <circle cx="491" cy="410" r="5" data-hash="3" class="tooltip-trigger" data-tooltip-text="&amp;r1 comes out of scope. Resource get dropped and self get destroyed." />
+            </g>
+    
+
+            <g id="lifetime-column-ptr: &#x27;a">
+                <text x="569" y="90" style="text-anchor:middle" data-hash="5" class="label tooltip-trigger" data-tooltip-text="ptr: &amp;&#x27;a i32">ptr: &#x27;a</text>
+                <circle cx="569" cy="410" r="5" data-hash="5" class="tooltip-trigger" data-tooltip-text="ptr comes into scope." />
+                <line data-hash="5" class="solid tooltip-trigger" x1="569" x2="569" y1="410" y2="440" data-tooltip-text="Lifetime of ptr continues."/>
+                <circle cx="569" cy="440" r="5" data-hash="5" class="tooltip-trigger" data-tooltip-text="ptr comes out of scope. Resource get dropped and self get destroyed." />
+            </g>
+    
+
+            <g id="lp-column-&#x27;a: [10,12]">
+                <line lifetime-dash-hash="1" stroke-width="3" stroke-dasharray="5,2" class="tooltip-trigger" x1="647" x2="647" y1="350" y2="470" data-tooltip-text="&lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;&#x27;a&lt;/span&gt; can be infinitely large. But we want it as small as possible so as to reduce the constraint to borrow checker"/>
+                <text x="677" y="90" style="text-anchor:middle" lifetime-body-hash="1" class="label_lifetime tooltip-trigger" data-tooltip-text="&lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;&#x27;a&lt;/span&gt; is calculated based on lifetimes of &lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;&amp;r1, ptr&lt;/span&gt;">&#x27;a: [10,12]</text>
+                <polygon class="tooltip-trigger" lifetime-body-hash="1" points="677,375 672,380 682,380" data-tooltip-text="&lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;&#x27;a&lt;/span&gt; could start earlier, but it&#x27;s unnecessary since references related to it haven&#x27;t come into scope yet." />
+                <line lifetime-body-hash="1" class="solid tooltip-trigger" x1="677" x2="677" y1="380" y2="440" data-tooltip-text="The smallest scope for &lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;&#x27;a&lt;/span&gt; to validate all variable lifetimes related to it"/>
+                <polygon class="tooltip-trigger" lifetime-body-hash="1" points="677,445 672,440 682,440" data-tooltip-text="&lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;&#x27;a&lt;/span&gt; could end later, but it&#x27;s unnecessary since references related to it have all gone out of scope." />
+            </g>
+    
+
+    
+            <g id="double-head-arrow-3">
+                <polygon class="tooltip-trigger" data-hash="3" points="647,375 642,380 652,380" data-tooltip-text="&lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;&#x27;a&lt;/span&gt; should be at least as large as lifetime of &lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;&amp;r1&lt;/span&gt;." />
+                <line data-hash="3" class="solid tooltip-trigger" x1="647" x2="647" y1="380" y2="410" data-tooltip-text="&lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;&#x27;a&lt;/span&gt; should be at least as large as lifetime of &lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;&amp;r1&lt;/span&gt;."/>
+                <polygon class="tooltip-trigger" data-hash="3" points="647,415 642,410 652,410" data-tooltip-text="&lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;&#x27;a&lt;/span&gt; should be at least as large as lifetime of &lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;&amp;r1&lt;/span&gt;." />
+            </g>
+    
+            <g id="double-head-arrow-5">
+                <polygon class="tooltip-trigger" data-hash="5" points="647,405 642,410 652,410" data-tooltip-text="&lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;&#x27;a&lt;/span&gt; should be at least as large as lifetime of &lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;ptr&lt;/span&gt;." />
+                <line data-hash="5" class="solid tooltip-trigger" x1="647" x2="647" y1="410" y2="440" data-tooltip-text="&lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;&#x27;a&lt;/span&gt; should be at least as large as lifetime of &lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;ptr&lt;/span&gt;."/>
+                <polygon class="tooltip-trigger" data-hash="5" points="647,445 642,440 652,440" data-tooltip-text="&lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;&#x27;a&lt;/span&gt; should be at least as large as lifetime of &lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;ptr&lt;/span&gt;." />
+            </g>
+    
             <g id="dashed-line-12">
-                <line class="lineNumDashLine" x1="30" y1="440" x2="451" y2="440" />
+                <line class="lineNumDashLine" x1="30" y1="440" x2="772" y2="440" />
                 <text class="lineNum" x="30" y="440" text-anchor="start">#12</text>
             </g>
     
 
     
-            <g id="dashed-line-11">
-                <line class="lineNumDashLine" x1="30" y1="410" x2="451" y2="410" />
-                <text class="lineNum" x="30" y="410" text-anchor="start">#11</text>
+            <g id="dashed-line-13">
+                <line class="lineNumDashLine" x1="30" y1="470" x2="772" y2="470" />
+                <text class="lineNum" x="30" y="470" text-anchor="start">#13</text>
             </g>
     
 
     
-            <g id="dashed-line-13">
-                <line class="lineNumDashLine" x1="30" y1="470" x2="451" y2="470" />
-                <text class="lineNum" x="30" y="470" text-anchor="start">#13</text>
+            <g id="dashed-line-10">
+                <line class="lineNumDashLine" x1="30" y1="380" x2="772" y2="380" />
+                <text class="lineNum" x="30" y="380" text-anchor="start">#10</text>
+            </g>
+    
+
+    
+            <g id="dashed-line-11">
+                <line class="lineNumDashLine" x1="30" y1="410" x2="772" y2="410" />
+                <text class="lineNum" x="30" y="410" text-anchor="start">#11</text>
             </g>
     
 
