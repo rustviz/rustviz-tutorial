@@ -328,23 +328,22 @@ object.code_panel {
     </defs>
 
        <text class="structInstance tooltip-trigger" x="10" y="20" data-tooltip-text="&lt;span style&#x3D;&quot;font-style: italic;font-weight: bold&quot;&gt;&amp;&#x27;i Circle.self&lt;/span&gt;&lt;br /&gt;Invocation of &lt;span style&#x3D;&quot;font-style: italic;font-weight: bold&quot;&gt;cmp&lt;/span&gt; is dependent on struct instance &lt;span style&#x3D;&quot;font-style: italic;font-weight: bold&quot;&gt;c&lt;/span&gt;,&lt;br /&gt; which contributes to calculation of lifetime parameter as well.">  Circle </text>
-       <text class="funcSigCodeParam" x="78" y="20"> ::cmp&lt;&#x27;i,&#x27;a&gt;( </text>
-       <text class="funcSigCodeParam" x="208" y="20"> &amp;&#x27;i i32, </text>
-       <text class="funcSigCodeType" x="208" y="40"> &amp;r2: &amp;&#x27;r2 i32 </text>
-       <text class="lifetime tooltip-trigger" x="208" y="63" data-tooltip-text="lifetime of &amp;r2 should be contained by &#x27;i"> &#x27;r2 &lt;&#x3D; &#x27;i </text>
-       <text class="funcSigCodeParam" x="343" y="20"> &amp;&#x27;a i32) </text>
-       <text class="funcSigCodeType" x="343" y="40"> &amp;r1: &amp;&#x27;r1 i32 </text>
-       <text class="lifetime tooltip-trigger" x="343" y="63" data-tooltip-text="lifetime of &amp;r1 should be contained by &#x27;a"> &#x27;r1 &lt;&#x3D; &#x27;a </text>
-       <text class="funcSigCodeParam" x="478" y="20"> -&gt; </text>
-       <text class="funcSigCodeParam" x="528" y="20"> ( </text>
-       <text class="funcSigCodeParam" x="538" y="20"> &amp;&#x27;i i32, </text>
-       <text class="funcSigCodeType" x="538" y="40"> opt: &amp;&#x27;opt i32 </text>
-       <text class="lifetime tooltip-trigger" x="538" y="63" data-tooltip-text="lifetime of opt should be contained by &#x27;i"> &#x27;opt &lt;&#x3D; &#x27;i </text>
-       <text class="funcSigCodeParam" x="683" y="20"> &amp;&#x27;a i32) </text>
-       <text class="funcSigCodeType" x="683" y="40"> ptr: &amp;&#x27;ptr i32 </text>
-       <text class="lifetime tooltip-trigger" x="683" y="63" data-tooltip-text="lifetime of ptr should be contained by &#x27;a"> &#x27;ptr &lt;&#x3D; &#x27;a </text>
-       <text class="funcSigCodeParam" x="828" y="20"> ) </text>
-       <text class="funcSigCodeSep" x="10" y="49"> ----------------------------------------------------------------------------------- </text>
+       <text class="funcSigCodeParam" x="78" y="20"> ::cmp&lt;&#x27;i,&#x27;a&gt; ( </text>
+       <text class="funcSigCodeParam" x="218" y="20"> &amp;&#x27;i i32, </text>
+       <text class="funcSigCodeType" x="218" y="40"> &amp;r2: &amp;&#x27;r2 i32 </text>
+       <text class="lifetime tooltip-trigger" x="218" y="63" data-tooltip-text="lifetime of &amp;r2 should be contained by &#x27;i"> &#x27;r2 &lt;&#x3D; &#x27;i </text>
+       <text class="funcSigCodeParam" x="353" y="20"> &amp;&#x27;a i32 ) </text>
+       <text class="funcSigCodeType" x="353" y="40"> &amp;r1: &amp;&#x27;r1 i32 </text>
+       <text class="lifetime tooltip-trigger" x="353" y="63" data-tooltip-text="lifetime of &amp;r1 should be contained by &#x27;a"> &#x27;r1 &lt;&#x3D; &#x27;a </text>
+       <text class="funcSigCodeParam" x="488" y="20"> -&gt; </text>
+       <text class="funcSigCodeParam" x="538" y="20"> ( </text>
+       <text class="funcSigCodeParam" x="548" y="20"> &amp;&#x27;i i32, </text>
+       <text class="funcSigCodeType" x="548" y="40"> opt: &amp;&#x27;opt i32 </text>
+       <text class="lifetime tooltip-trigger" x="548" y="63" data-tooltip-text="lifetime of opt should be contained by &#x27;i"> &#x27;opt &lt;&#x3D; &#x27;i </text>
+       <text class="funcSigCodeParam" x="693" y="20"> &amp;&#x27;a i32) </text>
+       <text class="funcSigCodeType" x="693" y="40"> ptr: &amp;&#x27;ptr i32 </text>
+       <text class="lifetime tooltip-trigger" x="693" y="63" data-tooltip-text="lifetime of ptr should be contained by &#x27;a"> &#x27;ptr &lt;&#x3D; &#x27;a </text>
+       <text class="funcSigCodeSep" x="10" y="51"> ----------------------------------------------------------------------------------- </text>
 
     <rect class="tooltip-trigger" lifetime-reg-hash="0" stroke-width="3" stroke-dasharray="5,2" x="25" y="100"  width="341" height="485" fill="none" data-tooltip-text="lifetime calculation block for &#x27;i"/>
 
@@ -451,16 +450,16 @@ object.code_panel {
     
 
     
-            <g id="dashed-line-10">
-                <line class="lineNumDashLine" x1="30" y1="380" x2="772" y2="380" />
-                <text class="lineNum" x="30" y="380" text-anchor="start">#10</text>
+            <g id="dashed-line-11">
+                <line class="lineNumDashLine" x1="30" y1="410" x2="772" y2="410" />
+                <text class="lineNum" x="30" y="410" text-anchor="start">#11</text>
             </g>
     
 
     
-            <g id="dashed-line-11">
-                <line class="lineNumDashLine" x1="30" y1="410" x2="772" y2="410" />
-                <text class="lineNum" x="30" y="410" text-anchor="start">#11</text>
+            <g id="dashed-line-10">
+                <line class="lineNumDashLine" x1="30" y1="380" x2="772" y2="380" />
+                <text class="lineNum" x="30" y="380" text-anchor="start">#10</text>
             </g>
     
 

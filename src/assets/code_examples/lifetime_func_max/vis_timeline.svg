@@ -1,4 +1,4 @@
-<svg width="455px" height="790px" 
+<svg width="470px" height="790px" 
         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
         id="tl_examples/lifetime_func_max/input/">
 
@@ -327,18 +327,18 @@ object.code_panel {
         </filter>
     </defs>
 
-       <text class="funcSigCodeParam" x="10" y="20"> max&lt;&#x27;a&gt;( </text>
-       <text class="funcSigCodeParam" x="90" y="20"> &amp;&#x27;a i32, </text>
-       <text class="funcSigCodeType" x="90" y="40"> x: &amp;&#x27;x i32 </text>
-       <text class="lifetime tooltip-trigger" x="90" y="63" data-tooltip-text="lifetime of x should be contained by &#x27;a"> &#x27;x &lt;&#x3D; &#x27;a </text>
-       <text class="funcSigCodeParam" x="195" y="20"> &amp;&#x27;a i32) </text>
-       <text class="funcSigCodeType" x="195" y="40"> y: &amp;&#x27;y i32 </text>
-       <text class="lifetime tooltip-trigger" x="195" y="63" data-tooltip-text="lifetime of y should be contained by &#x27;a"> &#x27;y &lt;&#x3D; &#x27;a </text>
-       <text class="funcSigCodeParam" x="300" y="20"> -&gt; </text>
-       <text class="funcSigCodeParam" x="350" y="20"> &amp;&#x27;a i32 </text>
-       <text class="funcSigCodeType" x="350" y="40"> r: &amp;&#x27;r i32 </text>
-       <text class="lifetime tooltip-trigger" x="350" y="63" data-tooltip-text="lifetime of r should be contained by &#x27;a"> &#x27;r &lt;&#x3D; &#x27;a </text>
-       <text class="funcSigCodeSep" x="10" y="49"> --------------------------------------------- </text>
+       <text class="funcSigCodeParam" x="10" y="20"> max&lt;&#x27;a&gt; ( </text>
+       <text class="funcSigCodeParam" x="100" y="20"> &amp;&#x27;a i32, </text>
+       <text class="funcSigCodeType" x="100" y="40"> x: &amp;&#x27;x i32 </text>
+       <text class="lifetime tooltip-trigger" x="100" y="63" data-tooltip-text="lifetime of x should be contained by &#x27;a"> &#x27;x &lt;&#x3D; &#x27;a </text>
+       <text class="funcSigCodeParam" x="205" y="20"> &amp;&#x27;a i32 ) </text>
+       <text class="funcSigCodeType" x="205" y="40"> y: &amp;&#x27;y i32 </text>
+       <text class="lifetime tooltip-trigger" x="205" y="63" data-tooltip-text="lifetime of y should be contained by &#x27;a"> &#x27;y &lt;&#x3D; &#x27;a </text>
+       <text class="funcSigCodeParam" x="310" y="20"> -&gt; </text>
+       <text class="funcSigCodeParam" x="360" y="20"> &amp;&#x27;a i32 </text>
+       <text class="funcSigCodeType" x="360" y="40"> r: &amp;&#x27;r i32 </text>
+       <text class="lifetime tooltip-trigger" x="360" y="63" data-tooltip-text="lifetime of r should be contained by &#x27;a"> &#x27;r &lt;&#x3D; &#x27;a </text>
+       <text class="funcSigCodeSep" x="10" y="51"> ---------------------------------------------- </text>
 
     <rect class="tooltip-trigger" lifetime-reg-hash="0" stroke-width="3" stroke-dasharray="5,2" x="25" y="100"  width="325" height="395" fill="none" data-tooltip-text="lifetime calculation block for &#x27;a"/>
 
@@ -403,16 +403,9 @@ object.code_panel {
     
 
     
-            <g id="dashed-line-10">
-                <line class="lineNumDashLine" x1="30" y1="380" x2="435" y2="380" />
-                <text class="lineNum" x="30" y="380" text-anchor="start">#10</text>
-            </g>
-    
-
-    
-            <g id="dashed-line-6">
-                <line class="lineNumDashLine" x1="30" y1="260" x2="435" y2="260" />
-                <text class="lineNum" x="30" y="260" text-anchor="start">#6</text>
+            <g id="dashed-line-4">
+                <line class="lineNumDashLine" x1="30" y1="200" x2="435" y2="200" />
+                <text class="lineNum" x="30" y="200" text-anchor="start">#4</text>
             </g>
     
 
@@ -424,9 +417,16 @@ object.code_panel {
     
 
     
-            <g id="dashed-line-4">
-                <line class="lineNumDashLine" x1="30" y1="200" x2="435" y2="200" />
-                <text class="lineNum" x="30" y="200" text-anchor="start">#4</text>
+            <g id="dashed-line-10">
+                <line class="lineNumDashLine" x1="30" y1="380" x2="435" y2="380" />
+                <text class="lineNum" x="30" y="380" text-anchor="start">#10</text>
+            </g>
+    
+
+    
+            <g id="dashed-line-6">
+                <line class="lineNumDashLine" x1="30" y1="260" x2="435" y2="260" />
+                <text class="lineNum" x="30" y="260" text-anchor="start">#6</text>
             </g>
     
 

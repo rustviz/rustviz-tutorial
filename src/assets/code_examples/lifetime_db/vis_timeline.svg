@@ -1,4 +1,4 @@
-<svg width="1847px" height="1810px" 
+<svg width="1862px" height="1810px" 
         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
         id="tl_examples/lifetime_db/input/">
 
@@ -327,19 +327,19 @@ object.code_panel {
         </filter>
     </defs>
 
-       <text class="funcSigCodeParam" x="10" y="20"> process_requests&lt;&#x27;i,&#x27;a&gt;( </text>
-       <text class="funcSigCodeParam" x="250" y="20"> &amp;&#x27;i mut VecDeque&lt;&amp;&#x27;i mut Request&lt;&#x27;i&gt;&gt;, </text>
-       <text class="masterInstance tooltip-trigger" x="250" y="40" data-tooltip-text="*&amp;mut request_queue* contains &amp;mut RD_rq, &amp;mut UD_rq, &amp;mut DL_rq, which all contribute to calculation of &#x27;i.">  &amp;mut request_queue </text>
-       <text class="funcSigCodeType" x="412" y="40"> : &amp;&#x27;request_queue mut VecDeque&lt;&amp;&#x27;i mut Request&lt;&#x27;i&gt;&gt; </text>
-       <text class="lifetime tooltip-trigger" x="250" y="63" data-tooltip-text="lifetime of &amp;mut request_queue should be contained by &#x27;i"> &#x27;request_queue &lt;&#x3D; &#x27;i </text>
-       <text class="funcSigCodeParam" x="927" y="20"> &amp;&#x27;a mut u32) </text>
-       <text class="funcSigCodeType" x="927" y="40"> ptr_to_resource: &amp;&#x27;ptr_to_resource mut u32 </text>
-       <text class="lifetime tooltip-trigger" x="927" y="63" data-tooltip-text="lifetime of ptr_to_resource should be contained by &#x27;a"> &#x27;ptr_to_resource &lt;&#x3D; &#x27;a </text>
-       <text class="funcSigCodeParam" x="1352" y="20"> -&gt; </text>
-       <text class="funcSigCodeParam" x="1402" y="20"> Option&lt;&amp;&#x27;i mut Request&lt;&#x27;i&gt;&gt; </text>
-       <text class="funcSigCodeType" x="1402" y="40"> request_halfway: Option&lt;&amp;&#x27;i mut Request&lt;&#x27;i&gt;&gt; </text>
-       <text class="lifetime tooltip-trigger" x="1402" y="63" data-tooltip-text="lifetime of request_halfway should be contained by &#x27;i"> (scope of request_halfway) &lt;&#x3D; &#x27;i </text>
-       <text class="funcSigCodeSep" x="10" y="49"> ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- </text>
+       <text class="funcSigCodeParam" x="10" y="20"> process_requests&lt;&#x27;i,&#x27;a&gt; ( </text>
+       <text class="funcSigCodeParam" x="260" y="20"> &amp;&#x27;i mut VecDeque&lt;&amp;&#x27;i mut Request&lt;&#x27;i&gt;&gt;, </text>
+       <text class="masterInstance tooltip-trigger" x="260" y="40" data-tooltip-text="*&amp;mut request_queue* contains &amp;mut RD_rq, &amp;mut UD_rq, &amp;mut DL_rq, which all contribute to calculation of &#x27;i.">  &amp;mut request_queue </text>
+       <text class="funcSigCodeType" x="422" y="40"> : &amp;&#x27;request_queue mut VecDeque&lt;&amp;&#x27;i mut Request&lt;&#x27;i&gt;&gt; </text>
+       <text class="lifetime tooltip-trigger" x="260" y="63" data-tooltip-text="lifetime of &amp;mut request_queue should be contained by &#x27;i"> &#x27;request_queue &lt;&#x3D; &#x27;i </text>
+       <text class="funcSigCodeParam" x="937" y="20"> &amp;&#x27;a mut u32 ) </text>
+       <text class="funcSigCodeType" x="937" y="40"> ptr_to_resource: &amp;&#x27;ptr_to_resource mut u32 </text>
+       <text class="lifetime tooltip-trigger" x="937" y="63" data-tooltip-text="lifetime of ptr_to_resource should be contained by &#x27;a"> &#x27;ptr_to_resource &lt;&#x3D; &#x27;a </text>
+       <text class="funcSigCodeParam" x="1362" y="20"> -&gt; </text>
+       <text class="funcSigCodeParam" x="1412" y="20"> Option&lt;&amp;&#x27;i mut Request&lt;&#x27;i&gt;&gt; </text>
+       <text class="funcSigCodeType" x="1412" y="40"> request_halfway: Option&lt;&amp;&#x27;i mut Request&lt;&#x27;i&gt;&gt; </text>
+       <text class="lifetime tooltip-trigger" x="1412" y="63" data-tooltip-text="lifetime of request_halfway should be contained by &#x27;i"> (scope of request_halfway) &lt;&#x3D; &#x27;i </text>
+       <text class="funcSigCodeSep" x="10" y="51"> ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- </text>
 
     <rect class="tooltip-trigger" lifetime-reg-hash="0" stroke-width="3" stroke-dasharray="5,2" x="25" y="100"  width="1129" height="755" fill="none" data-tooltip-text="lifetime calculation block for &#x27;i"/>
 
@@ -453,23 +453,9 @@ object.code_panel {
                 <polygon class="tooltip-trigger" data-hash="5" points="1513,625 1508,620 1518,620" data-tooltip-text="&lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;&#x27;a&lt;/span&gt; should be at least as large as lifetime of &lt;span style&#x3D;&quot;font-family: &#x27;Source Code Pro&#x27;, Consolas, &#x27;Ubuntu Mono&#x27;, Menlo, &#x27;DejaVu Sans Mono&#x27;, monospace, monospace !important;&quot;&gt;ptr_to_resource&lt;/span&gt;." />
             </g>
     
-            <g id="dashed-line-16">
-                <line class="lineNumDashLine" x1="30" y1="560" x2="1638" y2="560" />
-                <text class="lineNum" x="30" y="560" text-anchor="start">#16</text>
-            </g>
-    
-
-    
-            <g id="dashed-line-7">
-                <line class="lineNumDashLine" x1="30" y1="290" x2="1638" y2="290" />
-                <text class="lineNum" x="30" y="290" text-anchor="start">#7</text>
-            </g>
-    
-
-    
-            <g id="dashed-line-17">
-                <line class="lineNumDashLine" x1="30" y1="590" x2="1638" y2="590" />
-                <text class="lineNum" x="30" y="590" text-anchor="start">#17</text>
+            <g id="dashed-line-22">
+                <line class="lineNumDashLine" x1="30" y1="740" x2="1638" y2="740" />
+                <text class="lineNum" x="30" y="740" text-anchor="start">#22</text>
             </g>
     
 
@@ -481,9 +467,16 @@ object.code_panel {
     
 
     
-            <g id="dashed-line-18">
-                <line class="lineNumDashLine" x1="30" y1="620" x2="1638" y2="620" />
-                <text class="lineNum" x="30" y="620" text-anchor="start">#18</text>
+            <g id="dashed-line-17">
+                <line class="lineNumDashLine" x1="30" y1="590" x2="1638" y2="590" />
+                <text class="lineNum" x="30" y="590" text-anchor="start">#17</text>
+            </g>
+    
+
+    
+            <g id="dashed-line-7">
+                <line class="lineNumDashLine" x1="30" y1="290" x2="1638" y2="290" />
+                <text class="lineNum" x="30" y="290" text-anchor="start">#7</text>
             </g>
     
 
@@ -495,9 +488,16 @@ object.code_panel {
     
 
     
-            <g id="dashed-line-22">
-                <line class="lineNumDashLine" x1="30" y1="740" x2="1638" y2="740" />
-                <text class="lineNum" x="30" y="740" text-anchor="start">#22</text>
+            <g id="dashed-line-16">
+                <line class="lineNumDashLine" x1="30" y1="560" x2="1638" y2="560" />
+                <text class="lineNum" x="30" y="560" text-anchor="start">#16</text>
+            </g>
+    
+
+    
+            <g id="dashed-line-18">
+                <line class="lineNumDashLine" x1="30" y1="620" x2="1638" y2="620" />
+                <text class="lineNum" x="30" y="620" text-anchor="start">#18</text>
             </g>
     
 
