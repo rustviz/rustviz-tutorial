@@ -23,13 +23,13 @@ The borrow checker then checks that there are no inconsistent constraints, repor
 For example, in the following code we explicitly write the name of the lifetime for `x`, calling it `'a`:
 
 ```rust
-fn f() {
-  let s = String::from("hello");
-  let x : &'a String = &s;
-  let y = 5;
-  println!("{}", &x);
-  println!("{}, s);
-}
+1 fn f() {
+2  let s = String::from("hello");
+3  let x : &'a String = &s;
+4  let y = 5;
+5  println!("{}", &x);
+6  println!("{}, s);
+7 }
 ```
 
 The borrow checker first generates the constraint that this borrow must not outlive the owner, `s`, which 
@@ -50,11 +50,11 @@ These two constraints are not inconsistent with one another, so there is no borr
 On the other hand, consider the situation where we attempt to return a reference to a locally owned resource from a function
 
 ```rust
-fn f() {
-  let x = String::from("hello");
-  let y : &'a String = &x;
-  y
-}
+1 fn f() {
+2  let x = String::from("hello");
+3  let y : &'a String = &x;
+4  y
+5 }
 ```
 
 Here, we generate the constraint that the borrow must not outlive the owner, `x`, which is in scope from Lines 2 to 5 (without a change in ownership):
@@ -69,7 +69,7 @@ These two constraints are inconsistent with one another, so the borrow checker r
 
 ## Function Lifetime Parameters
 In addition to lifetime parameters on references, functions can also have generic lifetime parameters. 
-Let's look a simple function that takes two references to `i32` and returns the reference to the bigger one. Function `max` is explicitly annotated with lifetime `'a`.
+Let's look at a simple function that takes two `i32` references and returns the reference to the larger quantity. Function `max` has an explicit lifetime parameter `'a`.
 
 ```rust
 fn max<'a>(x: &'a i32, y: &'a i32) -> &'a i32{
@@ -82,7 +82,7 @@ fn max<'a>(x: &'a i32, y: &'a i32) -> &'a i32{
 }
 ```
 
-Here is an example call site for the `max` function (with lfietimes explicitly annotated):
+Here is an example call site for the `max` function (with lifetimes explicitly annotated):
 
 ```rust
 fn main(){
@@ -98,37 +98,62 @@ fn main(){
 }
 ```
 
-Notice that the caller did not need to explicitly instantiate the lifetime parameter `'a` when calling `max`. Instead, this parameter is inferred based on the arguments and the binding of the returned reference. These constraints for each of these are visualized below:
+Notice that we did not need to explicitly pass in the lifetime parameter `'a` when calling `max`. Instead, this parameter is inferred based on the arguments and the binding of the returned reference, which imply lifetime inclusion constraints (that one lifetime must necessarily include another in time for the code to work correctly). These constraints for each of these are visualized below:
 
 <div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
   <object type="image/svg+xml" class="lifetime_func_max code_panel" data="assets/code_examples/lifetime_func_max/vis_code.svg"></object>
   <object type="image/svg+xml" class="lifetime_func_max tl_panel" data="assets/code_examples/lifetime_func_max/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('lifetime_func_max')"></object>
 </div>
 
-TODO: update the diagram to use explicit lifetime names, rather than variable names
+We can perceive lifetime inclusion similar as subtyping. For instance, the provided argument `x` in the function call `max` is a reference with lifetime  `'x`. In the signature of `max`, the corresponding parameter has type `&'a i32`, so we generate the constraint that `'x` must be included in `'a`, written `'x <= 'a` on the top-right of the diagram above and visualized below (hover on the constraint to see the corresponding segment of the visualization). Since we independently have bounds on the lifetime `'x` due to its use in `main` and Rust's non-lexical lifetimes system, we know that `'a` must be inferred to be at least this long.
 
-TODO: discuss subtyping of references via lifetime inclusion
+Similarly, the provided argument `y` has type `&'y i32` and is being passed into to an argument with type `&'a i32` so we generate the lifetime inclusion constraint `'y <= 'a`. In this case, `'y` is smaller than `'x` so our inferred bound on `'a` does not need to get bigger -- hover over the diagram to make sure you understand.
 
-We can perceive lifetime inclusion similar as subtyping. For instance, parameter `x` is annotated with lifetime parameter `'a` in function `max`'s signature, then lifetime of `x` passed into `max` will be a subtype of `'a`. Therefore `'a`'s scope should include lifetime of `x` since it's a supertype.
+Finally, the value returned by the call to `max` is bound to `r`, which has type `&'r i32`. Since the return type of `max` is `&'a i32`, we generate our final constraint, `'r <= 'a`. Again, we independently know that `'r` must live until Line 10, so this enlarges our bound on `'a`. 
 
-TODO: revise the following:
-To reason how borrow checker calculates `'a` of `max`, we need to first identify lifetimes of involved variables, `r`, `x` and `y`. `x` and `y` are limited to the inner scope, so lifetime of `x` is from line 6 to line 9, denoted as [#6,#9], and y's lifetime is [#7,#9]. Since `r` is declared on line 4, which is a reference to `i32`, it comes into scope on line 4 and got dropped after where it's last used, which is the immediate line after `println!`. So lifetime of `r` is [#4, #10].
-Having all lifetimes calculated properly, let's draw out the lifetime visualization for `fn max<'a>` in the caller's point of view:
+Hover over the diagram to see how we compute the final bound by taking into account all three of these lifetime constraints:
+```
+'a >= 'x
+'a >= 'y
+'a >= 'r
+```
+The lifetime that is inferred must be at least as large as the largest of these three lifetimes. By approximating lifetimes with line numbers in the function `main`, we get the equivalent constraint set for `'a`:
+```
+'a >= [#6, #8]
+'a >= [#7, #8]
+'a >= [#4, #10]
+```
+We could infer any lifetime that does not violate these constraints, but we would prefer to infer tight lifetimes to avoid potential errors that relate to overlapping lifetimes, so we ultimately choose the smallest valid lifetime for `'a`, that is `'a >= [#4, #10]`. Hover through the diagram to make sure you understand!
 
-`'a` should be able to encompass the lifetime of all three references and be as small as possible, so as to reduce the amount of constraint bound to the programmer. In this case, `'a = [#4, #10]`, the same as the lifetime of `r`. Try hover on the SVG to see more details!
+## Lifetime Ellision 
+
+TODO: what is lifetime ellision (one or two examples)
+
+More details: https://doc.rust-lang.org/nomicon/lifetime-elision.html
 
 ## Type Lifetime Parameters
 
-A `struct` must have explicit lifetime parameter annotations if it contains a reference. The reason is simple: the reference can't outlive the lender variable, so the `struct` also cannot. Lifetime parameters correlate the lifetime of the reference and `struct`.
+A `struct` must have explicit lifetime parameter annotations if it contains references, because there is no clear way for Rust to infer appropriate lifetime parameters given only a type definition (no constraints are generated). 
 
-Let's see how the lifetime parameter is computed when used to annotate a struct:
-
+For example, in the definition below, both references in the struct share a lifetime:
 ```rust
-struct Book<'a>{
+struct Book<'a> {
     name: &'a String,
+    descr: &'a String,
     serial_num: i32
 }
+```
+However, you could also have two different lifetimes, one for each reference:
+```rust
+struct Book<'a, 'b> {
+    name: &'a String,
+    descr: &'b String,
+    serial_num: i32
+}
+```
 
+
+```
 impl<'a> Book<'a>{
     fn new(_name: &'a String, _serial_num: i32) -> Book<'a>{
         Book { name: _name, serial_num: _serial_num }
@@ -136,16 +161,24 @@ impl<'a> Book<'a>{
 }
 ```
 
-Here we define a `Book` struct that contains an immutable reference to a `String`. `'a` means that if the lifetime of `Book` is `'a`, then the lifetime of `name : &'a String` will be at least `'a`.
+TODO: change visualization to directly use struct syntax:
+```
+Book<'a> { name: &'a String, descr: &'a String }
+           &name: &'name ...
+```
+           
+Here we define a `Book` struct that contains an immutable reference to a `String`. `'a` means that if the lifetime of `Book` is `'a`, then the lifetime of `name : &'a String` will be at least `'a`. Therefore, any instance of `Book` will never outlive its contained reference `name`.
 
 The `impl` block contains one function that create `Book` type in a factory mode.
 
 ```rust
 fn main(){
     let mut name = String::from("The Rust Book");
+    let descr = String::from("TODO");
     let serial_num = 1140987;
     {
-        let rust_book = Book::new(&name, serial_num);
+        // let rust_book = Book::new(&name, serial_num);
+        let rust_book = Book { name: &name, descr: &descr, serial_num: serial_num }
         println!("The name of the book is {}",rust_book.name);
     }
     name = String::from("Behind Borrow Checker");
@@ -174,7 +207,7 @@ Since `&name` is a temporary variable created just to be passed on line 10, its 
 Therefore, `'a` inside the `impl` block will cover lifetime of `rust_book` and `&name` (`serial_num` has nothing to do as it's not annotated by `'a`). So, `'a` = [#10, #12].
 
 
-Note that this program runs well because every usage of a reference is within its legal lifetime scope. For example, changing `name` on line 13 won't cause a `value still borrowed` error since `rust_book.name`, which is a reference to `name`, has been out of scope after line 12.
+
 
 ##### About reference passed on the fly
 
@@ -406,6 +439,7 @@ Let's first calculate the lifetime of each *variable*, since `Request` contains 
 | `ptr_to_resource: &mut u32`                 | [#16, #18]       |
 
 You may ask why lifetime of `request_halfway` only lasts to line 18 rather than the end of `main`. That's because on line 18, the `if let` expression may have moved resource out from `request_halfway` to the new variable created in `if let` inner scope `req`. Even though we're not guaranteed to enter this conditional branch, the borrow checker has to be prudential so as to avoid any possible invalid pointer access. Therefore lifetime of `request_halfway` has to end earlier.
+
 Moreover, noticed that the first argument passed to `process_requests()` is of type `&'i mut VecDeque<&'i mut Request<'i>>`. This means not only the lifetime of reference to `VecDeque`, but also lifetimes of objects contained by `VecDeque` should be considered into calculation of `'i`. Hence, we need to calculate lifetimes of references added to `request_queue` as well, which is easy to just look at when the references got pushed into the queue:
 
 | variable                                    | lifetime (scope) |
