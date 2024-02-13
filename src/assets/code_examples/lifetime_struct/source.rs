@@ -17,8 +17,3 @@ fn main(){
     println!("New name: {}",name);
 }
 
-impl<'a> Book<'a>{
-    fn new(_name: &'a String, _serial_num: i32) -> Book<'a>{
-        Book { name: _name, serial_num: _serial_num }
-    }
-}

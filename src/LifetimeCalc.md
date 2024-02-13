@@ -125,11 +125,27 @@ The lifetime that is inferred must be at least as large as the largest of these 
 ```
 We could infer any lifetime that does not violate these constraints, but we would prefer to infer tight lifetimes to avoid potential errors that relate to overlapping lifetimes, so we ultimately choose the smallest valid lifetime for `'a`, that is `'a >= [#4, #10]`. Hover through the diagram to make sure you understand!
 
-## Lifetime Ellision 
+## Lifetime Elision 
 
-TODO: what is lifetime ellision (one or two examples)
+TODO: what is lifetime elision (one or two examples)
 
-More details: https://doc.rust-lang.org/nomicon/lifetime-elision.html
+To make programmers' life easier in using Rust, Rust allows certain lifetime annotations to be elided. The reason is that the borrow checker can figure out the lifetime constraint itself without ambiguity.
+
+For example:
+```rust
+fn print(s: &str);                                      // elided
+fn print<'a>(s: &'a str);                               // expanded
+```
+The `print` function takes in a reference and returns nothing. Therefore, there is no need to worry about returning invalidated reference. In this case, we don't need to annotated the lifetime explicitly for `s: &str`.
+
+When the function does return a reference, lifetime elision rule may still be applicable. For instance:
+```rust
+fn substr(s: &str, until: usize) -> &str;               // elided
+fn substr<'a>(s: &'a str, until: usize) -> &'a str;     // expanded
+```
+Even though `substr` returns a reference, but it only takes in one input reference `s: &str`. The borrow checker is able to infer that the lifetime of returned reference `&str` must be constrained by `s: &str`. Hence, the programmer can omit the lifetime annotation and let the borrow checker to figure it out.
+
+More details: https://doc.rust-lang.org/book/ch10-03-lifetime-syntax.html
 
 ## Type Lifetime Parameters
 
@@ -153,48 +169,44 @@ struct Book<'a, 'b> {
 ```
 
 
-```
-impl<'a> Book<'a>{
-    fn new(_name: &'a String, _serial_num: i32) -> Book<'a>{
-        Book { name: _name, serial_num: _serial_num }
-    }
-}
-```
 
-TODO: change visualization to directly use struct syntax:
-```
-Book<'a> { name: &'a String, descr: &'a String }
-           &name: &'name ...
-```
-           
+
+TODO: refine this    
 Here we define a `Book` struct that contains an immutable reference to a `String`. `'a` means that if the lifetime of `Book` is `'a`, then the lifetime of `name : &'a String` will be at least `'a`. Therefore, any instance of `Book` will never outlive its contained reference `name`.
 
-The `impl` block contains one function that create `Book` type in a factory mode.
+
 
 ```rust
+struct Book<'a>{
+    name: &'a String,
+    descr: &'a String,
+    serial_num: i32
+}
+
 fn main(){
     let mut name = String::from("The Rust Book");
-    let descr = String::from("TODO");
+    let descr_str = String::from("New Edition of the Rust Book.");
     let serial_num = 1140987;
     {
-        // let rust_book = Book::new(&name, serial_num);
-        let rust_book = Book { name: &name, descr: &descr, serial_num: serial_num }
-        println!("The name of the book is {}",rust_book.name);
+        let descr_ref = &descr_str;
+        let rust_book =  Book { name: &name, descr: descr_ref, serial_num: serial_num };
+        println!("The name of the book is {}", rust_book.name);
     }
     name = String::from("Behind Borrow Checker");
     println!("New name: {}",name);
 }
+
 ```
 
 First and foremost, we need to calculate the lifetime of each variable. It suffices to just look at line numbers and scoping curly brackets:
 
 | Variable     | Lifetime |
 |:------------:|:--------:|
-| `name`       | [#7, #15] |
-| `serial_num` | [#8, #15] |
+| `name`       | [#8, #18] |
+| `serial_num` | [#10, #18] |
 | `rust_book`  | [#10, #12] |
 
-Note that since `rust_book` is in an inner scope, it will be destructed when the scope ends. To calculate lifetime parameter on `Book::new()` invoked on line 10, we list all constraints to the lifetime parameter `'a`.
+Note that since `rust_book` is in an inner scope, it will be destructed when the scope ends. To calculate lifetime parameter on the struct default constructor, we list all constraints to the lifetime parameter `'a`.
 
 <div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display: flex;">
   <object type="image/svg+xml" class="lifetime_struct code_panel" data="assets/code_examples/lifetime_struct/vis_code.svg"></object>
@@ -204,7 +216,7 @@ Note that since `rust_book` is in an inner scope, it will be destructed when the
 
 Since `&name` is a temporary variable created just to be passed on line 10, its lifetime will be limited on line 10 (starts on line 10 and ends on line 10).
 
-Therefore, `'a` inside the `impl` block will cover lifetime of `rust_book` and `&name` (`serial_num` has nothing to do as it's not annotated by `'a`). So, `'a` = [#10, #12].
+Therefore, `'a` inside the `impl` block will cover lifetime of `rust_book` and `&name` (`serial_num` has nothing to do as it's not annotated by `'a`). So, `'a` = [#12, #15].
 
 
 
