@@ -29,14 +29,25 @@ jobs:
     timeout-minutes: 30
     env:
       # The RustViz plugin links against `rustc_private`, which pins
-      # the toolchain. Keep this in sync with `rust-toolchain.toml`
-      # in the rustviz/rustviz repo.
-      RUST_NIGHTLY: nightly-2025-08-20
+      # the toolchain. RUST_NIGHTLY is not set here: the next step
+      # reads it from `rust-toolchain.toml` in the rustviz/rustviz
+      # repo, so an upstream nightly bump never breaks this workflow.
       # The plugin source repo. We clone its main and
-      # `cargo install --path` the two binaries we need.
+      # `cargo install --locked --path` the two binaries we need.
       PLUGIN_REPO: rustviz/rustviz
     steps:
       - uses: actions/checkout@v5
+
+      - name: Read the plugin's nightly from rustviz/rustviz
+        run: |
+          nightly=$(curl -fsSL https://raw.githubusercontent.com/${PLUGIN_REPO}/main/rust-toolchain.toml \
+            | sed -n 's/^channel *= *"\(.*\)"/\1/p')
+          case "$nightly" in
+            nightly-*) ;;
+            *) echo "::error::could not read nightly from rust-toolchain.toml (got '$nightly')"; exit 1 ;;
+          esac
+          echo "RUST_NIGHTLY=$nightly" >> "$GITHUB_ENV"
+          echo "plugin repo uses $nightly"
 
       - name: Install nightly toolchain
         run: |
@@ -68,11 +79,11 @@ jobs:
           fi
           mdbook --version
 
-      - name: Clone and install rustviz2-plugin + mdbook-rustviz
+      - name: Clone and install rustviz-plugin + mdbook-rustviz
         run: |
           if [ ! -x ~/.cargo/bin/cargo-rv-plugin ] || [ ! -x ~/.cargo/bin/mdbook-rustviz ]; then
             git clone --depth 1 https://github.com/${PLUGIN_REPO} ../plugin-src
-            cargo install --path ../plugin-src/rustviz2-plugin --locked
+            cargo install --path ../plugin-src/rustviz-plugin --locked
             cargo install --path ../plugin-src/mdbook-rustviz --locked
           fi
           # Just confirm the binaries are on PATH. Avoid `--help`:

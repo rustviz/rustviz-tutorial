@@ -15,11 +15,14 @@ rendered HTML.
 
 You'll need:
 
-1. **Rust nightly-2025-08-20** (the RustViz plugin links against
-   `rustc_private`, which pins the toolchain).
+1. **The Rust nightly in rustviz/rustviz's `rust-toolchain.toml`** (the
+   RustViz plugin links against `rustc_private`, which pins the
+   toolchain). Today that is `nightly-2026-05-01`; check the
+   [current value](https://github.com/rustviz/rustviz/blob/main/rust-toolchain.toml)
+   and substitute it below.
 
    ```bash
-   rustup toolchain install nightly-2025-08-20 \
+   rustup toolchain install nightly-2026-05-01 \
        --component rust-src,rustc-dev,llvm-tools-preview
    ```
 
@@ -27,7 +30,7 @@ You'll need:
    nightly above already provides:
 
    ```bash
-   cargo +nightly-2025-08-20 install mdbook --version "^0.5"
+   cargo +nightly-2026-05-01 install mdbook --version "^0.5"
    ```
 
 3. **The RustViz plugin and the mdBook preprocessor**, both built
@@ -36,7 +39,7 @@ You'll need:
    ```bash
    git clone https://github.com/rustviz/rustviz
    cd rustviz
-   cargo install --path rustviz2-plugin
+   cargo install --path rustviz-plugin
    cargo install --path mdbook-rustviz
    ```
 
