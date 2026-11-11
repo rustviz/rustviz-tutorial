@@ -41,7 +41,7 @@ fn main() {
 
     let r1 = &s;
     let r2 = &s;
-    compare_strings(r1, r2); // can't use assert macro (desugared to an if expr)
+    compare_strings(r1, r2);
 
     let r3 = &mut s;
     clear_string(r3);

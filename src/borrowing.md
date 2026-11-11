@@ -112,12 +112,13 @@ fn main() {
     f(y, z);
 }
 
-fn f(s1: &String, s2: &String) {
+fn f(s1: &String, s2: &String) { // rustviz: hide
     println!("{} and {}", s1, s2);
 }
 ```
 
-This code prints `hello and hello`.
+This code prints `hello and hello`. (The visualization hides the definition
+of `f`, which just prints its two arguments, to keep the focus on `y` and `z`.)
 
 Ownership of a resource cannot be moved while it is borrowed. For example, the
 following is erroneous:
@@ -237,15 +238,17 @@ fn main() {
     let mut x = String::from("Hello");
     let y = &mut x;
     world(y);
-    let z = &mut x; // OK, because y's lifetime has ended (last use was on previous line)
+    let z = &mut x; // OK: y's last use was on line 4
     world(z);
-    x.push_str("!!"); // Also OK, because y and z's lifetimes have ended
+    x.push_str("!!"); // OK: y and z are no longer used
     println!("{}", x);
 }
 
-fn world(s: &mut String) {
+fn world(s: &mut String) { // rustviz: hide
     s.push_str(", world");
 }
 ```
 
-This code prints `Hello, world, world!!`.
+This code prints `Hello, world, world!!`. (The visualization hides the
+definition of `world`, which appends `", world"` to the string its argument
+points to.)
