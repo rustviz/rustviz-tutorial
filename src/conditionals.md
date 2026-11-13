@@ -33,7 +33,8 @@ This code prints `hello`.
 Hover over the two segments of `s`'s timeline: the visualization shows the
 `if` branch and the `else` branch separately. After the `if` expression, `s`
 *might* have been moved, so Rust treats it as moved: any further use of `s` is
-an error, even if we, the programmers, can see that `keep` is `false`.
+an error. The compiler doesn't look at the value of `keep`; even if `keep` were
+`true`, so that the `else` branch never ran, the code below would be rejected.
 
 ```rust
 fn main() {
@@ -44,7 +45,7 @@ fn main() {
     } else {
         takes_ownership(s);
     }
-    println!("{}", s); // ERROR: s might have been moved
+    println!("{}", s); // ERROR: borrow of moved value: s
 }
 
 fn takes_ownership(some_string: String) {
@@ -52,7 +53,9 @@ fn takes_ownership(some_string: String) {
 }
 ```
 
-The compiler error here is `borrow of moved value: s`.
+The compiler reports this as `borrow of moved value: s`, the same error as
+when `s` is definitely moved: the compiler only checks whether `s` *could*
+have been moved.
 
 What happens at the end of `main`? If the `if` branch ran, `s` still owns its
 resource, so the resource must be dropped when `s` goes out of scope. If the
@@ -60,30 +63,6 @@ resource, so the resource must be dropped when `s` goes out of scope. If the
 when `some_string` went out of scope there), so it must not be dropped again.
 Rust handles this by keeping a hidden *drop flag* that records at run time
 whether `s` still owns a resource, and drops the resource only if it does.
-
-## `if` Expressions
-
-In Rust, `if` is an expression: it produces a value, so you can use it on the
-right-hand side of a `let`. Here, whichever branch runs creates a new `String`
-and ownership of it is moved to `greeting`.
-
-```rv
-fn main() {
-    let formal = true;
-    let greeting = if formal {
-        String::from("Good morning")
-    } else {
-        String::from("hi")
-    };
-    println!("{}", greeting);
-}
-```
-
-This code prints `Good morning`.
-
-Both branches give `greeting` a resource, so after the `if` expression
-`greeting` is certain to own one, and that resource is dropped when `greeting`
-goes out of scope at the end of `main`.
 
 ## `match`
 
@@ -111,8 +90,9 @@ fn main() {
 ```
 
 This code prints `hello, Ferris` on one line and `Some("Ferris")` on the next.
-(The `{:?}` placeholder asks `println!` for a debugging representation, which
-`Option` provides.)
+(`Option` doesn't implement `Display`, so `{}` wouldn't compile here. The `{:?}`
+placeholder uses the `Debug` trait instead, which `Option<String>` implements
+because `String` does.)
 
 ### Matching by Value
 
