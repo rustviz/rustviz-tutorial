@@ -47,6 +47,12 @@ jobs:
             *) echo "::error::could not read nightly from rust-toolchain.toml (got '$nightly')"; exit 1 ;;
           esac
           echo "RUST_NIGHTLY=$nightly" >> "$GITHUB_ENV"
+          # The plugin's current main commit. The cached binaries are
+          # rebuilt whenever it changes (see the install step), so the
+          # book always renders with rustviz/rustviz main.
+          sha=$(git ls-remote "https://github.com/${PLUGIN_REPO}" refs/heads/main | cut -f1)
+          test -n "$sha"
+          echo "PLUGIN_SHA=$sha" >> "$GITHUB_ENV"
           echo "plugin repo uses $nightly"
 
       - name: Install nightly toolchain
@@ -68,7 +74,7 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git
             ~/.cargo/bin
-          key: ${{ runner.os }}-rustviz-tutorial-${{ env.RUST_NIGHTLY }}-${{ hashFiles('book.toml') }}
+          key: ${{ runner.os }}-rustviz-tutorial-${{ env.RUST_NIGHTLY }}-${{ env.PLUGIN_SHA }}
           restore-keys: |
             ${{ runner.os }}-rustviz-tutorial-${{ env.RUST_NIGHTLY }}-
 
@@ -81,10 +87,16 @@ jobs:
 
       - name: Clone and install rustviz-plugin + mdbook-rustviz
         run: |
-          if [ ! -x ~/.cargo/bin/cargo-rv-plugin ] || [ ! -x ~/.cargo/bin/mdbook-rustviz ]; then
-            git clone --depth 1 https://github.com/${PLUGIN_REPO} ../plugin-src
-            cargo install --path ../plugin-src/rustviz-plugin --locked
-            cargo install --path ../plugin-src/mdbook-rustviz --locked
+          # The cache restores binaries from an earlier run; they're only
+          # reused if they were built from the same rustviz/rustviz commit.
+          stamp=~/.cargo/bin/.rustviz-plugin-sha
+          if [ ! -x ~/.cargo/bin/cargo-rv-plugin ] || [ ! -x ~/.cargo/bin/mdbook-rustviz ] \
+             || [ "$(cat "$stamp" 2>/dev/null)" != "$PLUGIN_SHA" ]; then
+            git clone https://github.com/${PLUGIN_REPO} ../plugin-src
+            git -C ../plugin-src checkout --detach "$PLUGIN_SHA"
+            cargo install --force --path ../plugin-src/rustviz-plugin --locked
+            cargo install --force --path ../plugin-src/mdbook-rustviz --locked
+            echo "$PLUGIN_SHA" > "$stamp"
           fi
           # Just confirm the binaries are on PATH. Avoid `--help`:
           # mdbook-rustviz's main returns clap's DisplayHelp via `?`,
