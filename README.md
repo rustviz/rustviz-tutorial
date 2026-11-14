@@ -70,5 +70,14 @@ fn main() {
 ```
 ````
 
+To keep a helper function out of a figure, end its signature line with
+`// rustviz: hide`. The function's definition is dropped from the rendered
+code panel, along with its parameters' timelines, while the calls to it in
+`main` are still drawn. The marker only works on `fn` lines (free functions
+and methods); on a `struct` or `use` line it is ignored
+([rustviz/rustviz#814](https://github.com/rustviz/rustviz/issues/814)). When
+you hide a function, say in the prose what it does, since readers can no
+longer see its body.
+
 See [`mdbook-rustviz`'s README](https://github.com/rustviz/rustviz/tree/main/mdbook-rustviz)
 for configuration options.
