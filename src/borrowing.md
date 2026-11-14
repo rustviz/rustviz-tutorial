@@ -249,3 +249,58 @@ fn world(s: &mut String) {
 ```
 
 This code prints `Hello, world, world!!`.
+## Optional: Reborrowing
+
+Immutable references are copyable (`&T` implements the `Copy` trait), so passing
+one to a function simply copies it. Mutable references are *not* copyable,
+because a mutable borrow must be unique. So you might expect that passing a
+mutable reference `r` to a function would move it, leaving `r` unusable
+afterwards. That is not what happens in the following example, which calls
+`add_world(r)` twice.
+
+```rv
+fn main() {
+    let mut s = String::from("hello");
+    let r = &mut s;
+    add_world(r);
+    add_world(r);
+    println!("{}", s);
+}
+
+fn add_world(t: &mut String) {
+    t.push_str(", world");
+}
+```
+
+This code prints `hello, world, world`.
+
+Instead of moving `r`, Rust *reborrows* through it: `add_world(r)` is
+treated as `add_world(&mut *r)`, i.e. a new mutable borrow of the `String`
+that `r` points to. While that reborrow is live, `r` cannot be used. When
+`add_world` returns, the reborrow ends and `r` can be used again, so the second
+call is fine. Hover over the calls on Lines 4 and 5 to see this.
+
+You can also write reborrows explicitly. Here, `*r` is the `String` that `r`
+points to, so `&mut *r` mutably borrows it again through `r`, and `&*r`
+immutably borrows it through `r`.
+
+```rv
+fn main() {
+    let mut s = String::from("hello");
+    let r = &mut s;
+    let r2 = &mut *r;
+    r2.push_str("!");
+    let r3 = &*r;
+    println!("{}", r3);
+    r.push_str("?");
+    println!("{}", s);
+}
+```
+
+This code prints `hello!` on one line and `hello!?` on the next.
+
+The rules are the same as for borrowing from an owner. While the mutable
+reborrow `r2` is live, `r` cannot be used at all. While the immutable reborrow
+`r3` is live, `r` can only be used to read. Both reborrows end at their last
+use (Lines 5 and 7), so `r` can write again on Line 8. After that, `r` is no
+longer used, so its borrow of `s` ends and `s` can be printed on Line 9.
